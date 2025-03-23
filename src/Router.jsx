@@ -7,6 +7,7 @@ import ItemDetailPage from "./pages/ItemDetailPage";
 import EditPostPage from "./pages/EditPostPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import MapPage from "./pages/MapPage";
 
 export default function AppRouter() {
   return (
@@ -14,6 +15,7 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/items/new" element={<CreatePostPage />} />
         <Route path="/items/:id" element={<ItemDetailPage />} />
