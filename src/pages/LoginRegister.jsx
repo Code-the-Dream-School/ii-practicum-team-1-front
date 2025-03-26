@@ -11,7 +11,7 @@ export default function LoginRegister() {
     password: "",
   });
 
-  const navigate = useNavigate(); // Hook 
+  const navigate = useNavigate(); // Hook
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -123,7 +123,7 @@ export default function LoginRegister() {
         <GoogleLogin
           onSuccess={(credentialResponse) => {
             console.log("Google credential response:", credentialResponse);
-            // TODO: endpoint to verify the Google token
+            // TODO: endpoint to verify the Google token, waiting for backend endpoint
           }}
           onError={() => {
             console.log("Google Login Failed");
