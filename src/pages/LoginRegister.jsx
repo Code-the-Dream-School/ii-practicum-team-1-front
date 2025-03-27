@@ -18,7 +18,7 @@ export default function LoginRegister() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -33,7 +33,29 @@ export default function LoginRegister() {
     const url = isLogin ? "/api/login" : "/api/register";
     console.log("Submitting to:", url);
     console.log(formData);
-    // TODO: fetch here later
+
+    // When backend is ready
+    /*
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/map");
+      } else {
+        alert("Login or registration failed: " + data.message);
+      }
+    } catch (error) {
+      // ⚠️ Network or unexpected error
+      alert("Something went wrong. Please try again later.");
+    }
+    */
   };
 
   return (
@@ -62,7 +84,6 @@ export default function LoginRegister() {
 
       {/* Form */}
       <form onSubmit={handleSubmit}>
-        {/* Username - visible only during signup */}
         {!isLogin && (
           <div>
             <label>Username</label>
@@ -76,7 +97,6 @@ export default function LoginRegister() {
           </div>
         )}
 
-        {/* Email */}
         <div>
           <label>Email</label>
           <input
@@ -88,7 +108,6 @@ export default function LoginRegister() {
           />
         </div>
 
-        {/* Password */}
         <div>
           <label>Password</label>
           <input
@@ -100,7 +119,6 @@ export default function LoginRegister() {
           />
         </div>
 
-        {/* Password hint only during signup */}
         {!isLogin && (
           <p>
             Password should be at least 15 characters OR at least 8 characters
@@ -108,7 +126,6 @@ export default function LoginRegister() {
           </p>
         )}
 
-        {/* Submit + Cancel */}
         <div>
           <button type="submit">{isLogin ? "Login" : "Create account"}</button>
           <button type="button" onClick={() => navigate("/")}>
