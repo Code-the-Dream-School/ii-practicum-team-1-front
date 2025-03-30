@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAllData } from './util/index';
-import AppRouter from './Router';
+import AppRouter from '../src/components/Router';
 
 const URL = 'http://localhost:8000/api/v1/';
 
@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       <h1>{message}</h1>
-      
+
       <AppRouter />
     </>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useEffect, useState, useContext} from "react";
-import dummyItems from "./dummyPosts.js";
+import dummyItems from "../context/dummyItems.js";
 
 
 const PostsContext = createContext();
@@ -12,27 +12,24 @@ function PostsProvider({ children }) {
  const [currentPost, setCurrentPost] = useState({});
  const [error, setError] = useState(null);
 
-
- console.log(dummyItems);
-
-
  useEffect(() => {
-   fetchPosts();
- }, []);
+  async function fetchPosts() {
+    try {
+      setIsLoading(true);
+      setError(null);
 
+      setPosts(dummyItems);  
+    } catch (err) {
+      setError(err.message || "Failed to fetch posts");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
- async function fetchPosts() {
-   try {
-     setIsLoading(true);
-     setError(null);
-     setPosts(dummyItems);
-   } catch (err) {
-     setError("Failed to fetch posts");
-   } finally {
-     setIsLoading(false);
-   }
- }
+  fetchPosts();
+}, []); 
 
+// console.log(posts);
 
  async function getPost(id) {
    try {
@@ -47,7 +44,6 @@ function PostsProvider({ children }) {
      setIsLoading(false);
    }
  }
-
 
  async function updatePost(id, updatedData) {
    try {

@@ -5,7 +5,7 @@ const dummyItems = [
       description: "A relaxing vacation at a beautiful beach.",
       category: "Travel",
       photos: ["photo1.jpg", "photo2.jpg"],
-      iyrm_status: "active",
+      status: "active",
       location: "Miami, FL",
     },
     {
@@ -14,7 +14,7 @@ const dummyItems = [
       description: "Explore breathtaking mountain trails.",
       category: "Adventure",
       photos: ["hiking1.jpg", "hiking2.jpg"],
-      iyrm_status: "active",
+      status: "active",
       location: "Aspen, CO",
     },
     {
@@ -23,7 +23,7 @@ const dummyItems = [
       description: "Discover historical sites and modern attractions.",
       category: "Urban",
       photos: ["city1.jpg", "city2.jpg"],
-      iyrm_status: "active",
+      status: "active",
       location: "New York, NY",
     },
     {
@@ -32,7 +32,7 @@ const dummyItems = [
       description: "Experience wildlife in its natural habitat.",
       category: "Wildlife",
       photos: ["safari1.jpg", "safari2.jpg"],
-      iyrm_status: "active",
+      status: "active",
       location: "Kenya",
     },
     {
@@ -41,7 +41,7 @@ const dummyItems = [
       description: "Hit the slopes with this exciting winter getaway.",
       category: "Sports",
       photos: ["ski1.jpg", "ski2.jpg"],
-      iyrm_status: "active",
+      status: "active",
       location: "Lake Tahoe, CA",
     },
   ];
