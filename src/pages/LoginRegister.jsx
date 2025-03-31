@@ -52,7 +52,7 @@ export default function LoginRegister() {
         alert("Login or registration failed: " + data.message);
       }
     } catch (error) {
-      // ⚠️ Network or unexpected error
+      // Network or unexpected error
       alert("Something went wrong. Please try again later.");
     }
     */
@@ -150,3 +150,4 @@ export default function LoginRegister() {
     </div>
   );
 }
+
