@@ -11,8 +11,7 @@ function PostsProvider({ children }) {
  const [isLoading, setIsLoading] = useState(false);
  const [currentPost, setCurrentPost] = useState({});
  const [error, setError] = useState(null);
-
- useEffect(() => {
+ 
   async function fetchPosts() {
     try {
       setIsLoading(true);
@@ -24,10 +23,11 @@ function PostsProvider({ children }) {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
+useEffect(() => {
   fetchPosts();
-}, []); 
+}, []);
 
 // console.log(posts);
 
@@ -50,7 +50,7 @@ function PostsProvider({ children }) {
      setIsLoading(true);
      setError(null);
      const updatedPost = { ...posts.find(p => p.item_id === id), ...updatedData };
-     setPosts(prevPosts => prevPosts.map(post => post.item_id === id ? updatedPost : post));
+     setPosts(posts => posts.map(post => post.item_id === id ? updatedPost : post));
      setCurrentPost(updatedPost);
    } catch (err) {
      setError("Failed to update post");
@@ -64,7 +64,7 @@ function PostsProvider({ children }) {
    try {
      setIsLoading(true);
      setError(null);
-     setPosts(prevPosts => prevPosts.filter(post => post.item_id !== id));
+     setPosts(posts => posts.filter(post => post.item_id !== id));
      if (currentPost.item_id === id) setCurrentPost({});
    } catch (err) {
      setError("Failed to delete post");
@@ -79,7 +79,7 @@ function PostsProvider({ children }) {
      setIsLoading(true);
      setError(null);
      const newPost = { item_id: Date.now(), ...newPostData };
-     setPosts(prevPosts => [...prevPosts, newPost]);
+     setPosts(posts => [...posts, newPost]);
    } catch (err) {
      setError("Failed to create post");
    } finally {
