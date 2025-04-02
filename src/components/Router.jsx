@@ -4,18 +4,20 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Landing from "./pages/Landing";
-import LoginAndRegister from "./pages/LoginRegister";
-import PostCreate from "./pages/PostCreate";
-import Post from "./pages/Post";
-import Profile from "./pages/Profile";
-import NotFound from "./pages/NotFound";
-import AppLayout from "./layout/AppLayout";
-import PostList from "./pages/PostList";
+import Landing from "../pages/Landing";
+import LoginAndRegister from "../pages/LoginRegister";
+import PostCreate from "../pages/PostCreate";
+import Post from "../pages/Post";
+import Profile from "../pages/Profile";
+import NotFound from "../pages/NotFound";
+import AppLayout from "./AppLayout";
+import PostList from "../pages/PostList";
+import { PostsProvider } from "../context/PostsContext";
 
 export default function AppRouter() {
   return (
     <Router>
+      <PostsProvider>
       <Routes>
         <Route index element={<Landing />} />
         <Route path="/login" element={<LoginAndRegister />} />
@@ -34,6 +36,7 @@ export default function AppRouter() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </PostsProvider>
     </Router>
   );
 }
