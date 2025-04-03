@@ -7,7 +7,6 @@ export default function Profile() {
       <div>
         <h1>User Profile</h1>
         <p>Welcome, <strong>{user?.username}</strong></p>
-        <p>Email: {user?.email}</p>
         </div>
   }
    

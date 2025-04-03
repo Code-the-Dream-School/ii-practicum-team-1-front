@@ -13,6 +13,7 @@ import NotFound from "../pages/NotFound";
 import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
 import { PostsProvider } from "../context/PostsContext";
+import PrivateRoute from "./PrivateRoute";
 
 export default function AppRouter() {
   return (
@@ -21,8 +22,14 @@ export default function AppRouter() {
       <Routes>
         <Route index element={<Landing />} />
         <Route path="/login" element={<LoginAndRegister />} />
-
-        <Route path="app" element={<AppLayout />}>
+        <Route
+            path="app"
+            element={
+              <PrivateRoute>
+                <AppLayout />
+              </PrivateRoute>
+            }
+          >
           <Route index element={<Navigate replace to="posts" />} />
 
           <Route path="posts">
