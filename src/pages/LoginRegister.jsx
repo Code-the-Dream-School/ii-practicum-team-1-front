@@ -157,8 +157,7 @@ export default function LoginRegister() {
 
             {!isLogin && (
               <p>
-                Password should be at least 15 characters OR at least 8
-                characters including a number and a lowercase letter.
+                Password must be at least 8 characters.
               </p>
             )}
 
