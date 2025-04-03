@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function LoginRegister() {
   const [isLogin, setIsLogin] = useState(true);
-
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -29,7 +31,6 @@ export default function LoginRegister() {
       alert("Please fill out all required fields.");
       return;
     }
-
     const url = isLogin ? "/api/login" : "/api/register";
     console.log("Submitting to:", url);
     console.log(formData);
@@ -37,24 +38,23 @@ export default function LoginRegister() {
     // When backend is ready
     /*
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  });
 
-      const data = await response.json();
+  const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/map");
-      } else {
-        alert("Login or registration failed: " + data.message);
-      }
-    } catch (error) {
-      // Network or unexpected error
-      alert("Something went wrong. Please try again later.");
-    }
+  if (response.ok) {
+    login(data.user, data.token);
+    navigate("/app/posts");
+  } else {
+    alert("Login or registration failed: " + data.message);
+  }
+} catch (error) {
+  alert("Something went wrong. Please try again later.");
+}
     */
   };
 
