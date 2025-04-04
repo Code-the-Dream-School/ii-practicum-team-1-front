@@ -73,20 +73,20 @@ export default function LoginRegister() {
       {!showForgotForm && (
         <p>
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              setIsLogin(!isLogin);
-            }}
-            style={{
-              color: "blue",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
-            {isLogin ? "Sign up →" : "Login →"}
-          </a>
+            <button
+              type="button"
+              onClick={() => setIsLogin(!isLogin)}
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                color: "blue",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+            >
+              {isLogin ? "Sign up →" : "Login →"}
+          </button>
         </p>
       )}
 
@@ -173,20 +173,20 @@ export default function LoginRegister() {
 
           {isLogin && (
             <p>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setShowForgotForm(true);
-                }}
+              <button
+                type="button"
+                onClick={() => setShowForgotForm(true)}
                 style={{
+                  background: "none",
+                  border: "none",
+                  padding: 0,
                   color: "blue",
                   textDecoration: "underline",
                   cursor: "pointer",
                 }}
               >
                 Forgot password?
-              </a>
+              </button>
             </p>
           )}
         </>
