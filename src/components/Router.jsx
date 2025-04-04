@@ -23,7 +23,7 @@ import PrivateRoute from "./PrivateRoute";
 export default function AppRouter() {
   return (
     <Router>
-      <GoogleOAuthProvider clientId="895997461273-o3rstpf5bdr7scpo4kr85q0lq18lrvi4.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
         <AuthProvider>
           <PostsProvider>
             <Routes>
