@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { getAllData } from './util/index';
-import { AuthProvider } from './context/AuthContext';
 import AppRouter from '../src/components/Router';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { AuthProvider } from "../context/AuthContext";
+import { PostsProvider } from "../context/PostsContext";
 
 const URL = 'http://localhost:8000/api/v1/';
 
@@ -23,9 +25,13 @@ function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <AppRouter />
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <AuthProvider>
+        <PostsProvider>
+          <AppRouter />
+        </PostsProvider>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 
 }

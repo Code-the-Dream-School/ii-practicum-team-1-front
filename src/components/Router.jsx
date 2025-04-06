@@ -4,9 +4,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { AuthProvider } from "../context/AuthContext";
-import { PostsProvider } from "../context/PostsContext";
 
 import Landing from "../pages/Landing";
 import LoginAndRegister from "../pages/LoginRegister";
@@ -23,9 +20,6 @@ import PrivateRoute from "./PrivateRoute";
 export default function AppRouter() {
   return (
     <Router>
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-        <AuthProvider>
-          <PostsProvider>
             <Routes>
               <Route index element={<Landing />} />
               <Route path="/login" element={<LoginAndRegister />} />
@@ -52,9 +46,6 @@ export default function AppRouter() {
 
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </PostsProvider>
-        </AuthProvider>
-      </GoogleOAuthProvider>
     </Router>
   );
 }
