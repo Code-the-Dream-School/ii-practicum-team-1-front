@@ -1,13 +1,20 @@
 import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
-export default function AppLayout({ children }) {
+export default function AppLayout() {
   return (
-    <div>
-      {/* This is a place for Header */}
-      <main>
-        <Outlet />
-      </main>
-      {/* This is a place for Footer */}
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      
+      <div className="flex flex-1"> {/* Parent flex container */}
+        <Sidebar />
+        
+        <main className="flex-1 p-8 bg-gray-50 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+
+      {/* Footer */}
     </div>
   );
 }
