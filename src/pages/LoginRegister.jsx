@@ -37,8 +37,7 @@ export default function LoginRegister() {
     console.log("Submitting to:", url);
     console.log(formData);
 
-    // When backend is ready
-    /*
+    
     try {
   const response = await fetch(url, {
     method: "POST",
@@ -57,7 +56,6 @@ export default function LoginRegister() {
 } catch (error) {
   alert("Something went wrong. Please try again later.");
 }
-    */
   };
 
   return (

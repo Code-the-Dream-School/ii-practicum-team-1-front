@@ -27,7 +27,7 @@ export default function ResetPassword() {
     console.log("Sending new password:", password);
     console.log("Token from URL:", token);
 
-    /*
+    
     try {
       const response = await fetch("/api/reset-password", {
         method: "POST",
@@ -46,7 +46,6 @@ export default function ResetPassword() {
     } catch (err) {
       setError("Something went wrong. Please try again.");
     }
-    */
   };
 
   return (
