@@ -37,30 +37,29 @@ export default function LoginRegister() {
     console.log("Submitting to:", url);
     console.log(formData);
 
-    
     try {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (response.ok) {
-    login(data.user, data.token);
-    navigate("/app/posts");
-  } else {
-    alert("Login or registration failed: " + data.message);
-  }
-} catch (error) {
-  alert("Something went wrong. Please try again later.");
-}
+      if (response.ok) {
+        login(data.user, data.token);
+        navigate("/app/posts");
+      } else {
+        alert("Login or registration failed: " + data.message);
+      }
+    } catch (error) {
+      alert("Something went wrong. Please try again later.");
+    }
   };
 
   return (
     <div>
-      <h1>
+      <h1 >
         {showForgotForm
           ? "Reset your password"
           : isLogin
@@ -71,19 +70,19 @@ export default function LoginRegister() {
       {!showForgotForm && (
         <p>
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              style={{
-                background: "none",
-                border: "none",
-                padding: 0,
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-            >
-              {isLogin ? "Sign up →" : "Login →"}
+          <button
+            type="button"
+            onClick={() => setIsLogin(!isLogin)}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              color: "blue",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            {isLogin ? "Sign up →" : "Login →"}
           </button>
         </p>
       )}
@@ -153,11 +152,7 @@ export default function LoginRegister() {
               />
             </div>
 
-            {!isLogin && (
-              <p>
-                Password must be at least 8 characters.
-              </p>
-            )}
+            {!isLogin && <p>Password must be at least 8 characters.</p>}
 
             <div>
               <button type="submit">
