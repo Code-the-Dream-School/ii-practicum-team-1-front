@@ -3,7 +3,7 @@ import { usePosts } from "../context/PostsContext";
 
 
 const PostList = () => {
- const { posts, isLoading, error } = usePosts();
+ const { filteredPosts: posts, isLoading, error } = usePosts();
 
 
  if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
@@ -12,52 +12,35 @@ const PostList = () => {
 
 
  return (
-   <div className="container mx-auto px-4 py-8">
-     <div className="grid grid-cols-1 gap-6 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-       {posts.map((post) => (
-         <div
-           key={post.item_id}
-           className="rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-         >
-           {/* Photo Gallery Section */}
-           <div className="grid grid-cols-2 gap-1 p-1 bg-gray-50">
-             {Array.isArray(post.photos) ? (
-               post.photos.map((photo, index) => (
-                 <div key={index} className={`${post.photos.length === 1 ? "col-span-2" : "col-span-1"} aspect-square`}>
-                   <img
-                     src={photo}
-                     alt={`Post ${post.item_id} - Photo ${index + 1}`}
-                     className="w-full h-full object-cover rounded-lg"
-                     loading="lazy"
-                   />
-                 </div>
-               ))
-             ) : (
-               <div className="col-span-2 aspect-square">
-                 <img
-                   src={post.photo}
-                   alt={`Post ${post.item_id}`}
-                   className="w-full h-full object-cover rounded-lg"
-                   loading="lazy"
-                 />
-               </div>
-             )}
-           </div>
+  <div className="px-2 py-4">
+    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-5">
+      {posts.map((post) => (
+        <div
+          key={post.item_id}
+          className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+        >
+          {/* Photo Section */}
+          <div className="aspect-square bg-gray-100">
+            <img
+              src={Array.isArray(post.photos) ? post.photos[0] : post.photo}
+              alt={post.title}
+              className="w-full h-full object-cover rounded-t-lg"
+              loading="lazy"
+            />
+          </div>
 
-
-           {/* Post Details */}
-           <div className="p-4">
-            
-             <h2 className="text-l font-semibold mb-2">{post.title}</h2>
-
-
-           </div>
-         </div>
-       ))}
-     </div>
-   </div>
- );
-};
-
+          {/* Info Section */}
+          <div className="p-2">
+            <h2 className="text-xs font-semibold text-gray-800 line-clamp-2">
+              {post.title}
+            </h2>
+            <p className="text-[10px] text-gray-500">{post.location}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+}
 
 export default PostList;

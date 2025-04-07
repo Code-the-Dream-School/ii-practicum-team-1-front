@@ -11,6 +11,8 @@ function PostsProvider({ children }) {
  const [isLoading, setIsLoading] = useState(false);
  const [currentPost, setCurrentPost] = useState({});
  const [error, setError] = useState(null);
+ const [filteredPosts, setFilteredPosts] = useState(posts);
+
  
   async function fetchPosts() {
     try {
@@ -28,6 +30,10 @@ function PostsProvider({ children }) {
 useEffect(() => {
   fetchPosts();
 }, []);
+
+useEffect(() => {
+  setFilteredPosts(posts); // Update filtered posts when main posts change
+}, [posts]);
 
 // console.log(posts);
 
@@ -90,6 +96,8 @@ useEffect(() => {
 
  return (
    <PostsContext.Provider value={{
+     filteredPosts,
+     setFilteredPosts,
      posts,
      isLoading,
      currentPost,
