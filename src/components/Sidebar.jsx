@@ -3,19 +3,16 @@ import { usePosts } from "../context/PostsContext";
 import { Menu, X, ChevronDown, LogOut } from "lucide-react";
 
 export default function Sidebar() {
-  // Safely destructure context with fallbacks
   const { 
     posts = [], 
     activeCategories = [], 
     setActiveCategories = () => console.warn('setActiveCategories not implemented'),
-    setFilteredPosts = () => console.warn('setFilteredPosts not implemented') // Add this to your context
+    setFilteredPosts = () => console.warn('setFilteredPosts not implemented')
   } = usePosts();
 
-  // Component state
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Safe category derivation
   const mainCategories = useMemo(() => {
     try {
       return [...new Set(posts.map(post => post?.category || 'Uncategorized'))].sort();
@@ -25,19 +22,24 @@ export default function Sidebar() {
     }
   }, [posts]);
 
-  // Handle category selection
   const handleCategorySelect = (category) => {
     if (!Array.isArray(activeCategories)) return;
 
-    const newCategories = activeCategories.includes(category)
-      ? activeCategories.filter(c => c !== category) // Deselect
-      : [category]; // Select single category only
-    
+    let newCategories = [];
+    if (category === 'All Categories') {
+      // Clear all selections
+      newCategories = [];
+    } else {
+      // Toggle single category selection
+      newCategories = activeCategories.includes(category)
+        ? [] // Deselect all if clicking active category
+        : [category]; // Select new category
+    }
+
     setActiveCategories(newCategories);
     
-    // Filter posts based on selected categories
     const filtered = newCategories.length === 0
-      ? posts // Show all posts if no category selected
+      ? posts // Show all posts
       : posts.filter(post => newCategories.includes(post.category));
     
     setFilteredPosts(filtered);
@@ -45,7 +47,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle */}
       <button
         aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
         className="md:hidden fixed top-4 left-4 z-50 p-2 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 transition-colors"
@@ -54,7 +55,6 @@ export default function Sidebar() {
         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Overlay */}
       {isSidebarOpen && (
         <div
           role="presentation"
@@ -63,7 +63,6 @@ export default function Sidebar() {
         />
       )}
 
-      {/* Sidebar Content */}
       <nav
         aria-label="Main navigation"
         className={`fixed top-0 left-0 z-40 h-screen w-64 bg-gray-50 border-r border-gray-200 overflow-y-auto p-4 transform transition-transform duration-300 ease-in-out ${
@@ -71,7 +70,6 @@ export default function Sidebar() {
         } md:translate-x-0 md:static`}
       >
         <div className="pt-[40px] space-y-4">
-          {/* Categories Section */}
           <section>
             <button
               aria-expanded={isCategoriesOpen}
@@ -95,6 +93,21 @@ export default function Sidebar() {
               }`}
             >
               <ul className="space-y-1">
+                {/* All Categories Button */}
+                <li>
+                  <button
+                    aria-pressed={activeCategories.length === 0}
+                    onClick={() => handleCategorySelect('All Categories')}
+                    className={`flex items-center p-2 w-full text-sm rounded-lg transition-colors ${
+                      activeCategories.length === 0
+                        ? 'text-emerald-600 bg-emerald-50'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    All Categories
+                  </button>
+                </li>
+
                 {mainCategories.length > 0 ? (
                   mainCategories.map((category) => (
                     <li key={category}>
@@ -120,7 +133,6 @@ export default function Sidebar() {
             </div>
           </section>
 
-          {/* User Actions */}
           <section aria-label="User actions" className="mt-auto">
             <ul className="pt-4 border-t border-gray-200">
               <li>
