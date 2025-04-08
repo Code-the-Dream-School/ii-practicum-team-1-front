@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+/* Custom theme variables (for now) */
+:root {
+  --font-montserrat: 'Montserrat', sans-serif;
+  --color-primary: #76D900;
+  --color-secondary: #B9FF66;
+  --color-dark: #191A23;
+}
