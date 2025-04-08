@@ -44,6 +44,8 @@ export default function AppRouter() {
                 <Route path="profile" element={<Profile />} />
               </Route>
 
+              <Route path="/dev-postcreate" element={<PostCreate />} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
     </Router>
