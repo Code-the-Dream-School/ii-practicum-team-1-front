@@ -119,7 +119,7 @@ export default function PostCreate() {
 <div className="flex items-center justify-center gap-4 mt-6">
   <button
     type="submit"
-    className="bg-black text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
+    className="w-40 bg-black text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
   >
     Post
   </button>
@@ -127,7 +127,7 @@ export default function PostCreate() {
   <button
     type="button"
     onClick={() => navigate("/app/posts")}
-    className="bg-white border border-black text-dark rounded-[14px] px-[30px] py-[15px] text-base font-montserrat hover:border-primary hover:text-primary transition-colors"
+    className="w-40 bg-white border border-black text-dark rounded-[14px] px-[30px] py-[15px] text-base font-montserrat hover:border-primary hover:text-primary transition-colors"
   >
     Cancel
   </button>
