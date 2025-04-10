@@ -5,7 +5,7 @@ import categories from "../util/categories";
 
 export default function PostCreate() {
   const navigate = useNavigate();
-  const { posts, setPosts } = usePosts();
+  const { createPost } = usePosts();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -13,12 +13,16 @@ export default function PostCreate() {
     category: "",
     location: "",
     photo: "",
+    canDeliver: false,
   });
 
   // Handle text input change
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   // Handle image upload for local preview
@@ -34,52 +38,73 @@ export default function PostCreate() {
   };
 
   // Submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newPost = {
-      item_id: Date.now(),
-      ...formData,
-      status: "available",
-    };
-    setPosts([...posts, newPost]);
+    await createPost(formData);
     navigate("/app/posts");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
-        <h1 className="text-2xl font-bold text-dark mb-6 text-center font-montserrat">
-          Create New Post
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-xl mx-auto bg-white p-10 rounded-xl shadow-md">
+        <h1 className="text-3xl font-extrabold font-montserrat text-dark mb-8">
+          Create Post
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Photo upload preview block */}
+
+          {formData.photo ? (
+            <div className="w-[148px] h-[148px] rounded-[20px] border border-gray-300 shadow-md overflow-hidden">
+              <img
+                src={formData.photo}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <label
+              htmlFor="photo-upload"
+              className="flex flex-col items-center justify-center w-[148px] h-[148px] rounded-[20px] border border-black cursor-pointer bg-[#F2F3F4] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition"
+            >
+              <img
+                src="/images/photo_icon.png"
+                alt="Add photo"
+                className="w-16 h-16 rounded-full mb-2"
+              />
+              <span className="text-sm text-gray-500 font-montserrat">
+                Add photos
+              </span>
+              <input
+                id="photo-upload"
+                type="file"
+                name="photo"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </label>
+          )}
+
+          {/* Title */}
+
           <input
             name="title"
             placeholder="Title"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#76D900]" // TODO: use focus:ring-primary
             value={formData.title}
             onChange={handleChange}
             required
-          />
-
-          <textarea
-            name="description"
-            placeholder="Description"
-            rows={4}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#76D900]" // TODO: use focus:ring-primary
-            value={formData.description}
-            onChange={handleChange}
-            required
+            className="w-full px-4 py-3 border border-dark rounded-xl font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#76D900]" // TODO: use focus:ring-primary
             required
+            className="w-full px-4 py-3 border border-dark rounded-xl bg-white font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <option value="">Select Category</option>
+            <option value="">Category</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -87,52 +112,60 @@ export default function PostCreate() {
             ))}
           </select>
 
+          {/* Location */}
+
           <input
             name="location"
             type="text"
-            placeholder="Location"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#76D900]" // TODO: use focus:ring-primary
+            placeholder="Meeting location"
             value={formData.location}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-dark rounded-xl font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+
+          {/* Checkbox */}
+          <label className="flex items-center space-x-2 text-dark font-montserrat text-sm">
+            <input
+              type="checkbox"
+              name="canDeliver"
+              checked={formData.canDeliver}
+              onChange={handleChange}
+              className="w-4 h-4 border-dark rounded"
+            />
+            <span>I can deliver</span>
+          </label>
+
+          {/* Description */}
+
+          <textarea
+            name="description"
+            placeholder="Description"
+            rows={4}
+            className="w-full px-4 py-3 border border-dark rounded-xl font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            value={formData.description}
             onChange={handleChange}
             required
           />
 
-          <input
-            type="file"
-            name="photo"
-            accept="image/*"
-            className="block w-full text-sm text-gray-700 border border-gray-300 rounded-xl cursor-pointer bg-white
-             file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-primary
-             file:text-sm file:font-semibold file:bg-primary file:text-dark
-             hover:file:bg-secondary hover:file:text-dark"
-             onChange={handleImageChange}
-          />
+          {/* Buttons */}
 
-          {formData.photo && (
-            <img
-              src={formData.photo}
-              alt="Preview"
-              className="w-full max-w-xs mx-auto mt-4 rounded-lg shadow"
-            />
-          )}
+          <div className="flex items-center gap-4 pt-4">
+            <button
+              type="submit"
+              className="bg-dark text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
+            >
+              Publish
+            </button>
 
-<div className="flex items-center justify-center gap-4 mt-6">
-  <button
-    type="submit"
-    className="w-40 bg-black text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
-  >
-    Post
-  </button>
-
-  <button
-    type="button"
-    onClick={() => navigate("/app/posts")}
-    className="w-40 bg-white border border-black text-dark rounded-[14px] px-[30px] py-[15px] text-base font-montserrat hover:border-primary hover:text-primary transition-colors"
-  >
-    Cancel
-  </button>
-</div>
-
+            <button
+              type="button"
+              onClick={() => navigate("/app/posts")}
+              className="bg-white border border-dark text-dark rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:border-primary hover:text-primary"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
