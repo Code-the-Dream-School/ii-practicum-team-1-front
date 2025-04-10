@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, useEffect, useState, useContext} from "react";
+import { createContext, useEffect, useState, useContext, useMemo} from "react";
 import dummyItems from "../context/dummyItems.js";
 
 
@@ -11,7 +11,7 @@ function PostsProvider({ children }) {
  const [isLoading, setIsLoading] = useState(false);
  const [currentPost, setCurrentPost] = useState({});
  const [error, setError] = useState(null);
- const [filteredPosts, setFilteredPosts] = useState(posts);
+ const [activeCategories, setActiveCategories] = useState([]);
 
  
   async function fetchPosts() {
@@ -31,9 +31,13 @@ useEffect(() => {
   fetchPosts();
 }, []);
 
-useEffect(() => {
-  setFilteredPosts(posts); // Update filtered posts when main posts change
-}, [posts]);
+const filteredPosts = useMemo(() => {
+  if (activeCategories.length === 0) {
+    return posts;
+  }
+
+  return posts.filter(post => activeCategories.includes(post.category));
+}, [activeCategories]);
 
 // console.log(posts);
 
@@ -97,7 +101,8 @@ useEffect(() => {
  return (
    <PostsContext.Provider value={{
      filteredPosts,
-     setFilteredPosts,
+     activeCategories,
+     setActiveCategories,
      posts,
      isLoading,
      currentPost,

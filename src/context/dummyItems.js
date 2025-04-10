@@ -72,6 +72,33 @@ const dummyItems = [
     photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
   },
   {
+    item_id: 7,
+    title: "Mid-Century Sofa",
+    description: "Vintage mid-century modern sofa",
+    category: "Home, Furniture, Living Room",
+    status: "available",
+    location: "IL",
+    photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
+  },
+  {
+    item_id: 8,
+    title: "Bohemian Wall Tapestry",
+    description: "Handmade bohemian wall tapestry",
+    category: "Home, Decor, Wall Art",
+    status: "available",
+    location: "PA",
+    photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+  },
+  {
+    item_id: 9,
+    title: "Copper Cookware Set",
+    description: "High-end copper cookware set",
+    category: "Home, Kitchen, Cookware",
+    status: "available",
+    location: "OH",
+    photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
+  },
+  {
     item_id: 10,
     title: "Smart Coffee Maker",
     description: "Modern smart coffee maker",

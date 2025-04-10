@@ -7,7 +7,6 @@ export default function Sidebar() {
     posts = [], 
     activeCategories = [], 
     setActiveCategories = () => console.warn('setActiveCategories not implemented'),
-    setFilteredPosts = () => console.warn('setFilteredPosts not implemented')
   } = usePosts();
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
@@ -35,14 +34,7 @@ export default function Sidebar() {
         ? [] // Deselect all if clicking active category
         : [category]; // Select new category
     }
-
     setActiveCategories(newCategories);
-    
-    const filtered = newCategories.length === 0
-      ? posts // Show all posts
-      : posts.filter(post => newCategories.includes(post.category));
-    
-    setFilteredPosts(filtered);
   };
 
   return (
@@ -54,6 +46,7 @@ export default function Sidebar() {
       >
         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
+
 
       {isSidebarOpen && (
         <div
