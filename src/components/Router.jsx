@@ -17,6 +17,7 @@ import NotFound from "../pages/NotFound";
 import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
 import PrivateRoute from "./PrivateRoute";
+import PostsLayout from "./PostsLayout";
 
 
 export default function AppRouter() {
@@ -32,17 +33,20 @@ export default function AppRouter() {
               <Route
                 path="app"
                 element={
-                  <PrivateRoute>
+                  // <PrivateRoute>
                     <AppLayout />
-                  </PrivateRoute>
+                  /* </PrivateRoute> */
                 }
               >
                 <Route index element={<Navigate replace to="posts" />} />
 
                 <Route path="posts">
+                  {/* Routes with sidebar */}
+                <Route element={<PostsLayout />}>
                   <Route index element={<PostList />} />
                   <Route path="new" element={<PostCreate />} />
                   <Route path=":id" element={<Post />} />
+                </Route>
                 </Route>
 
                 <Route path="profile" element={<Profile />} />
