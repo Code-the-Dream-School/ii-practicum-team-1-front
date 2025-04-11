@@ -33,9 +33,9 @@ export default function AppRouter() {
               <Route
                 path="app"
                 element={
-                  // <PrivateRoute>
+                  <PrivateRoute>
                     <AppLayout />
-                  /* </PrivateRoute> */
+                  </PrivateRoute> 
                 }
               >
                 <Route index element={<Navigate replace to="posts" />} />
