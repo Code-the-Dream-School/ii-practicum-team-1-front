@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// Map.jsx
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   MapContainer,
   TileLayer,
@@ -7,17 +8,19 @@ import {
   Popup,
   useMap,
   useMapEvents,
-} from "react-leaflet";
+} from 'react-leaflet';
 
-import styles from "./Map.module.css";
-import { usePosts } from "../context/PostsContext";
-import { useGeolocation } from "../components/hooks/useGeolocation";
-import { useUrlPosition } from "../components/hooks/useUrlPosition";
-import Button from "./Button";
+import styles from './Map.module.css';
+import { usePosts } from '../context/PostsContext';
+import { useGeolocation } from '../components/hooks/useGeolocation';
+import { useUrlPosition } from '../components/hooks/useUrlPosition';
+import Button from './Button';
+import { enrichPostsWithCoordinates } from '../util/enrichPostsWithCoordinates';
 
 function Map() {
   const { posts } = usePosts();
-  const [mapPosition, setMapPosition] = useState([40, 0]);
+  const [mapPosition, setMapPosition] = useState([40, -108]);
+//   console.log("Maps posts", posts);
 
   const {
     isLoading: isLoadingPosition,
@@ -36,15 +39,16 @@ function Map() {
       setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
   }, [geolocationPosition]);
 
+  const enrichedPosts = enrichPostsWithCoordinates(posts);
+  console.log(enrichedPosts);
+
   return (
     <div className={styles.mapContainer}>
       {!geolocationPosition && (
         <Button type="button" onClick={getPosition}>
-          {isLoadingPosition ? "Loading..." : "Use your position"}
+          {isLoadingPosition ? 'Loading...' : 'Use your position'}
         </Button>
       )}
-
-      {/* If you want to allow search by ZIP code, insert input + geocode logic here */}
 
       <MapContainer
         center={mapPosition}
@@ -57,17 +61,15 @@ function Map() {
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
 
-        {/* {posts &&
-          posts.map((post) => (
-            <Marker
-              position={[post.position.lat, post.position.lng]}
-              key={post._id}
-            >
-              <Popup>
-                <span>{post.emoji}</span> <span>{post.cityName}</span>
-              </Popup>
-            </Marker>
-          ))} */}
+        {enrichedPosts.map((post) => (
+          <Marker
+            position={[post.position.lat, post.position.lng]}
+            key={post._id}>
+            <Popup>
+              <span>{post.title}</span>
+            </Popup>
+          </Marker>
+        ))}
 
         <ChangeCenter position={mapPosition} />
         <DetectClick />
