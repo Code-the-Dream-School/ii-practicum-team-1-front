@@ -1,58 +1,46 @@
 import React from "react";
 import { usePosts } from "../context/PostsContext";
 
+
 const PostList = () => {
-  const { posts, isLoading, error } = usePosts();
+ const { filteredPosts: posts, isLoading, error } = usePosts();
 
-  if (isLoading) {
-    return <p>Loading posts...</p>;
-  }
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+ if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
+ if (error) return <p className="text-red-500 text-center py-8">Error: {error}</p>;
+ if (posts.length === 0) return <p className="text-center py-8">No posts available.</p>;
 
-  if (posts.length === 0) {
-    return <p>No posts available.</p>;
-  }
 
-  return (
-    <div>
-      <h1>Post List</h1>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {posts.map((post) => (
-          <li
-            key={post.item_id}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "16px",
-              marginBottom: "16px",
-            }}
-          >
-            <h2>{post.title}</h2>
-            <p><strong>Description:</strong> {post.description}</p>
-            <p><strong>Category:</strong> {post.category}</p>
-            <p><strong>Location:</strong> {post.location}</p>
-            <p><strong>Status:</strong> {post.iyrm_status}</p>
-            <div>
-              <strong>Photos:</strong>
-              <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                {post.photos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={photo}
-                    alt={`${post.title} - ${index + 1}`}
-                    style={{ width: "100px", height: "100px", objectFit: "cover" }}
-                  />
-                ))}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+ return (
+  <div className="px-2 py-4">
+    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-5">
+      {posts.map((post) => (
+        <div
+          key={post.item_id}
+          className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+        >
+          {/* Photo Section */}
+          <div className="aspect-square bg-gray-100">
+            <img
+              src={Array.isArray(post.photos) ? post.photos[0] : post.photo}
+              alt={post.title}
+              className="w-full h-full object-cover rounded-t-lg"
+              loading="lazy"
+            />
+          </div>
+
+          {/* Info Section */}
+          <div className="p-2">
+            <h2 className="text-xs font-semibold text-gray-800 line-clamp-2">
+              {post.title}
+            </h2>
+            <p className="text-[10px] text-gray-500">{post.location}</p>
+          </div>
+        </div>
+      ))}
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default PostList;
