@@ -18,7 +18,8 @@ import NotFound from "../pages/NotFound";
 import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
 import PostModal from "../pages/PostModal";
-import PrivateRoute from "./PrivateRoute";
+import PostPage from "../pages/PostPage";
+import PrivateRoute from "./PrivateRoute"; 
 
 export default function AppRouter() {
   const location = useLocation();
@@ -33,35 +34,36 @@ export default function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/dev-posts" element={<PostList />} /> {/* temporary */}
-        {/* <Route path="/dev-post/:id" element={<PostModal />} /> */}{" "}
-        {/* temporary */}
-        <Route
-          path="app"
-          element={
-            <PrivateRoute>
-              <AppLayout />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Navigate replace to="posts" />} />
+       {/*  <Route path="/dev-posts" element={<PostList />} /> */}
 
+        
+         <Route
+        path="app"
+        element={
+          <PrivateRoute>
+            <AppLayout />
+          </PrivateRoute>
+        }
+      >
+
+          <Route index element={<Navigate replace to="posts" />} />
           <Route path="posts">
             <Route index element={<PostList />} />
             <Route path="new" element={<PostCreate />} />
-            <Route path=":id" element={<Post />} />
+            <Route path=":id" element={<PostPage />} />
           </Route>
-
           <Route path="profile" element={<Profile />} />
         </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {backgroundLocation && (
-        <Routes>
-          <Route path="/app/posts/:id" element={<PostModal />} />
-        </Routes>
-      )}
+      {backgroundLocation && backgroundLocation !== location && (
+  <Routes>
+    <Route path="/app/posts/:id" element={<PostModal />} />
+  </Routes>
+)}
+
     </>
   );
 }
