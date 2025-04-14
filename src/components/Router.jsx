@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 
 import Landing from "../pages/Landing";
@@ -16,40 +17,51 @@ import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
+import PostModal from "../pages/PostModal";
 import PrivateRoute from "./PrivateRoute";
 
-
 export default function AppRouter() {
+  const location = useLocation();
+  const state = location.state;
+  const backgroundLocation = state && state.backgroundLocation;
+
   return (
-    <Router>
-            <Routes>
-              <Route index element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
+    <>
+      <Routes location={backgroundLocation || location}>
+        <Route index element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/dev-posts" element={<PostList />} /> {/* temporary */}
+        {/* <Route path="/dev-post/:id" element={<PostModal />} /> */}{" "}
+        {/* temporary */}
+        <Route
+          path="app"
+          element={
+            <PrivateRoute>
+              <AppLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Navigate replace to="posts" />} />
 
-              <Route
-                path="app"
-                element={
-                  <PrivateRoute>
-                    <AppLayout />
-                  </PrivateRoute>
-                }
-              >
-                <Route index element={<Navigate replace to="posts" />} />
+          <Route path="posts">
+            <Route index element={<PostList />} />
+            <Route path="new" element={<PostCreate />} />
+            <Route path=":id" element={<Post />} />
+          </Route>
 
-                <Route path="posts">
-                  <Route index element={<PostList />} />
-                  <Route path="new" element={<PostCreate />} />
-                  <Route path=":id" element={<Post />} />
-                </Route>
+          <Route path="profile" element={<Profile />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
-                <Route path="profile" element={<Profile />} />
-              </Route>
-
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-    </Router>
+      {backgroundLocation && (
+        <Routes>
+          <Route path="/app/posts/:id" element={<PostModal />} />
+        </Routes>
+      )}
+    </>
   );
 }
