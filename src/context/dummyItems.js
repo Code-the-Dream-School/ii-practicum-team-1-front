@@ -1,10 +1,16 @@
 const dummyItems = [
     {
       item_id: 1,
-      title: "Beach Vacation",
-      description: "A relaxing vacation at a beautiful beach.",
-      category: "Travel",
-      photos: ["photo1.jpg", "photo2.jpg"],
+      title: "IKEA kids desk chair",
+      description: "Excellent condition.  And obviously you don’t have to put them together!!!   Cross posted",
+      category: "Furniture",
+      photos: [
+        "https://www.ikea.com/us/en/images/products/poaeng-armchair-birch-veneer-skiftebo-dark-gray__0937014_pe793536_s5.jpg?f=xl", 
+        "https://www.ikea.com/us/en/images/products/poaeng-armchair-birch-veneer-skiftebo-dark-gray__0937015_pe793537_s5.jpg?f=xl",
+        "https://www.ikea.com/us/en/images/products/poaeng-armchair-birch-veneer-skiftebo-dark-gray__0612906_pe686092_s5.jpg?f=xl",
+        "https://www.ikea.com/us/en/images/products/poaeng-armchair-birch-veneer-skiftebo-dark-gray__0841254_pe735808_s5.jpg?f=xl",
+        "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
       status: "active",
       location: "Miami, FL",
     },
