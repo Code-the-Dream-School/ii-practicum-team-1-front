@@ -1,8 +1,13 @@
 import React from "react";
 import { usePosts } from "../context/PostsContext";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 const PostList = () => {
   const { posts, isLoading, error } = usePosts();
+  const navigate = useNavigate();
+  const location = useLocation();
+ 
 
   if (isLoading) {
     return <p>Loading posts...</p>;
@@ -22,12 +27,18 @@ const PostList = () => {
       <ul style={{ listStyle: "none", padding: 0 }}>
         {posts.map((post) => (
           <li
-            key={post.item_id}
+          key={post.item_id}
+          onClick={() =>
+            navigate(`/app/posts/${post.item_id}`, {
+              state: { backgroundLocation: location },
+            })
+          }
             style={{
               border: "1px solid #ddd",
               borderRadius: "8px",
               padding: "16px",
               marginBottom: "16px",
+              cursor: "pointer"
             }}
           >
             <h2>{post.title}</h2>
