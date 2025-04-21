@@ -12,14 +12,14 @@ import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import PostCreate from "../pages/PostCreate";
-import Post from "../pages/Post";
+import Post from "./Post";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
-import PostModal from "../pages/PostModal";
+import PostModal from "./PostModal";
 import PostPage from "../pages/PostPage";
-import PrivateRoute from "./PrivateRoute"; 
+import PrivateRoute from "./PrivateRoute";
 
 export default function AppRouter() {
   const location = useLocation();
@@ -34,9 +34,8 @@ export default function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-       {/*  <Route path="/dev-posts" element={<PostList />} /> */}
+        {/*  <Route path="/dev-posts" element={<PostList />} /> */}
 
-        
          <Route
         path="app"
         element={
@@ -45,7 +44,6 @@ export default function AppRouter() {
           </PrivateRoute>
         }
       >
-
           <Route index element={<Navigate replace to="posts" />} />
           <Route path="posts">
             <Route index element={<PostList />} />
@@ -59,11 +57,10 @@ export default function AppRouter() {
       </Routes>
 
       {backgroundLocation && backgroundLocation !== location && (
-  <Routes>
-    <Route path="/app/posts/:id" element={<PostModal />} />
-  </Routes>
-)}
-
+        <Routes>
+          <Route path="/app/posts/:id" element={<PostModal />} />
+        </Routes>
+      )}
     </>
   );
 }
