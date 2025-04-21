@@ -18,11 +18,13 @@ import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
 import PrivateRoute from "./PrivateRoute";
 import PostsLayout from "./PostsLayout";
+import Navbar from "./Navbar";
 
 
 export default function AppRouter() {
   return (
     <Router>
+      <Navbar />
             <Routes>
               <Route index element={<Landing />} />
               <Route path="/login" element={<Login />} />
