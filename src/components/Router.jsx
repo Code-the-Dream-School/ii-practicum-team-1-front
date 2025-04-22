@@ -20,6 +20,7 @@ import PostList from "../pages/PostList";
 import PostModal from "./PostModal";
 import PostPage from "../pages/PostPage";
 import PrivateRoute from "./PrivateRoute";
+import PostsLayout from "./PostsLayout";
 
 export default function AppRouter() {
   const location = useLocation();

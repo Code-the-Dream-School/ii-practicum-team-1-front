@@ -2,66 +2,55 @@ import React from "react";
 import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 
-
 const PostList = () => {
-  const { posts, isLoading, error } = usePosts();
-  const navigate = useNavigate();
-  const location = useLocation();
- 
+ const { filteredPosts: posts, isLoading, error } = usePosts();
+ const navigate = useNavigate();
+ const location = useLocation();
 
-  if (isLoading) {
-    return <p>Loading posts...</p>;
-  }
+ if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
+ if (error) return <p className="text-red-500 text-center py-8">Error: {error}</p>;
+ if (posts.length === 0) return <p className="text-center py-8">No posts available.</p>;
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  if (posts.length === 0) {
-    return <p>No posts available.</p>;
-  }
-
-  return (
-    <div>
-      <h1>Post List</h1>
-      <ul style={{ listStyle: "none", padding: 0 }}>
+ return (
+    <div className="px-2 py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {posts.map((post) => (
-          <li
-          key={post.item_id}
-          onClick={() =>
-            navigate(`/app/posts/${post.item_id}`, {
-              state: { backgroundLocation: location },
-            })
-          }
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "16px",
-              marginBottom: "16px",
-              cursor: "pointer"
-            }}
+          <div
+            key={post.item_id}
+            onClick={() =>
+              navigate(`/app/posts/${post.item_id}`, {
+                state: { backgroundLocation: location },
+              })
+            }
+            className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300 cursor-pointer p-4"
           >
-            <h2>{post.title}</h2>
-            <p><strong>Description:</strong> {post.description}</p>
-            <p><strong>Category:</strong> {post.category}</p>
-            <p><strong>Location:</strong> {post.location}</p>
-            <p><strong>Status:</strong> {post.iyrm_status}</p>
-            <div>
-              <strong>Photos:</strong>
-              <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                {post.photos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={photo}
-                    alt={`${post.title} - ${index + 1}`}
-                    style={{ width: "100px", height: "100px", objectFit: "cover" }}
-                  />
-                ))}
-              </div>
+            <div className="aspect-square bg-gray-100 overflow-hidden rounded-md mb-4">
+              <img
+                src={Array.isArray(post.photos) ? post.photos[0] : post.photo}
+                alt={post.title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
-          </li>
+
+            <h2 className="text-sm font-semibold text-gray-800 mb-1">
+              {post.title}
+            </h2>
+            <p className="text-xs text-gray-500 mb-1">
+              <strong>Location:</strong> {post.location}
+            </p>
+            <p className="text-xs text-gray-500 mb-1">
+              <strong>Category:</strong> {post.category}
+            </p>
+            <p className="text-xs text-gray-500 mb-1">
+              <strong>Status:</strong> {post.status}
+            </p>
+            <p className="text-xs text-gray-600 line-clamp-2">
+              {post.description}
+            </p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
