@@ -1,13 +1,14 @@
-export default function Post({ post, selectedPhoto, setSelectedPhotoIndex }) {
+export default function Post({ post }) {
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  const selectedPhoto = post?.photos?.[selectedPhotoIndex] || null;
+
+
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
       <div className="w-full lg:w-1/2">
         <div className="rounded-2xl overflow-hidden">
-          <img
-            src={selectedPhoto}
-            alt={post.title}
-            className="w-full h-auto"
-          />
+          <img src={selectedPhoto} alt={post.title} className="w-full h-auto" />
         </div>
         {post.photos?.length > 1 && (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-4">

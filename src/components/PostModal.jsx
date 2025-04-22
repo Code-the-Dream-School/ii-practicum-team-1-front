@@ -7,8 +7,7 @@ export default function PostModal() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getPost, currentPost, isLoading, error } = usePosts();
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const selectedPhoto = currentPost?.photos?.[selectedPhotoIndex] || null;
+  
 
 useEffect(() => {
   getPost(Number(id));
