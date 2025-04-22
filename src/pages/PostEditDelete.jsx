@@ -13,7 +13,7 @@ export default function PosteditDelete() {
     description: "",
     category: "",
     location: "",
-    photo: "",
+    photos: [],
     canDeliver: false,
   });
 
@@ -29,7 +29,7 @@ export default function PosteditDelete() {
         description: currentPost.description || "",
         category: currentPost.category || "",
         location: currentPost.location || "",
-        photo: currentPost.photo || "",
+        photos: currentPost.photos || [],
         canDeliver: currentPost.canDeliver || false,
       });
     }
@@ -40,6 +40,13 @@ export default function PosteditDelete() {
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const removePhoto = () => {
+    setFormData((prev) => ({
+      ...prev,
+      photos: prev.photos.slice(1),
     }));
   };
 
@@ -56,6 +63,7 @@ export default function PosteditDelete() {
     if (!confirm) return;
     await deletePost(Number(id));
     navigate("/app/posts");
+
   };
 
   return (
@@ -67,27 +75,31 @@ export default function PosteditDelete() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Image preview block */}
-          {formData.photo && (
-            <div className="flex items-end gap-4">
-              {/* Image */}
-              <div className="w-[148px] h-[148px] rounded-[20px] border border-gray-300 shadow-md overflow-hidden">
-                <img
-                  src={formData.photo}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          {formData.photos.length > 0 && (
+  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+    {formData.photos.map((url, idx) => (
+      <div
+        key={idx}
+        className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
+      >
+        <img src={url} alt={`Photo ${idx}`} className="w-full h-full object-cover" />
+        <button
+          type="button"
+          onClick={() =>
+            setFormData((prev) => ({
+              ...prev,
+              photos: prev.photos.filter((_, i) => i !== idx),
+            }))
+          }
+          className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
+        >
+          ✕
+        </button>
+      </div>
+    ))}
+  </div>
+)}
 
-              {/* Delete Button */}
-              <button
-                type="button"
-                onClick={() => setFormData((prev) => ({ ...prev, photo: "" }))}
-                className="text-sm text-black font-montserrat flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 transition-colors"
-              >
-                🗑 Delete
-              </button>
-            </div>
-          )}
 
           {/* Title */}
           <input
