@@ -18,42 +18,45 @@ import AppLayout from "./AppLayout";
 import PostList from "../pages/PostList";
 import PrivateRoute from "./PrivateRoute";
 import PostsLayout from "./PostsLayout";
-
+import PostEditDelete from "../pages/PostEditDelete";
+import Navbar from "./Navbar";
 
 export default function AppRouter() {
   return (
     <Router>
-            <Routes>
-              <Route index element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
+      <Navbar />
+      <Routes>
+        <Route index element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="profile" element={<Profile />} />
 
-              <Route
-                path="app"
-                element={
-                  <PrivateRoute>
-                    <AppLayout />
-                  </PrivateRoute> 
-                }
-              >
-                <Route index element={<Navigate replace to="posts" />} />
+        <Route
+          path="app"
+          element={
+            <PrivateRoute>
+              <AppLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Navigate replace to="posts" />} />
 
-                <Route path="posts">
-                  {/* Routes with sidebar */}
-                <Route element={<PostsLayout />}>
-                  <Route index element={<PostList />} />
-                  <Route path="new" element={<PostCreate />} />
-                  <Route path=":id" element={<Post />} />
-                </Route>
-                </Route>
+          <Route path="posts">
+            {/* Routes with sidebar */}
+            <Route element={<PostsLayout />}>
+              <Route index element={<PostList />} />
+              <Route path="new" element={<PostCreate />} />
+              <Route path=":id" element={<Post />} />
+              <Route path=":id/edit" element={<PostEditDelete />} />
+            </Route>
+          </Route>
 
-                <Route path="profile" element={<Profile />} />
-              </Route>
-
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+          <Route path="profile" element={<Profile />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </Router>
   );
 }

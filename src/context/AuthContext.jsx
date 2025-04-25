@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import dummyUsers from "../context/dummyUsers.js"; // Temporary
+
 
 const AuthContext = createContext();
 
@@ -15,6 +17,14 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(savedUser));
     }
   }, []);
+
+  // Temporary - till backend is connected
+  useEffect(() => {
+    const mockUser = dummyUsers.find((u) => u.username === "user1"); // можно менять user1 → user2 и т.д.
+    if (mockUser) {
+      setUser(mockUser);
+    }
+  }, []); // 
 
   const login = async (formData) => {
     try {
