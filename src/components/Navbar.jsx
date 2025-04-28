@@ -5,11 +5,7 @@ import { useEffect, useState } from "react";
 export default function Navbar() {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [isLanding, setIsLanding] = useState(false);
-
-  useEffect(() => {
-    setIsLanding(location.pathname === "/");
-  }, [location]);
+  const isLanding = location.pathname === "/";
 
   const isAuthPage = ["/login", "/register", "/forgot-password"].includes(
     location.pathname
@@ -19,7 +15,7 @@ export default function Navbar() {
   return (
     <nav className="w-full bg-white z-50 relative">
       <div className="max-w-[1440px] px-[100px] mx-auto py-4 min-h-[100px] flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
+      <Link to={user ? "/app/posts" : "/"} className="flex items-center gap-2">
           <img
             src={logoSrc}
             alt="KindNet logo"
@@ -70,24 +66,6 @@ export default function Navbar() {
             {/* Landing page menu AFTER login */}
             {user && isLanding && (
               <div className="flex items-center gap-6">
-                <a
-                  href="#about"
-                  className="text-base text-gray hover:text-primary"
-                >
-                  About us
-                </a>
-                <a
-                  href="#team"
-                  className="text-base text-gray hover:text-primary"
-                >
-                  Our team
-                </a>
-                <a
-                  href="#contacts"
-                  className="text-base text-gray hover:text-primary"
-                >
-                  Contacts
-                </a>
                 <Link
                   to="/app/posts/new"
                   className="bg-dark text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark"

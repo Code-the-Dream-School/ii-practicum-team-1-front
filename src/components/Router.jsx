@@ -19,6 +19,25 @@ import PostList from "../pages/PostList";
 import PrivateRoute from "./PrivateRoute";
 import PostsLayout from "./PostsLayout";
 import Navbar from "./Navbar";
+import { useAuth } from "../context/AuthContext";
+
+function RedirectLogic({ children }) {
+  const { user } = useAuth();
+  const location = useLocation();
+  const isLanding = location.pathname === "/";
+  const isAuthPage = ["/login", "/register", "/forgot-password", "/reset-password"].includes(location.pathname);
+  const isAppPage = location.pathname.startsWith("/app");
+
+  if (user && (isLanding || isAuthPage)) {
+    return <Navigate to="/app/posts" replace />;
+  }
+
+  if (!user && isAppPage) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
 
 
 export default function AppRouter() {
