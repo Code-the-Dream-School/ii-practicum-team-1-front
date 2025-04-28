@@ -37,16 +37,17 @@ export default function AppRouter() {
         <Route path="/reset-password" element={<ResetPassword />} />
         {/*  <Route path="/dev-posts" element={<PostList />} /> */}
 
-         <Route
+      {/*    <Route
         path="app"
         element={
           <PrivateRoute>
             <AppLayout />
           </PrivateRoute>
         }
-      >
+      > */}
+      <Route path="app" element={<AppLayout />}>
           <Route index element={<Navigate replace to="posts" />} />
-          <Route path="posts">
+          <Route path="posts" element={<PostsLayout />}>
             <Route index element={<PostList />} />
             <Route path="new" element={<PostCreate />} />
             <Route path=":id" element={<PostPage />} />

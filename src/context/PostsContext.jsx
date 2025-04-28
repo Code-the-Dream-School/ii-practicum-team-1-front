@@ -12,6 +12,7 @@ function PostsProvider({ children }) {
  const [currentPost, setCurrentPost] = useState({});
  const [error, setError] = useState(null);
  const [activeCategories, setActiveCategories] = useState([]);
+ const [searchQuery, setSearchQuery] = useState("");
 
  
   async function fetchPosts() {
@@ -32,12 +33,29 @@ useEffect(() => {
 }, []);
 
 const filteredPosts = useMemo(() => {
-  if (activeCategories.length === 0) {
-    return posts;
-  }
+  return posts.filter((post) => {
+    const matchesCategory =
+      activeCategories.length === 0 ||
+      activeCategories.some((category) =>
+        typeof post.category === "string"
+          ? post.category.toLowerCase().includes(category.toLowerCase())
+          : Array.isArray(post.category)
+          ? post.category.some((c) =>
+              category.toLowerCase() === c.toLowerCase()
+            )
+          : false
+      );
 
-  return posts.filter(post => activeCategories.includes(post.category));
-}, [activeCategories]);
+    const text = [post.title, post.description]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    const matchesSearch = text.includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
+}, [posts, activeCategories, searchQuery]);
 
 // console.log(posts);
 
@@ -110,7 +128,9 @@ const filteredPosts = useMemo(() => {
      getPost,
      updatePost,
      deletePost,
-     createPost
+     createPost,
+     searchQuery,
+     setSearchQuery
    }}>
      {children}
    </PostsContext.Provider>
