@@ -34,7 +34,7 @@ export default function PostPage() {
   );
 
   return (
-    <div className="flex flex-col max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-[1440px] mx-auto px-4 md:pl-72 py-10 flex flex-col">
       <div className="mb-6">
         <Link to="/app/posts" className="text-sm text-dark hover:text-primary">
           ← Back to all posts

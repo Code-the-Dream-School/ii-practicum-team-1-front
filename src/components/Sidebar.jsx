@@ -3,10 +3,11 @@ import { usePosts } from "../context/PostsContext";
 import { Menu, X, ChevronDown, LogOut } from "lucide-react";
 
 export default function Sidebar() {
-  const { 
-    posts = [], 
-    activeCategories = [], 
-    setActiveCategories = () => console.warn('setActiveCategories not implemented'),
+  const {
+    posts = [],
+    activeCategories = [],
+    setActiveCategories = () =>
+      console.warn("setActiveCategories not implemented"),
   } = usePosts();
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
@@ -14,9 +15,11 @@ export default function Sidebar() {
 
   const mainCategories = useMemo(() => {
     try {
-      return [...new Set(posts.map(post => post?.category || 'Uncategorized'))].sort();
+      return [
+        ...new Set(posts.map((post) => post?.category || "Uncategorized")),
+      ].sort();
     } catch (error) {
-      console.error('Category processing error:', error);
+      console.error("Category processing error:", error);
       return [];
     }
   }, [posts]);
@@ -25,7 +28,7 @@ export default function Sidebar() {
     if (!Array.isArray(activeCategories)) return;
 
     let newCategories = [];
-    if (category === 'All Categories') {
+    if (category === "All Categories") {
       // Clear all selections
       newCategories = [];
     } else {
@@ -47,7 +50,6 @@ export default function Sidebar() {
         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-
       {isSidebarOpen && (
         <div
           role="presentation"
@@ -60,7 +62,7 @@ export default function Sidebar() {
         aria-label="Main navigation"
         className={`fixed top-0 left-0 z-40 h-screen w-64 bg-gray-50 border-r border-gray-200 overflow-y-auto p-4 transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:static`}
+        } md:translate-x-0`}
       >
         <div className="pt-[40px] space-y-4">
           <section>
@@ -68,11 +70,11 @@ export default function Sidebar() {
               aria-expanded={isCategoriesOpen}
               aria-controls="categories-list"
               onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-              className="flex items-center justify-between w-full p-2 font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="flex items-center justify-between w-full p-2 font-medium text-gray-600 hover:bg-gray rounded-lg transition-colors"
             >
               <span>Categories</span>
-              <ChevronDown 
-                size={16} 
+              <ChevronDown
+                size={16}
                 className={`transition-transform ${
                   isCategoriesOpen ? "rotate-180" : ""
                 }`}
@@ -90,11 +92,11 @@ export default function Sidebar() {
                 <li>
                   <button
                     aria-pressed={activeCategories.length === 0}
-                    onClick={() => handleCategorySelect('All Categories')}
+                    onClick={() => handleCategorySelect("All Categories")}
                     className={`flex items-center p-2 w-full text-sm rounded-lg transition-colors ${
                       activeCategories.length === 0
-                        ? 'text-emerald-600 bg-emerald-50'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        ? "text-emerald-600 bg-emerald-50"
+                        : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
                     All Categories
@@ -109,8 +111,8 @@ export default function Sidebar() {
                         onClick={() => handleCategorySelect(category)}
                         className={`flex items-center p-2 w-full text-sm rounded-lg transition-colors ${
                           activeCategories.includes(category)
-                            ? 'text-emerald-600 bg-emerald-50'
-                            : 'text-gray-700 hover:bg-gray-100'
+                            ? "text-emerald-600 bg-emerald-50"
+                            : "text-gray-700 hover:bg-gray-100"
                         }`}
                       >
                         {category}
@@ -130,7 +132,7 @@ export default function Sidebar() {
             <ul className="pt-4 border-t border-gray-200">
               <li>
                 <button
-                  onClick={() => console.log('Logout')}
+                  onClick={() => console.log("Logout")}
                   className="flex items-center w-full p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                 >
                   <LogOut size={16} className="mr-2" />
