@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LayoutList, MapPin } from "lucide-react";
+import { LayoutList, MapPin, Search } from "lucide-react";
 import PostCard from "../components/PostCard";
 
 const PostList = () => {
@@ -14,7 +14,7 @@ const PostList = () => {
   } = usePosts();
   const navigate = useNavigate();
   const location = useLocation();
-  const [viewMode, setViewMode] = useState("list"); // Добавили состояние для активной кнопки
+  const [viewMode, setViewMode] = useState("list");
 
   if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
   if (error)
@@ -24,17 +24,18 @@ const PostList = () => {
     <div className="max-w-[1440px] mx-auto px-4 md:pl-72 py-10 flex flex-col">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div className="flex-1 w-full relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by keywords or ZIP code..."
-            className="w-full px-4 py-2 border border-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full pl-10 pr-10 py-2 border border-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray text-sm"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray text-sm"
             >
               ✕
             </button>
