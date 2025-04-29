@@ -28,7 +28,7 @@ const PostList = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search posts..."
+            placeholder="Search by keywords or ZIP code..."
             className="w-full px-4 py-2 border border-gray rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {searchQuery && (

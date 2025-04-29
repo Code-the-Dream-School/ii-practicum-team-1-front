@@ -6,6 +6,7 @@ const dummyItems = [
     category: "Kids , Books",
     status: "available",
     location: "CA",
+    zip: "10001",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610"
   },
   {
@@ -24,6 +25,7 @@ const dummyItems = [
     category: "Clothing, Women, Casual",
     status: "available",
     location: "TX",
+    zip: "10012",
     photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"
   },
   {
@@ -32,7 +34,8 @@ const dummyItems = [
     description: "Set of educational wooden toys",
     category: "Kids",
     status: "available",
-    location: "FL",
+    location: "CT",
+    zip: "06611",
     photo: "https://images.unsplash.com/photo-1615996001375-c7ef13294436"
   },
   {
