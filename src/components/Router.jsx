@@ -21,6 +21,8 @@ import PostModal from "./PostModal";
 import PostPage from "../pages/PostPage";
 import PrivateRoute from "./PrivateRoute";
 import PostsLayout from "./PostsLayout";
+import PostEditDelete from "../pages/PostEditDelete";
+import Navbar from "./Navbar";
 
 export default function AppRouter() {
   const location = useLocation();
@@ -35,7 +37,6 @@ export default function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        {/*  <Route path="/dev-posts" element={<PostList />} /> */}
 
          <Route
         path="app"
@@ -50,6 +51,7 @@ export default function AppRouter() {
             <Route index element={<PostList />} />
             <Route path="new" element={<PostCreate />} />
             <Route path=":id" element={<PostPage />} />
+            <Route path=":id/edit" element={<PostEditDelete />} />
           </Route>
           <Route path="profile" element={<Profile />} />
         </Route>
