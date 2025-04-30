@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { Menu, X } from "lucide-react";
 
@@ -20,7 +20,7 @@ export default function PostsLayout() {
 
       {/* Layout */}
       <div className="flex flex-1 pt-16 md:pt-0">
-        {/* Sidebar (responsive toggle) */}
+        {/* Sidebar */}
         <div
           className={`fixed z-40 inset-y-0 left-0 transform ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"

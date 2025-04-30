@@ -39,7 +39,7 @@ const filteredPosts = useMemo(() => {
   return posts.filter(post => activeCategories.includes(post.category));
 }, [activeCategories]);
 
-// console.log(posts);
+// console.log("Filtered posts in context", filteredPosts);
 
  async function getPost(id) {
    try {
@@ -100,10 +100,9 @@ const filteredPosts = useMemo(() => {
 
  return (
    <PostsContext.Provider value={{
-     filteredPosts,
+     posts: filteredPosts,
      activeCategories,
      setActiveCategories,
-     posts,
      isLoading,
      currentPost,
      error,

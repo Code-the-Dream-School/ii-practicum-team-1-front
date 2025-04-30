@@ -5,7 +5,7 @@ const dummyItems = [
     description: "A curated collection of antique books",
     category: "Kids, Educational, Books",
     status: "available",
-    location: "CA",
+    location: "94103", // San Francisco, CA
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610"
   },
   {
@@ -14,7 +14,7 @@ const dummyItems = [
     description: "A stack of collectible art magazines",
     category: "Home, Decor, Textiles",
     status: "available",
-    location: "NY",
+    location: "10001", // New York, NY
     photo: "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"
   },
   {
@@ -23,7 +23,7 @@ const dummyItems = [
     description: "A capsule wardrobe collection",
     category: "Clothing, Women, Casual",
     status: "available",
-    location: "TX",
+    location: "73301", // Austin, TX
     photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"
   },
   {
@@ -32,7 +32,7 @@ const dummyItems = [
     description: "Set of educational wooden toys",
     category: "Kids, Toys, Educational",
     status: "available",
-    location: "FL",
+    location: "33101", // Miami, FL
     photo: "https://images.unsplash.com/photo-1615996001375-c7ef13294436"
   },
   {
@@ -41,7 +41,7 @@ const dummyItems = [
     description: "Bundle of organic baby onesies",
     category: "Clothing, Kids, Baby",
     status: "available",
-    location: "GA",
+    location: "30301", // Atlanta, GA
     photo: "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg"
   },
   {
@@ -50,7 +50,7 @@ const dummyItems = [
     description: "Vintage mid-century modern sofa",
     category: "Home, Furniture, Living Room",
     status: "available",
-    location: "IL",
+    location: "60601", // Chicago, IL
     photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
   },
   {
@@ -59,7 +59,7 @@ const dummyItems = [
     description: "Handmade bohemian wall tapestry",
     category: "Home, Decor, Wall Art",
     status: "available",
-    location: "PA",
+    location: "19103", // Philadelphia, PA
     photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
   },
   {
@@ -68,34 +68,7 @@ const dummyItems = [
     description: "High-end copper cookware set",
     category: "Home, Kitchen, Cookware",
     status: "available",
-    location: "OH",
-    photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
-  },
-  {
-    item_id: 7,
-    title: "Mid-Century Sofa",
-    description: "Vintage mid-century modern sofa",
-    category: "Home, Furniture, Living Room",
-    status: "available",
-    location: "IL",
-    photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
-  },
-  {
-    item_id: 8,
-    title: "Bohemian Wall Tapestry",
-    description: "Handmade bohemian wall tapestry",
-    category: "Home, Decor, Wall Art",
-    status: "available",
-    location: "PA",
-    photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
-  },
-  {
-    item_id: 9,
-    title: "Copper Cookware Set",
-    description: "High-end copper cookware set",
-    category: "Home, Kitchen, Cookware",
-    status: "available",
-    location: "OH",
+    location: "44101", // Cleveland, OH
     photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
   },
   {
@@ -104,7 +77,7 @@ const dummyItems = [
     description: "Modern smart coffee maker",
     category: "Home, Appliances, Beverage",
     status: "available",
-    location: "MI",
+    location: "48201", // Detroit, MI
     photo: "https://images.pexels.com/photos/4492126/pexels-photo-4492126.jpeg"
   },
   {
@@ -113,7 +86,7 @@ const dummyItems = [
     description: "Antique camera collection with various models",
     category: "Electronics, Vintage",
     status: "available",
-    location: "NJ",
+    location: "07102", // Newark, NJ
     photo: "https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg"
   },
   {
@@ -122,7 +95,7 @@ const dummyItems = [
     description: "Professional-grade acrylic paint set",
     category: "Arts, Supplies, Paints",
     status: "available",
-    location: "WA",
+    location: "98101", // Seattle, WA
     photo: "https://images.unsplash.com/photo-1612178537253-bccd437b730e"
   },
   {
@@ -131,7 +104,7 @@ const dummyItems = [
     description: "Complete calligraphy kit for beginners",
     category: "Arts, Supplies, Stationery",
     status: "available",
-    location: "MA",
+    location: "02108", // Boston, MA
     photo: "https://images.pexels.com/photos/6344238/pexels-photo-6344238.jpeg"
   },
   {
@@ -140,7 +113,7 @@ const dummyItems = [
     description: "Diverse collection of board games for all ages",
     category: "Entertainment, Games, Family",
     status: "available",
-    location: "CO",
+    location: "80202", // Denver, CO
     photo: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982"
   },
   {
@@ -149,7 +122,7 @@ const dummyItems = [
     description: "Elaborate model train setup with scenery",
     category: "Hobbies, Models, Trains",
     status: "available",
-    location: "OR",
+    location: "97201", // Portland, OR
     photo: "https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg"
   },
   {
@@ -158,7 +131,7 @@ const dummyItems = [
     description: "High-performance road bike",
     category: "Sports, Cycling, Bikes",
     status: "available",
-    location: "MD",
+    location: "21201", // Baltimore, MD
     photo: "https://images.unsplash.com/photo-1485965120184-e220f721d03e"
   },
   {
@@ -167,7 +140,7 @@ const dummyItems = [
     description: "Full set of yoga gear for beginners",
     category: "Sports, Fitness, Yoga",
     status: "available",
-    location: "VA",
+    location: "23220", // Richmond, VA
     photo: "https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg"
   },
   {
@@ -176,7 +149,7 @@ const dummyItems = [
     description: "Arrangement of various succulent plants",
     category: "Home, Garden, Indoor Plants",
     status: "available",
-    location: "NC",
+    location: "27513", // Cary, NC
     photo: "https://images.pexels.com/photos/1022928/pexels-photo-1022928.jpeg"
   },
   {
@@ -185,7 +158,7 @@ const dummyItems = [
     description: "Set of durable, labeled storage boxes",
     category: "Home, Organization, Storage",
     status: "available",
-    location: "TN",
+    location: "37203", // Nashville, TN
     photo: "https://images.pexels.com/photos/1097930/pexels-photo-1097930.jpeg"
   },
   {
@@ -194,7 +167,7 @@ const dummyItems = [
     description: "Antique tool wall display",
     category: "Tools, Vintage",
     status: "available",
-    location: "SC",
+    location: "29201", // Columbia, SC
     photo: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f"
   },
   {
@@ -203,7 +176,7 @@ const dummyItems = [
     description: "Comprehensive power tool set for various projects",
     category: "Tools, Power Tools",
     status: "available",
-    location: "AL",
+    location: "35203", // Birmingham, AL
     photo: "https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg"
   }
 ];

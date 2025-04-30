@@ -21,6 +21,8 @@ import PostModal from "./PostModal";
 import PostPage from "../pages/PostPage";
 import PrivateRoute from "./PrivateRoute";
 import PostsLayout from "./PostsLayout";
+import PostList from "../pages/PostList";
+import Map from "../components/Map";
 
 export default function AppRouter() {
   const location = useLocation();
@@ -53,6 +55,7 @@ export default function AppRouter() {
           </Route>
           <Route path="profile" element={<Profile />} />
         </Route>
+
 
         <Route path="*" element={<NotFound />} />
       </Routes>
