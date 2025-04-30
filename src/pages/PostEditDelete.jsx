@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { usePosts } from "../context/PostsContext";
 import categories from "../util/categories";
 
-export default function PosteditDelete() {
+export default function PostEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getPost, updatePost, deletePost, currentPost } = usePosts();
@@ -42,14 +42,6 @@ export default function PosteditDelete() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
-  const removePhoto = () => {
-    setFormData((prev) => ({
-      ...prev,
-      photos: prev.photos.slice(1),
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updatePost(Number(id), formData);
