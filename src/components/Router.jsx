@@ -21,6 +21,7 @@ import PostModal from "./PostModal";
 import PostPage from "../pages/PostPage";
 import PrivateRoute from "./PrivateRoute";
 import PostsLayout from "./PostsLayout";
+import PostEditDelete from "../pages/PostEditDelete";
 import Navbar from "./Navbar";
 import { useAuth } from "../context/AuthContext";
 
@@ -41,6 +42,7 @@ function RedirectLogic({ children }) {
 
   return children;
 }
+
 
 export default function AppRouter() {
   const location = useLocation();
@@ -70,8 +72,10 @@ export default function AppRouter() {
               <Route index element={<PostList />} />
               <Route path="new" element={<PostCreate />} />
               <Route path=":id" element={<PostPage />} />
+              <Route path=":id/edit" element={<PostEditDelete />} />
             </Route>
             <Route path="profile" element={<Profile />} />
+
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
