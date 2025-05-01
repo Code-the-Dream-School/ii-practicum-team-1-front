@@ -117,10 +117,12 @@ export default function PostCreate() {
           <input
             name="location"
             type="text"
-            placeholder="Meeting location"
+            placeholder="Enter the ZIP code of your meeting location"
             value={formData.location}
             onChange={handleChange}
             required
+            pattern="\d{5}"
+            title="ZIP code must be 5 digits"
             className="w-full px-4 py-3 border border-dark rounded-xl font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
