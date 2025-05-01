@@ -3,17 +3,16 @@ const dummyItems = [
     item_id: 1,
     title: "Vintage Book Collection",
     description: "A curated collection of antique books",
-    category: "Kids , Books",
+    category: "Books",
     status: "available",
     location: "CA",
-    zip: "10001",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610"
   },
   {
     item_id: 2,
     title: "Art Magazines Stack",
     description: "A stack of collectible art magazines",
-    category: "Home, Decor, Textiles",
+    category: "Toys",
     status: "available",
     location: "NY",
     photo: "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"
@@ -22,20 +21,18 @@ const dummyItems = [
     item_id: 3,
     title: "Minimalist Wardrobe",
     description: "A capsule wardrobe collection",
-    category: "Clothing, Women, Casual",
+    category: "Furniture",
     status: "available",
     location: "TX",
-    zip: "10012",
     photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"
   },
   {
     item_id: 4,
     title: "Wooden Montessori Toys",
     description: "Set of educational wooden toys",
-    category: "Kids",
+    category: "Kids, Toys, Educational",
     status: "available",
-    location: "CT",
-    zip: "06611",
+    location: "FL",
     photo: "https://images.unsplash.com/photo-1615996001375-c7ef13294436"
   },
   {

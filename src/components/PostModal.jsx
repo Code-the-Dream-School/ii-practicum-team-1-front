@@ -1,4 +1,3 @@
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { usePosts } from "../context/PostsContext";
@@ -8,19 +7,12 @@ export default function PostModal() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getPost, currentPost, isLoading, error } = usePosts();
+  
 
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const selectedPhoto =
-    (Array.isArray(currentPost?.photos)
-      ? currentPost.photos[selectedPhotoIndex]
-      : currentPost?.photo) || null;
+useEffect(() => {
+  getPost(Number(id));
+}, [id, getPost]);
 
-  useEffect(() => {
-    console.log("PostModal - ID param:", id);
-    getPost(Number(id));
-  }, [id, getPost]);
-
-  console.log("PostModal - currentPost:", currentPost);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -40,7 +32,7 @@ export default function PostModal() {
           <img
             src="/icons/close.svg"
             alt="Close"
-            className="w-6 h-6"
+            className="w-6 h-6 hover:filter hover:brightness-0 hover:invert-[40%] hover:sepia hover:hue-rotate-[60deg]"
           />
         </button>
 

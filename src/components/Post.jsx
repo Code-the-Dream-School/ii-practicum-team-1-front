@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-
 export default function Post({ post }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const selectedPhoto =
-    (Array.isArray(post?.photos) ? post.photos[selectedPhotoIndex] : post?.photo) || null;
+  const selectedPhoto = post?.photos?.[selectedPhotoIndex] || null;
+
+
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
