@@ -45,8 +45,9 @@ export default function AppRouter() {
           </PrivateRoute>
         }
       >
+      
           <Route index element={<Navigate replace to="posts" />} />
-          <Route path="posts">
+          <Route path="posts" element={<PostsLayout />}>
             <Route index element={<PostList />} />
             <Route path="new" element={<PostCreate />} />
             <Route path=":id" element={<PostPage />} />
