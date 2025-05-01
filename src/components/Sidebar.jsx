@@ -3,7 +3,6 @@ import { usePosts } from "../context/PostsContext";
 import categories from "../util/categories";
 
 import {
-  ChevronLeft,
   List,
   Book,
   ToyBrick,
