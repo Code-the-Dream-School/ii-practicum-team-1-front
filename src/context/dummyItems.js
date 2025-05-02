@@ -6,7 +6,8 @@ const dummyItems = [
     category: "Books",
     status: "available",
     location: "CA",
-    photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610"
+    photos: ["https://images.unsplash.com/photo-1490633874781-1c63cc424610"],
+    username: "user1"
   },
   {
     item_id: 2,
@@ -15,7 +16,8 @@ const dummyItems = [
     category: "Toys",
     status: "available",
     location: "NY",
-    photo: "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"
+    photos: ["https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"],
+    username: "user2"
   },
   {
     item_id: 3,
@@ -24,7 +26,8 @@ const dummyItems = [
     category: "Furniture",
     status: "available",
     location: "TX",
-    photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"
+    photos: ["https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"],
+    username: "user3"
   },
   {
     item_id: 4,
@@ -33,7 +36,8 @@ const dummyItems = [
     category: "Toys",
     status: "available",
     location: "FL",
-    photo: "https://images.unsplash.com/photo-1615996001375-c7ef13294436"
+    photos: ["https://images.unsplash.com/photo-1615996001375-c7ef13294436", "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg", "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1490633874781-1c63cc424610", "https://images.unsplash.com/photo-1582515073490-39981397c445"],
+    username: "user1"
   },
   {
     item_id: 5,
@@ -42,7 +46,8 @@ const dummyItems = [
     category: "Kids",
     status: "available",
     location: "GA",
-    photo: "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg"
+    photos: ["https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1618220179428-22790b461013"],
+    username: "user2"
   },
   {
     item_id: 6,
@@ -51,7 +56,8 @@ const dummyItems = [
     category: "Furniture",
     status: "available",
     location: "IL",
-    photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
+    photos: ["https://images.unsplash.com/photo-1618220179428-22790b461013"],
+    username: "user3"
   },
   {
     item_id: 7,
@@ -60,7 +66,8 @@ const dummyItems = [
     category: "Home",
     status: "available",
     location: "PA",
-    photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+    photos: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"],
+username: "user1"
   },
   {
     item_id: 8,
@@ -69,7 +76,8 @@ const dummyItems = [
     category: "Decor",
     status: "available",
     location: "OH",
-    photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
+    photos: ["https://images.unsplash.com/photo-1582515073490-39981397c445"],
+    username: "user2"
   },
   {
     item_id: 9,
@@ -78,7 +86,8 @@ const dummyItems = [
     category: "Garden",
     status: "available",
     location: "IL",
-    photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
+    photos: ["https://images.unsplash.com/photo-1618220179428-22790b461013"],
+    username: "user1"
   },
   {
     item_id: 10,
@@ -87,7 +96,8 @@ const dummyItems = [
     category: "Decor",
     status: "available",
     location: "PA",
-    photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+    photos: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"],
+    username: "user3"
   },
   {
     item_id: 11,
@@ -96,7 +106,8 @@ const dummyItems = [
     category: "Art Supplies",
     status: "available",
     location: "OH",
-    photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
+    photos: ["https://images.unsplash.com/photo-1582515073490-39981397c445"],
+    username: "user1"
   },
   {
     item_id: 12,
@@ -105,7 +116,8 @@ const dummyItems = [
     category: "Appliances",
     status: "available",
     location: "MI",
-    photo: "https://images.pexels.com/photos/4492126/pexels-photo-4492126.jpeg"
+    photos: ["https://images.pexels.com/photos/4492126/pexels-photo-4492126.jpeg"],
+    username: "user2"
   },
   {
     item_id: 13,
@@ -114,7 +126,8 @@ const dummyItems = [
     category: "Electronics",
     status: "available",
     location: "NJ",
-    photo: "https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg"
+    photos: ["https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg"],
+    username: "user1"
   },
   {
     item_id: 14,
@@ -123,7 +136,8 @@ const dummyItems = [
     category: "Storage",
     status: "available",
     location: "WA",
-    photo: "https://images.unsplash.com/photo-1612178537253-bccd437b730e"
+    photos: ["https://images.unsplash.com/photo-1612178537253-bccd437b730e"],
+    username: "user3"
   },
   {
     item_id: 15,
@@ -132,7 +146,8 @@ const dummyItems = [
     category: "Tools",
     status: "available",
     location: "MA",
-    photo: "https://images.pexels.com/photos/6344238/pexels-photo-6344238.jpeg"
+    photos: ["https://images.pexels.com/photos/6344238/pexels-photo-6344238.jpeg"],
+    username: "user2"
   },
   {
     item_id: 16,
@@ -141,7 +156,8 @@ const dummyItems = [
     category: "Tools",
     status: "available",
     location: "CO",
-    photo: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982"
+    photos: ["https://images.unsplash.com/photo-1617469767053-d3b523a0b982"],
+    username: "user1"
   },
   {
     item_id: 17,
@@ -150,7 +166,8 @@ const dummyItems = [
     category: "Clothing",
     status: "available",
     location: "OR",
-    photo: "https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg"
+    photos: ["https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg"],
+    username: "user2"
   },
   {
     item_id: 18,
@@ -159,7 +176,8 @@ const dummyItems = [
     category: "Fitness",
     status: "available",
     location: "MD",
-    photo: "https://images.unsplash.com/photo-1485965120184-e220f721d03e"
+    photos: ["https://images.unsplash.com/photo-1485965120184-e220f721d03e"],
+    username: "user1"
   },
   {
     item_id: 19,
@@ -168,7 +186,8 @@ const dummyItems = [
     category: "Fitness",
     status: "available",
     location: "VA",
-    photo: "https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg"
+    photos: ["https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg"],
+    username: "user3"
   },
   {
     item_id: 20,
@@ -177,7 +196,8 @@ const dummyItems = [
     category: "Garden",
     status: "available",
     location: "NC",
-    photo: "https://images.pexels.com/photos/1022928/pexels-photo-1022928.jpeg"
+    photos: ["https://images.pexels.com/photos/1022928/pexels-photo-1022928.jpeg"],
+    username: "user2"
   },
   {
     item_id: 21,
@@ -186,7 +206,8 @@ const dummyItems = [
     category: "Books",
     status: "available",
     location: "TN",
-    photo: "https://images.pexels.com/photos/1097930/pexels-photo-1097930.jpeg"
+    photos: ["https://images.pexels.com/photos/1097930/pexels-photo-1097930.jpeg"],
+    username: "user1"
   },
   {
     item_id: 22,
@@ -195,7 +216,8 @@ const dummyItems = [
     category: "Tools",
     status: "available",
     location: "SC",
-    photo: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f"
+    photos: ["https://images.unsplash.com/photo-1589939705384-5185137a7f0f"],
+    username: "user2"
   },
   {
     item_id: 23,
@@ -204,7 +226,8 @@ const dummyItems = [
     category: "Kids",
     status: "available",
     location: "AL",
-    photo: "https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg"
+    photos: ["https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg"],
+    username: "user3"
   }
 ];
 
