@@ -56,12 +56,12 @@ export default function Sidebar() {
     <>
       {!isSidebarOpen && (
         <button
-          aria-label="Open categories"
-          onClick={() => setIsSidebarOpen(true)}
-          className="md:hidden fixed top-4 left-4 sm:left-[100px] z-50 bg-dark text-white rounded-[14px] px-[24px] py-[12px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
-        >
-          All Categories
-        </button>
+        aria-label="Open categories"
+        onClick={() => setIsSidebarOpen(true)}
+        className="md:hidden fixed top-6 left-6 z-[999] bg-dark text-white rounded-2xl px-6 py-3 font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors shadow-lg"
+      >
+        All Categories
+      </button>
       )}
 
       <nav
@@ -97,7 +97,7 @@ export default function Sidebar() {
             >
               <div
                 className={`w-8 h-8 flex items-center justify-center rounded-full mr-3 ${
-                  activeCategories.length === 0 ? "bg-lime-300" : "bg-gray-300"
+                  activeCategories.length === 0 ? "bg-secondary" : "bg-gray-300"
                 }`}
               >
                 <List size={18} strokeWidth={2} />
@@ -118,7 +118,7 @@ export default function Sidebar() {
                 >
                   <div
                     className={`w-8 h-8 flex items-center justify-center rounded-full mr-3 ${
-                      isActive ? "bg-lime-300" : "bg-gray-300"
+                      isActive ? "bg-secondary" : "bg-gray-300"
                     }`}
                   >
                     {categoryIcons[category] || null}
