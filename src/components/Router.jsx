@@ -57,7 +57,6 @@ export default function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        
         <Route
           path="app"
           element={
@@ -67,7 +66,7 @@ export default function AppRouter() {
           }
         >
           <Route index element={<Navigate replace to="posts" />} />
-          <Route path="posts">
+          <Route path="posts" element={<PostsLayout />}>
             <Route index element={<PostList />} />
             <Route path="new" element={<PostCreate />} />
             <Route path=":id" element={<PostPage />} />

@@ -37,7 +37,7 @@ const filteredPosts = useMemo(() => {
   }
 
   return posts.filter(post => activeCategories.includes(post.category));
-}, [activeCategories]);
+}, [posts, activeCategories]);
 
 // console.log(posts);
 
