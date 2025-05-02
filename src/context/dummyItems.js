@@ -8,6 +8,7 @@ const dummyItems = [
     location: "CA",
     zip: "10001",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610"
+    username: "user1"
   },
   {
     item_id: 2,
@@ -16,7 +17,8 @@ const dummyItems = [
     category: "Home, Decor, Textiles",
     status: "available",
     location: "NY",
-    photo: "https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"
+    photos: ["https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"],
+    username: "user2"
   },
   {
     item_id: 3,
@@ -27,6 +29,7 @@ const dummyItems = [
     location: "TX",
     zip: "10012",
     photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"
+    username: "user3"
   },
   {
     item_id: 4,
@@ -36,7 +39,8 @@ const dummyItems = [
     status: "available",
     location: "CT",
     zip: "06611",
-    photo: "https://images.unsplash.com/photo-1615996001375-c7ef13294436"
+    photos: ["https://images.unsplash.com/photo-1615996001375-c7ef13294436", "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg", "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1490633874781-1c63cc424610", "https://images.unsplash.com/photo-1582515073490-39981397c445"],
+    username: "user1"
   },
   {
     item_id: 5,
@@ -45,7 +49,8 @@ const dummyItems = [
     category: "Clothing, Kids, Baby",
     status: "available",
     location: "GA",
-    photo: "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg"
+    photos: ["https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1618220179428-22790b461013"],
+    username: "user2"
   },
   {
     item_id: 6,
@@ -54,7 +59,8 @@ const dummyItems = [
     category: "Home, Furniture, Living Room",
     status: "available",
     location: "IL",
-    photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
+    photos: ["https://images.unsplash.com/photo-1618220179428-22790b461013"],
+    username: "user3"
   },
   {
     item_id: 7,
@@ -63,7 +69,8 @@ const dummyItems = [
     category: "Home, Decor, Wall Art",
     status: "available",
     location: "PA",
-    photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+    photos: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"],
+username: "user1"
   },
   {
     item_id: 8,
@@ -72,7 +79,8 @@ const dummyItems = [
     category: "Home, Kitchen, Cookware",
     status: "available",
     location: "OH",
-    photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
+    photos: ["https://images.unsplash.com/photo-1582515073490-39981397c445"],
+    username: "user2"
   },
   {
     item_id: 9,
@@ -81,7 +89,8 @@ const dummyItems = [
     category: "Home, Furniture, Living Room",
     status: "available",
     location: "IL",
-    photo: "https://images.unsplash.com/photo-1618220179428-22790b461013"
+    photos: ["https://images.unsplash.com/photo-1618220179428-22790b461013"],
+    username: "user1"
   },
   {
     item_id: 10,
@@ -90,7 +99,8 @@ const dummyItems = [
     category: "Home, Decor, Wall Art",
     status: "available",
     location: "PA",
-    photo: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+    photos: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"],
+    username: "user3"
   },
   {
     item_id: 11,
@@ -99,7 +109,8 @@ const dummyItems = [
     category: "Home, Kitchen, Cookware",
     status: "available",
     location: "OH",
-    photo: "https://images.unsplash.com/photo-1582515073490-39981397c445"
+    photos: ["https://images.unsplash.com/photo-1582515073490-39981397c445"],
+    username: "user1"
   },
   {
     item_id: 12,
@@ -108,7 +119,8 @@ const dummyItems = [
     category: "Home, Appliances, Beverage",
     status: "available",
     location: "MI",
-    photo: "https://images.pexels.com/photos/4492126/pexels-photo-4492126.jpeg"
+    photos: ["https://images.pexels.com/photos/4492126/pexels-photo-4492126.jpeg"],
+    username: "user2"
   },
   {
     item_id: 13,
@@ -117,7 +129,8 @@ const dummyItems = [
     category: "Electronics, Vintage",
     status: "available",
     location: "NJ",
-    photo: "https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg"
+    photos: ["https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg"],
+    username: "user1"
   },
   {
     item_id: 14,
@@ -126,7 +139,8 @@ const dummyItems = [
     category: "Arts, Supplies, Paints",
     status: "available",
     location: "WA",
-    photo: "https://images.unsplash.com/photo-1612178537253-bccd437b730e"
+    photos: ["https://images.unsplash.com/photo-1612178537253-bccd437b730e"],
+    username: "user3"
   },
   {
     item_id: 15,
@@ -135,16 +149,18 @@ const dummyItems = [
     category: "Arts, Supplies, Stationery",
     status: "available",
     location: "MA",
-    photo: "https://images.pexels.com/photos/6344238/pexels-photo-6344238.jpeg"
+    photos: ["https://images.pexels.com/photos/6344238/pexels-photo-6344238.jpeg"],
+    username: "user2"
   },
   {
     item_id: 16,
     title: "Board Game Collection",
     description: "Diverse collection of board games for all ages",
     category: "Entertainment, Games, Family",
-    status: "available",
+    status: "pending",
     location: "CO",
-    photo: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982"
+    photos: ["https://images.unsplash.com/photo-1617469767053-d3b523a0b982"],
+    username: "user1"
   },
   {
     item_id: 17,
@@ -153,16 +169,18 @@ const dummyItems = [
     category: "Hobbies, Models, Trains",
     status: "available",
     location: "OR",
-    photo: "https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg"
+    photos: ["https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg"],
+    username: "user2"
   },
   {
     item_id: 18,
     title: "Road Bike",
     description: "High-performance road bike",
     category: "Sports, Cycling, Bikes",
-    status: "available",
+    status: "pending",
     location: "MD",
-    photo: "https://images.unsplash.com/photo-1485965120184-e220f721d03e"
+    photos: ["https://images.unsplash.com/photo-1485965120184-e220f721d03e"],
+    username: "user1"
   },
   {
     item_id: 19,
@@ -171,25 +189,28 @@ const dummyItems = [
     category: "Sports, Fitness, Yoga",
     status: "available",
     location: "VA",
-    photo: "https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg"
+    photos: ["https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg"],
+    username: "user3"
   },
   {
     item_id: 20,
     title: "Succulent Collection",
     description: "Arrangement of various succulent plants",
     category: "Home, Garden, Indoor Plants",
-    status: "available",
+    status: "not available",
     location: "NC",
-    photo: "https://images.pexels.com/photos/1022928/pexels-photo-1022928.jpeg"
+    photos: ["https://images.pexels.com/photos/1022928/pexels-photo-1022928.jpeg"],
+    username: "user2"
   },
   {
     item_id: 21,
     title: "Labeled Storage Boxes",
     description: "Set of durable, labeled storage boxes",
     category: "Home, Organization, Storage",
-    status: "available",
+    status: "not available",
     location: "TN",
-    photo: "https://images.pexels.com/photos/1097930/pexels-photo-1097930.jpeg"
+    photos: ["https://images.pexels.com/photos/1097930/pexels-photo-1097930.jpeg"],
+    username: "user1"
   },
   {
     item_id: 22,
@@ -198,7 +219,8 @@ const dummyItems = [
     category: "Tools, Vintage",
     status: "available",
     location: "SC",
-    photo: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f"
+    photos: ["https://images.unsplash.com/photo-1589939705384-5185137a7f0f"],
+    username: "user2"
   },
   {
     item_id: 23,
@@ -207,7 +229,8 @@ const dummyItems = [
     category: "Tools, Power Tools",
     status: "available",
     location: "AL",
-    photo: "https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg"
+    photos: ["https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg"],
+    username: "user3"
   }
 ];
 

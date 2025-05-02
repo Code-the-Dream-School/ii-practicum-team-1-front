@@ -75,7 +75,7 @@ export default function ResetPassword() {
             <button
               type="button"
               onClick={() => navigate("/login")}
-              className="bg-white border border-black text-dark rounded-[14px] px-[30px] py-[15px] text-base  hover:border-primary  hover:text-primary"
+              className="bg-white border border-dark text-dark rounded-[14px] px-[30px] py-[15px] text-base  hover:border-primary  hover:text-primary"
             >
               Cancel
             </button>
