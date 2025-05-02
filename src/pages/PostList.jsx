@@ -3,17 +3,19 @@ import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const PostList = () => {
- const { filteredPosts: posts, isLoading, error } = usePosts();
- const navigate = useNavigate();
- const location = useLocation();
+  const { filteredPosts: posts, isLoading, error } = usePosts();
+  const navigate = useNavigate();
+  const location = useLocation();
 
- if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
- if (error) return <p className="text-red-500 text-center py-8">Error: {error}</p>;
- if (posts.length === 0) return <p className="text-center py-8">No posts available.</p>;
+  if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
+  if (error)
+    return <p className="text-red-500 text-center py-8">Error: {error}</p>;
+  if (posts.length === 0)
+    return <p className="text-center py-8">No posts available.</p>;
 
- return (
-    <div className="px-2 py-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+  return (
+    <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {posts.map((post) => (
           <div
             key={post.item_id}
