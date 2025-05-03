@@ -6,7 +6,8 @@ const dummyItems = [
     category: "Books",
     status: "available",
     location: "CA",
-    photos: ["https://images.unsplash.com/photo-1490633874781-1c63cc424610"],
+    zip: "10001",
+    photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610"
     username: "user1"
   },
   {
@@ -26,7 +27,8 @@ const dummyItems = [
     category: "Furniture",
     status: "available",
     location: "TX",
-    photos: ["https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"],
+    zip: "10012",
+    photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg"
     username: "user3"
   },
   {
@@ -35,7 +37,8 @@ const dummyItems = [
     description: "Set of educational wooden toys",
     category: "Toys",
     status: "available",
-    location: "FL",
+    location: "CT",
+    zip: "06611",
     photos: ["https://images.unsplash.com/photo-1615996001375-c7ef13294436", "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg", "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1490633874781-1c63cc424610", "https://images.unsplash.com/photo-1582515073490-39981397c445"],
     username: "user1"
   },

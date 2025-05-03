@@ -22,13 +22,13 @@ import {
 
 export default function Sidebar() {
   const {
+    posts = [],
     activeCategories = [],
     setActiveCategories = () =>
       console.warn("setActiveCategories not implemented"),
   } = usePosts();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const handleCategorySelect = (category) => {
     const newCategories = category === "All Categories" ? [] : [category];
     setActiveCategories(newCategories);
@@ -105,7 +105,7 @@ export default function Sidebar() {
               All Categories
             </button>
           </li>
-
+          
           {categories.map((category) => {
             const isActive = activeCategories.includes(category);
             return (

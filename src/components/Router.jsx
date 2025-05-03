@@ -46,44 +46,43 @@ export default function AppRouter() {
   const location = useLocation();
   const state = location.state;
   const backgroundLocation = state && state.backgroundLocation;
-
-  return (
-  <Router>
-    <RedirectLogic>
-      <Navbar />
-      <Routes location={backgroundLocation || location}>
-        <Route index element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          path="app"
-          element={
-            <PrivateRoute>
-              <AppLayout />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Navigate replace to="posts" />} />
-          <Route path="posts" element={<PostsLayout />}>
-            <Route index element={<PostList />} />
-            <Route path="new" element={<PostCreate />} />
-            <Route path=":id" element={<PostPage />} />
-            <Route path=":id/edit" element={<PostEditDelete />} />
+  
+   return (
+    <Router>
+      <RedirectLogic>
+        <Navbar />
+        <Routes location={backgroundLocation || location}>
+          <Route index element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="app"
+            element={
+              <PrivateRoute>
+                <AppLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Navigate replace to="posts" />} />
+            <Route path="posts" element={<PostsLayout />}>
+              <Route index element={<PostList />} />
+              <Route path="new" element={<PostCreate />} />
+              <Route path=":id" element={<PostPage />} />
+              <Route path=":id/edit" element={<PostEditDelete />} />
+            </Route>
+            <Route path="profile" element={<Profile />} />
           </Route>
-          <Route path="profile" element={<Profile />} />
-        </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-
-      {backgroundLocation && backgroundLocation !== location && (
-        <Routes>
-          <Route path="/app/posts/:id" element={<PostModal />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      )}
-    </RedirectLogic>
-  </Router>
-);
 
+        {backgroundLocation && backgroundLocation !== location && (
+          <Routes>
+            <Route path="/app/posts/:id" element={<PostModal />} />
+          </Routes>
+        )}
+      </RedirectLogic>
+    </Router>
+  );
