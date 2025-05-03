@@ -19,7 +19,7 @@ const PostList = () => {
   if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
   if (error)
     return <p className="text-red-500 text-center py-8">Error: {error}</p>;
-
+  
   return (
     <div className="max-w-[1440px] mx-auto px-4 md:pl-72 py-10 flex flex-col">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">

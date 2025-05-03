@@ -46,7 +46,7 @@ export default function AppRouter() {
   const location = useLocation();
   const state = location.state;
   const backgroundLocation = state && state.backgroundLocation;
-
+  
    return (
     <Router>
       <RedirectLogic>

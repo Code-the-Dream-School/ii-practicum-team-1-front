@@ -1,5 +1,10 @@
-import React from "react";
-import { createContext, useEffect, useState, useContext, useMemo } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  useMemo,
+} from "react";
 import dummyItems from "../context/dummyItems.js";
 
 const PostsContext = createContext();
@@ -16,16 +21,16 @@ function PostsProvider({ children }) {
     try {
       setIsLoading(true);
       setError(null);
-  
+
       // TEMP: using dummy data for testing
       setPosts(dummyItems);
-  
+
       // TODO: When API is ready, fetch filtered posts directly:
       /*
       const queryParams = new URLSearchParams();
       if (searchQuery) queryParams.append("q", searchQuery);
       activeCategories.forEach((cat) => queryParams.append("category", cat));
-  
+
       const res = await fetch(`/api/posts?${queryParams.toString()}`);
       const data = await res.json();
       setPosts(data);
@@ -43,12 +48,13 @@ function PostsProvider({ children }) {
 
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
-      const matchesCategory = activeCategories.length === 0 ||
-  activeCategories.some((category) =>
-    Array.isArray(post.category)
-      ? post.category.some((c) => c === category)
-      : category === post.category
-  );
+      const matchesCategory =
+        activeCategories.length === 0 ||
+        activeCategories.some((category) =>
+          Array.isArray(post.category)
+            ? post.category.some((c) => c === category)
+            : category === post.category
+        );
 
       const text = [post.title, post.description, post.location, post.zip]
         .filter(Boolean)
@@ -60,8 +66,6 @@ function PostsProvider({ children }) {
       return matchesCategory && matchesSearch;
     });
   }, [posts, activeCategories, searchQuery]);
-
-  // console.log(posts);
 
   async function getPost(id) {
     try {
