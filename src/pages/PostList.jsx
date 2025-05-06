@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LayoutList, MapPin, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import PostCard from "../components/PostCard";
 
 const PostList = () => {
@@ -14,7 +14,6 @@ const PostList = () => {
   } = usePosts();
   const navigate = useNavigate();
   const location = useLocation();
-  const [viewMode, setViewMode] = useState("list");
 
   if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
   if (error)
@@ -41,34 +40,9 @@ const PostList = () => {
             </button>
           )}
         </div>
-
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setViewMode("list")}
-            className={`flex items-center gap-2 transition ${
-              viewMode === "list" ? "text-dark" : "text-gray"
-            } hover:text-primary`}
-          >
-            <LayoutList size={20} />
-            <span className="text-base font-montserrat">As list</span>
-          </button>
-          <button
-            onClick={() => setViewMode("map")}
-            className={`flex items-center gap-2 transition ${
-              viewMode === "map" ? "text-dark" : "text-gray"
-            } hover:text-primary`}
-          >
-            <MapPin size={20} />
-            <span className="text-base font-montserrat">On map</span>
-          </button>
-        </div>
       </div>
 
-      {viewMode === "map" ? (
-        <div className="text-center text-gray py-20 text-lg font-montserrat">
-          Map view coming soon
-        </div>
-      ) : posts.length === 0 ? (
+      {posts.length === 0 ? (
         <p className="text-center text-gray py-8">
           No posts found for "<strong>{searchQuery}</strong>". Try adjusting
           your search or filters.
