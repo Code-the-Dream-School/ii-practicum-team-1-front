@@ -8,7 +8,8 @@ const dummyItems = [
     location: "CA",
     zip: "10001",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610",
-    username: "user1"
+    username: "user1",
+    canDeliver: true
   },
   {
     item_id: 2,
@@ -18,7 +19,8 @@ const dummyItems = [
     status: "available",
     location: "NY",
     photos: ["https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"],
-    username: "user2"
+    username: "user2",
+    canDeliver: true
   },
   {
     item_id: 3,

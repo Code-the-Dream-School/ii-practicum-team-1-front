@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Post from "../components/Post";
 import PostCard from "../components/PostCard";
 
-
 export default function PostPage() {
   const { id } = useParams();
   const { getPost, currentPost, posts, isLoading, error } = usePosts();
@@ -34,7 +33,7 @@ export default function PostPage() {
   );
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 md:pl-72 py-10 flex flex-col">
+    <div className="max-w-[1440px] mx-auto px-4  py-5 flex flex-col">
       <div className="mb-6">
         <Link to="/app/posts" className="text-sm text-dark hover:text-primary">
           ← Back to all posts
@@ -55,9 +54,8 @@ export default function PostPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
             {relatedPosts.map((post) => (
               <Link key={post.item_id} to={`/app/posts/${post.item_id}`}>
-              <PostCard post={post} />
-            </Link>
-            
+                <PostCard post={post} />
+              </Link>
             ))}
           </div>
         </div>
