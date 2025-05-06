@@ -7,7 +7,7 @@ export default function PostsLayout() {
 
   return (
     <div className="w-full bg-white">
-      <div className="max-w-[1440px] mx-auto px-[20px] sm:px-[40px] lg:px-[100px] pt-10">
+      <div className="max-w-[1440px] mx-auto px-[20px] sm:px-[40px] lg:px-[100px] pt-10 ">
         <div className="flex items-start">
           {showSidebar && <Sidebar />}
           <main className="flex-1">
