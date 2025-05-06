@@ -9,9 +9,12 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
+    phone_number: "",
+    zip_code: "",
   });
 
   const [error, setError] = useState("");
@@ -24,7 +27,14 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.username || !formData.email || !formData.password) {
+    if (
+      !formData.first_name ||
+      !formData.last_name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.phone_number ||
+      !formData.zip_code
+    ) {
       setError("Please fill out all required fields.");
       return;
     }
@@ -55,16 +65,29 @@ export default function Register() {
             </Link>
           </p>
 
-          {error && <p className="text-red-600 font-montserrat mt-4">{error}</p>}
+          {error && (
+            <p className="text-red-600 font-montserrat mt-4">{error}</p>
+          )}
 
           <form onSubmit={handleSubmit}>
             <div>
               <input
-                name="username"
+                name="first_name"
                 type="text"
-                placeholder="Username"
+                placeholder="First name"
                 className="w-full max-w-md border border-dark rounded-xl px-4 py-3 font-montserrat text-base mt-8"
-                value={formData.username}
+                value={formData.first_name}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <input
+                name="last_name"
+                type="text"
+                placeholder="Last name"
+                className="w-full max-w-md border border-dark rounded-xl px-4 py-3 font-montserrat text-base mt-4"
+                value={formData.last_name}
                 onChange={handleChange}
               />
             </div>
@@ -87,6 +110,28 @@ export default function Register() {
                 placeholder="Password"
                 className="w-full max-w-md border border-dark rounded-xl px-4 py-3 font-montserrat text-base mt-4"
                 value={formData.password}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <input
+                name="phone_number"
+                type="text"
+                placeholder="Phone number"
+                className="w-full max-w-md border border-dark rounded-xl px-4 py-3 font-montserrat text-base mt-4"
+                value={formData.phone_number}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <input
+                name="zip_code"
+                type="text"
+                placeholder="ZIP code"
+                className="w-full max-w-md border border-dark rounded-xl px-4 py-3 font-montserrat text-base mt-4"
+                value={formData.zip_code}
                 onChange={handleChange}
               />
             </div>
