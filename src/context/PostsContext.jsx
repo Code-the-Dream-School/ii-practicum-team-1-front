@@ -10,6 +10,7 @@ import {
   updatePost as apiUpdatePost,
   deletePost as apiDeletePost,
 } from "../util/api";
+import { useAuth } from "./AuthContext";
 
 import { fetchPosts as apiFetchPosts, fetchPostById } from "../util/api";
 
@@ -86,6 +87,19 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
+  const { token } = useAuth();
+  async function createPost(data) {
+    return await apiCreatePost(data, token);
+  }
+  
+  async function updatePost(id, data) {
+    return await apiUpdatePost(id, data, token);
+  }
+  
+  async function deletePost(id) {
+    return await apiDeletePost(id, token);
+  }
+  
 
   return (
     <PostsContext.Provider

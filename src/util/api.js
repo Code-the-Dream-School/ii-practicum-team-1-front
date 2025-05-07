@@ -14,6 +14,7 @@ export const fetchPosts = async () => {
 
 // Create Post
 export const createPost = async (formData) => {
+    
   const res = await fetch(`${API_URL}/items/`, {
     method: "POST",
     headers: {

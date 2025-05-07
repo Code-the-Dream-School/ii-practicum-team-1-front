@@ -26,11 +26,15 @@ export default function PostCreate() {
   };
 
   const handleImageChange = (e) => {
-    const file = Array.from(e.target.files);
+    const files = Array.from(e.target.files);
     if (files.length > 0) {
+      const newPhotoObjs = files.map((file) => ({
+        type: "new",
+        file,
+      }));
       setFormData((prev) => ({
         ...prev,
-        photos: [...prev.photos, ...files],
+        photos: [...prev.photos, ...newPhotoObjs],
       }));
     }
     e.target.value = "";
@@ -73,28 +77,20 @@ export default function PostCreate() {
                 multiple
                 accept="image/*"
                 className="hidden"
-                onChange={(e) => {
-                  const files = Array.from(e.target.files);
-                  const urls = files.map((file) => URL.createObjectURL(file));
-                  setFormData((prev) => ({
-                    ...prev,
-                    photos: [...prev.photos, ...urls],
-                  }));
-                  e.target.value = ""; // сбрасываем input
-                }}
+                onChange={handleImageChange}
               />
             </label>
 
             {/* All uploaded photos preview */}
             {formData.photos.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-2">
-                {formData.photos.map((url, idx) => (
+                {formData.photos.map((photo, idx) => (
                   <div
                     key={idx}
                     className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
                   >
                     <img
-                      src={url}
+                      src={photo.file ? URL.createObjectURL(photo.file) : ""}
                       alt={`Photo ${idx}`}
                       className="w-full h-full object-cover"
                     />
