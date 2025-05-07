@@ -1,15 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import {
+  loginUser,
+  registerUser,
+  forgotPasswordRequest,
+  resetPasswordRequest,
+} from "../util/api";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);     // user info
-  const [token, setToken] = useState(null);   // JWT token
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
-
     if (savedToken && savedUser) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
@@ -18,25 +23,27 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (formData) => {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        return { success: true };
-      } else {
-        return { success: false, message: data.message };
-      }
+      const data = await loginUser(formData);
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return { success: true };
     } catch (error) {
-      return { success: false, message: "Something went wrong." };
+      return { success: false, message: error.message };
+    }
+  };
+
+  const register = async (formData) => {
+    try {
+      const data = await registerUser(formData);
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message };
     }
   };
 
@@ -47,38 +54,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
-  const register = async (formData) => {
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        return { success: true };
-      } else {
-        return { success: false, message: data.message };
-      }
-    } catch (error) {
-      return { success: false, message: "Something went wrong." };
-    }
-  };
-
   const forgotPassword = async (email) => {
     try {
-      const response = await fetch("/api/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!response.ok) throw new Error("Email not sent");
+      await forgotPasswordRequest(email);
       return true;
     } catch (error) {
       console.error("Forgot password error:", error);
@@ -88,12 +66,7 @@ export const AuthProvider = ({ children }) => {
 
   const resetPassword = async (token, password) => {
     try {
-      const response = await fetch("/api/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
-      });
-      if (!response.ok) throw new Error("Password reset failed");
+      await resetPasswordRequest(token, password);
       return true;
     } catch (error) {
       console.error("Reset password error:", error);
@@ -101,17 +74,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      token, 
-      login, 
-      logout,
-      register,
-      forgotPassword,
-      resetPassword,
-      }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        login,
+        logout,
+        register,
+        forgotPassword,
+        resetPassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
