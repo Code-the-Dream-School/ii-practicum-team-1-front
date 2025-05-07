@@ -29,7 +29,8 @@ export async function forgotPasswordRequest(email) {
     body: JSON.stringify({ email }),
   });
   if (!res.ok) throw new Error("Failed to send reset email");
-  return await res.json();
+  return await res.json(); 
+
 }
 
 export async function resetPasswordRequest(token, newPassword, email) {
