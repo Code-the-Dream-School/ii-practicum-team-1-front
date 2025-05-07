@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LayoutList, MapPin, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import PostCard from "../components/PostCard";
 
 const PostList = () => {
@@ -14,14 +14,13 @@ const PostList = () => {
   } = usePosts();
   const navigate = useNavigate();
   const location = useLocation();
-  const [viewMode, setViewMode] = useState("list");
 
   if (isLoading) return <p className="text-center py-8">Loading posts...</p>;
   if (error)
     return <p className="text-red-500 text-center py-8">Error: {error}</p>;
   
   return (
-    <div className="max-w-[1440px] mx-auto px-4 md:pl-72 py-10 flex flex-col">
+    <div className="max-w-[1440px] mx-auto px-2 py-5 flex flex-col">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div className="flex-1 w-full relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -41,34 +40,9 @@ const PostList = () => {
             </button>
           )}
         </div>
-
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setViewMode("list")}
-            className={`flex items-center gap-2 transition ${
-              viewMode === "list" ? "text-dark" : "text-gray"
-            } hover:text-primary`}
-          >
-            <LayoutList size={20} />
-            <span className="text-base font-montserrat">As list</span>
-          </button>
-          <button
-            onClick={() => setViewMode("map")}
-            className={`flex items-center gap-2 transition ${
-              viewMode === "map" ? "text-dark" : "text-gray"
-            } hover:text-primary`}
-          >
-            <MapPin size={20} />
-            <span className="text-base font-montserrat">On map</span>
-          </button>
-        </div>
       </div>
 
-      {viewMode === "map" ? (
-        <div className="text-center text-gray py-20 text-lg font-montserrat">
-          Map view coming soon
-        </div>
-      ) : posts.length === 0 ? (
+      {posts.length === 0 ? (
         <p className="text-center text-gray py-8">
           No posts found for "<strong>{searchQuery}</strong>". Try adjusting
           your search or filters.

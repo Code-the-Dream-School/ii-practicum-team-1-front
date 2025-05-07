@@ -1,9 +1,11 @@
 import { useAuth } from "../context/AuthContext";
 import { usePosts } from "../context/PostsContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useAuth();
   const { posts } = usePosts();
+  const navigate = useNavigate();
 
   if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
@@ -19,7 +21,7 @@ export default function Profile() {
         <div className="flex flex-col md:flex-row md:items-start gap-8 mb-10">
           {/* Avatar + Info */}
           <img
-            src={user.avatar || "https://via.placeholder.com/150"}
+            src={user.avatar || "https://i.pravatar.cc/150?img=3"}
             alt="User avatar"
             className="w-36 h-36 object-cover rounded-full border border-gray-300 shadow"
           />
@@ -28,15 +30,20 @@ export default function Profile() {
               {user.username}
             </p>
             <p className="text-sm font-montserrat text-gray-600">
+              {user.first_name} {user.last_name}
+            </p>
+            <p className="text-sm font-montserrat text-gray-600">
               {user.email}
             </p>
             <p className="text-sm font-montserrat text-gray-600">
-              {user.location || "Location not specified"}
+              Phone: {user.phone_number}
             </p>
-
+            <p className="text-sm font-montserrat text-gray-600">
+              ZIP Code: {user.zip_code}
+            </p>
             <button
               className="mt-4 bg-dark text-white rounded-[14px] px-[20px] py-[10px] font-montserrat text-sm hover:bg-secondary hover:text-dark transition-colors"
-              onClick={() => console.log("Edit profile clicked")}
+              onClick={() => navigate("/app/profile/edit")}
             >
               Edit Profile
             </button>
