@@ -1,7 +1,7 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function loginUser(credentials) {
-  const res = await fetch(`${BASE_URL}/login`, {
+  const res = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
@@ -12,7 +12,7 @@ export async function loginUser(credentials) {
 }
 
 export async function registerUser(formData) {
-  const res = await fetch(`${BASE_URL}/register`, {
+  const res = await fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
@@ -23,7 +23,7 @@ export async function registerUser(formData) {
 }
 
 export async function forgotPasswordRequest(email) {
-  const res = await fetch(`${BASE_URL}/request-password-reset`, {
+  const res = await fetch(`${BASE_URL}/auth/request-password-reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -33,7 +33,7 @@ export async function forgotPasswordRequest(email) {
 }
 
 export async function resetPasswordRequest(token, newPassword, email) {
-  const res = await fetch(`${BASE_URL}/reset-password`, {
+  const res = await fetch(`${BASE_URL}/auth/reset-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token, newPassword, email }),
