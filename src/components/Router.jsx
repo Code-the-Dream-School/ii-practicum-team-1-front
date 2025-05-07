@@ -48,7 +48,6 @@ export default function AppRouter() {
   const backgroundLocation = state && state.backgroundLocation;
   
    return (
-    <Router>
       <RedirectLogic>
         <Navbar />
         <Routes location={backgroundLocation || location}>
@@ -84,5 +83,5 @@ export default function AppRouter() {
           </Routes>
         )}
       </RedirectLogic>
-    </Router>
   );
+}
