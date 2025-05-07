@@ -96,7 +96,7 @@ export default function ProfileEdit() {
               value={formData[name]}
               onChange={handleChange}
               placeholder={placeholder}
-              className="w-full px-4 py-2 border border-dark-300 rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary"
+              className="w-full px-4 py-2 border border-dark rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary"
             />
           ))}
 
