@@ -1,8 +1,11 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { updateUser } from "../util/api";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileEdit() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return <p>User not found</p>;
 
@@ -25,7 +28,7 @@ export default function ProfileEdit() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const zipRegex = /^\d{5}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,7 +53,18 @@ export default function ProfileEdit() {
       alert("Last name must be at least 2 letters and contain only letters.");
       return;
     }
-    console.log("Updated profile:", formData);
+
+    try {
+      const token = localStorage.getItem("token");
+      const updatedUser = await updateUser(formData, token);
+      setUser(updatedUser);
+      alert("Profile updated successfully");
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      navigate("/app/profile");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update profile");
+    }
   };
 
   return (
@@ -83,7 +97,12 @@ export default function ProfileEdit() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
             { name: "username", placeholder: "Username", disabled: true },
-            { name: "email", placeholder: "Email", type: "email", disabled: true },
+            {
+              name: "email",
+              placeholder: "Email",
+              type: "email",
+              disabled: true,
+            },
             { name: "first_name", placeholder: "First Name" },
             { name: "last_name", placeholder: "Last Name" },
             { name: "phone_number", placeholder: "Phone Number" },
@@ -97,11 +116,9 @@ export default function ProfileEdit() {
               onChange={handleChange}
               placeholder={placeholder}
               disabled={disabled}
-
               className={`w-full px-4 py-2 border border-dark rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary ${
                 disabled ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
               }`}
-
             />
           ))}
 
