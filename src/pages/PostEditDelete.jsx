@@ -7,6 +7,7 @@ export default function PostEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getPost, updatePost, deletePost, currentPost } = usePosts();
+  const [deleteList, setDeleteList] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -48,8 +49,31 @@ export default function PostEdit() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updatePost(Number(id), formData);
-    navigate("/app/posts");
+
+    const form = new FormData();
+    form.append("title", formData.title);
+    form.append("description", formData.description);
+    form.append("zip", formData.location);
+    form.append("category_name", formData.category);
+    form.append("item_status", "available");
+
+    formData.photos.forEach((photo) => {
+      if (photo.type === "new") {
+        form.append("image", photo.file);
+      }
+    });
+
+    if (deleteList.length > 0) {
+      form.append("deleteList", JSON.stringify(deleteList));
+    }
+
+    try {
+      await updatePost(Number(id), form);
+      navigate("/app/posts");
+    } catch (err) {
+      console.error("Error updating item:", err);
+      alert("Something went wrong while updating.");
+    }
   };
 
   const handleDelete = async () => {
@@ -72,7 +96,7 @@ export default function PostEdit() {
           {/* Image preview block */}
           {formData.photos.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-              {formData.photos.map((url, idx) => (
+              {formData.photos.map((photo, idx) => (
                 <div
                   key={idx}
                   className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
@@ -88,12 +112,15 @@ export default function PostEdit() {
                   />
                   <button
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
                       setFormData((prev) => ({
                         ...prev,
                         photos: prev.photos.filter((_, i) => i !== idx),
-                      }))
-                    }
+                      }));
+                      if (photo.type === "existing") {
+                        setDeleteList((prev) => [...prev, photo.public_id]);
+                      }
+                    }}
                     className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
                   >
                     ✕
