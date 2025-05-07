@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function ProfileEdit() {
   const { user } = useAuth();
+
   if (!user) return <p>User not found</p>;
 
   const [formData, setFormData] = useState({
@@ -53,8 +54,8 @@ export default function ProfileEdit() {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-100">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-white">
+      <div className="w-full max-w-md space-y-6">
         <h1 className="text-2xl font-bold font-montserrat text-dark mb-6">
           Edit Profile
         </h1>
@@ -81,29 +82,25 @@ export default function ProfileEdit() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
-            { label: "Username", name: "username" },
-            { label: "Email", name: "email", type: "email" },
-            { label: "First Name", name: "first_name" },
-            { label: "Last Name", name: "last_name" },
-            { label: "Phone Number", name: "phone_number" },
-            { label: "ZIP Code", name: "zip_code" },
-          ].map(({ label, name, type = "text" }) => (
-            <div key={name}>
-              <label className="block text-sm font-montserrat mb-1">
-                {label}
-              </label>
-              <input
-                type={type}
-                name={name}
-                value={formData[name]}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-secondary"
-              />
-            </div>
+            { name: "username", placeholder: "Username" },
+            { name: "email", placeholder: "Email", type: "email" },
+            { name: "first_name", placeholder: "First Name" },
+            { name: "last_name", placeholder: "Last Name" },
+            { name: "phone_number", placeholder: "Phone Number" },
+            { name: "zip_code", placeholder: "ZIP Code" },
+          ].map(({ name, placeholder, type = "text" }) => (
+            <input
+              key={name}
+              type={type}
+              name={name}
+              value={formData[name]}
+              onChange={handleChange}
+              placeholder={placeholder}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary"
+            />
           ))}
 
           <div>
-            <label className="block text-sm font-montserrat mb-1">Avatar</label>
             <input
               type="file"
               id="avatar"
