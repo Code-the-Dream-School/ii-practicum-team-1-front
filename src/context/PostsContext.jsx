@@ -5,7 +5,13 @@ import React, {
   useContext,
   useMemo,
 } from "react";
-import dummyItems from "../context/dummyItems.js";
+import {
+  createPost as apiCreatePost,
+  updatePost as apiUpdatePost,
+  deletePost as apiDeletePost,
+} from "../util/api";
+
+import { fetchPosts as apiFetchPosts, fetchPostById } from "../util/api";
 
 const PostsContext = createContext();
 
@@ -22,8 +28,8 @@ function PostsProvider({ children }) {
       setIsLoading(true);
       setError(null);
 
-      // TEMP: using dummy data for testing
-      setPosts(dummyItems);
+      const data = await apiFetchPosts();
+      setPosts(data);
 
       // TODO: When API is ready, fetch filtered posts directly:
       /*
@@ -71,56 +77,11 @@ function PostsProvider({ children }) {
     try {
       setIsLoading(true);
       setError(null);
-      const post = dummyItems.find((p) => p.item_id === id);
-      if (!post) throw new Error("Post not found");
+      const post = await fetchPostById(id);
+      if (!post || typeof post !== "object") throw new Error("Post not found");
       setCurrentPost(post);
     } catch (err) {
       setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  async function updatePost(id, updatedData) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const updatedPost = {
-        ...posts.find((p) => p.item_id === id),
-        ...updatedData,
-      };
-      setPosts((posts) =>
-        posts.map((post) => (post.item_id === id ? updatedPost : post))
-      );
-      setCurrentPost(updatedPost);
-    } catch (err) {
-      setError("Failed to update post");
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  async function deletePost(id) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      setPosts((posts) => posts.filter((post) => post.item_id !== id));
-      if (currentPost.item_id === id) setCurrentPost({});
-    } catch (err) {
-      setError("Failed to delete post");
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  async function createPost(newPostData) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const newPost = { item_id: Date.now(), ...newPostData };
-      setPosts((posts) => [...posts, newPost]);
-    } catch (err) {
-      setError("Failed to create post");
     } finally {
       setIsLoading(false);
     }
