@@ -1,5 +1,70 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+export async function loginUser(credentials) {
+  const res = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Login failed");
+  return data;
+}
+
+export async function registerUser(formData) {
+  const res = await fetch(`${BASE_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Registration failed");
+  return data;
+}
+
+export async function forgotPasswordRequest(email) {
+  const res = await fetch(`${BASE_URL}/auth/request-password-reset`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  if (!res.ok) throw new Error("Failed to send reset email");
+  return await res.json();
+}
+
+export async function resetPasswordRequest(token, newPassword, email) {
+  const res = await fetch(`${BASE_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword, email }),
+  });
+  if (!res.ok) throw new Error("Failed to reset password");
+  return await res.json();
+}
+
+export async function updateUser(data, token) {
+  try {
+    const formData = new FormData();
+    for (const key in data) {
+      if (data[key] !== null && data[key] !== undefined) {
+        formData.append(key, data[key]);
+      }
+    }
+    const res = await fetch(`${BASE_URL}/users/update`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    if (!res.ok) throw new Error("Failed to update user");
+    const updatedUser = await res.json();
+    return updatedUser;
+  } catch (err) {
+    throw err;
+  }
+}
+
 // Helper to normalize post item
 function normalizeItem(item) {
   const user = item.User || item.user || {};
@@ -69,18 +134,17 @@ export async function getFilteredPosts(category, search) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: formData,
   });
 
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Failed to fetch posts");
+  if (!res.ok) throw new Error("Failed to update post");
+  return await res.json();
+};
 
-  return data.items.map(normalizeItem);
-}
-
-export async function getPostById(id) {
-  const token = localStorage.getItem("token");
-
+// Delete Post
+export const deletePost = async (id) => {
   const res = await fetch(`${BASE_URL}/items/${id}`, {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
