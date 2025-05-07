@@ -28,8 +28,12 @@ export default function PostEdit() {
         title: currentPost.title || "",
         description: currentPost.description || "",
         category: currentPost.category || "",
-        location: currentPost.location || "",
-        photos: currentPost.photos || [],
+        location: currentPost.zip || "",
+        photos: (currentPost.images || []).map((img) => ({
+          type: "existing",
+          url: img.image_url,
+          public_id: img.public_id,
+        })),
         canDeliver: currentPost.canDeliver || false,
       });
     }
@@ -55,7 +59,6 @@ export default function PostEdit() {
     if (!confirm) return;
     await deletePost(Number(id));
     navigate("/app/posts");
-
   };
 
   return (
@@ -68,30 +71,37 @@ export default function PostEdit() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Image preview block */}
           {formData.photos.length > 0 && (
-  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-    {formData.photos.map((url, idx) => (
-      <div
-        key={idx}
-        className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
-      >
-        <img src={url} alt={`Photo ${idx}`} className="w-full h-full object-cover" />
-        <button
-          type="button"
-          onClick={() =>
-            setFormData((prev) => ({
-              ...prev,
-              photos: prev.photos.filter((_, i) => i !== idx),
-            }))
-          }
-          className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
-        >
-          ✕
-        </button>
-      </div>
-    ))}
-  </div>
-)}
-
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+              {formData.photos.map((url, idx) => (
+                <div
+                  key={idx}
+                  className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
+                >
+                  <img
+                    src={
+                      photo.type === "existing"
+                        ? photo.url
+                        : URL.createObjectURL(photo.file)
+                    }
+                    alt={`Photo ${idx}`}
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        photos: prev.photos.filter((_, i) => i !== idx),
+                      }))
+                    }
+                    className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Title */}
           <input
