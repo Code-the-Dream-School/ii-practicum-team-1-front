@@ -82,13 +82,13 @@ export default function ProfileEdit() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
-            { name: "username", placeholder: "Username" },
-            { name: "email", placeholder: "Email", type: "email" },
+            { name: "username", placeholder: "Username", disabled: true },
+            { name: "email", placeholder: "Email", type: "email", disabled: true },
             { name: "first_name", placeholder: "First Name" },
             { name: "last_name", placeholder: "Last Name" },
             { name: "phone_number", placeholder: "Phone Number" },
             { name: "zip_code", placeholder: "ZIP Code" },
-          ].map(({ name, placeholder, type = "text" }) => (
+          ].map(({ name, placeholder, type = "text", disabled = false }) => (
             <input
               key={name}
               type={type}
@@ -96,7 +96,12 @@ export default function ProfileEdit() {
               value={formData[name]}
               onChange={handleChange}
               placeholder={placeholder}
-              className="w-full px-4 py-2 border border-dark rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary"
+              disabled={disabled}
+
+              className={`w-full px-4 py-2 border border-dark rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary ${
+                disabled ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
+              }`}
+
             />
           ))}
 
