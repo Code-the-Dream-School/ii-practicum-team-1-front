@@ -58,7 +58,7 @@ export default function Sidebar() {
         <button
         aria-label="Open categories"
         onClick={() => setIsSidebarOpen(true)}
-        className="md:hidden fixed top-6 left-6 z-[999] bg-dark text-white rounded-2xl px-6 py-3 font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors shadow-lg"
+        className="md:hidden fixed top-[96px] left-6 z-[999] bg-dark text-white rounded-2xl px-6 py-3 font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors shadow-lg"
       >
         All Categories
       </button>
