@@ -24,6 +24,7 @@ import PostsLayout from "./PostsLayout";
 import PostEditDelete from "../pages/PostEditDelete";
 import Navbar from "./Navbar";
 import { useAuth } from "../context/AuthContext";
+import ProfileEdit from "../pages/ProfileEdit";
 
 function RedirectLogic({ children }) {
   const { user } = useAuth();
@@ -77,6 +78,7 @@ export default function AppRouter() {
             <Route path=":id/edit" element={<PostEditDelete />} />
           </Route>
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/edit" element={<ProfileEdit />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
