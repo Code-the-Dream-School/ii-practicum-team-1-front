@@ -45,7 +45,10 @@ export async function resetPasswordRequest(token, newPassword, email) {
 export const fetchPosts = async () => {
     const res = await fetch(`${BASE_URL}/items/`);
     if (!res.ok) throw new Error("Failed to fetch posts");
-    return await res.json();
+    const data = await res.json();
+    
+    console.log(data);
+    return data;
   };
   
   export const fetchPostById = async (id) => {

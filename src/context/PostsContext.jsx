@@ -29,8 +29,8 @@ function PostsProvider({ children }) {
       setIsLoading(true);
       setError(null);
 
-      const data = await apiFetchPosts();
-      setPosts(data);
+      //const data = await apiFetchPosts();
+      //setPosts(data);
 
       // TODO: When API is ready, fetch filtered posts directly:
       /*

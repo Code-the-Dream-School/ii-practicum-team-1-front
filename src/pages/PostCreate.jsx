@@ -43,9 +43,30 @@ export default function PostCreate() {
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createPost(formData);
-    navigate("/app/posts");
-  };
+    
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      form.append("zip", formData.location);
+      form.append("category_name", formData.category);
+      form.append("item_status", "available");
+    
+      formData.photos.forEach((photo) => {
+        if (photo.type === "new") {
+          form.append("image", photo.file);
+        }
+      });
+    
+      form.append("canDeliver", formData.canDeliver);
+    
+      try {
+        await createPost(form);
+        navigate("/app/posts");
+      } catch (err) {
+        console.error("Error creating post:", err);
+        alert("Something went wrong while creating the post.");
+      }
+    };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
