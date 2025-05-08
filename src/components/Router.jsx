@@ -84,11 +84,11 @@ export default function AppRouter() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {backgroundLocation && backgroundLocation !== location && (
-        <Routes>
-          <Route path="/app/posts/:id" element={<PostModal />} />
-        </Routes>
-      )}
-    </RedirectLogic>
+        {backgroundLocation && backgroundLocation !== location && (
+          <Routes>
+            <Route path="/app/posts/:id" element={<PostModal />} />
+          </Routes>
+        )}
+      </RedirectLogic>
   );
 }
