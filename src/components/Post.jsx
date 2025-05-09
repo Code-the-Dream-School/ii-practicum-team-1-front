@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { getCoordinatesByZip } from "../util/geocode";
+import MapView from "./MapView";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
 const greenIcon = new L.Icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+  shadowSize: [41, 41],
 });
 
 export default function Post({ post }) {
@@ -63,29 +64,15 @@ export default function Post({ post }) {
         <p className="text-base text-gray mb-6">{post.category}</p>
 
         <div className="mb-6">
-          <h3 className="text-lg font-semibold">Details:</h3>
-          <p>{post.description}</p>
-        </div>
-
-        <div className="mb-6">
           <h3 className="text-lg font-semibold">Address to meet:</h3>
           <p>{post.zip}</p>
           {coords ? (
             <div className="w-full h-52 bg-gray-light rounded-xl mt-4">
-              <MapContainer
-                key={post.item_id}
-                center={[coords.lat, coords.lng]}
-                zoom={13}
-                style={{ height: "100%", width: "100%" }}
-              >
-                <TileLayer
-                  url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png"
-                  attribution="&copy; <a href='https://www.stadiamaps.com/' target='_blank'>Stadia Maps</a>"
-                />
-                <Marker position={[coords.lat, coords.lng]} icon={greenIcon}>
-                  <Popup>Meet here</Popup>
-                </Marker>
-              </MapContainer>
+              <MapView
+                lat={coords.lat}
+                lng={coords.lng}
+                itemId={post.item_id}
+              />
             </div>
           ) : (
             <div className="w-full h-52 bg-gray-light rounded-xl mt-4 flex items-center justify-center text-gray text-sm">

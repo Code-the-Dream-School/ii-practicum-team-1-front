@@ -6,7 +6,7 @@ const dummyItems = [
     category: "Books",
     status: "available",
     location: "CA",
-    zip: "90001",
+    zip: "06477",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610",
     username: "user1",
     canDeliver: true
@@ -29,7 +29,7 @@ const dummyItems = [
     category: "Furniture",
     status: "available",
     location: "TX",
-    zip: "90001",
+    zip: "06460",
     photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg",
     username: "user3"
   },
