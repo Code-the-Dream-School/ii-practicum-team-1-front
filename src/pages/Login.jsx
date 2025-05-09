@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -43,7 +43,7 @@ export default function Login() {
           <h1 className="text-4xl md:text-5xl font-extrabold font-montserrat text-primary mb-8">
             Login to KindNet
           </h1>
-  
+
           <p className="text-lg text-dark font-montserrat">
             Don’t have an account?{" "}
             <Link
@@ -53,9 +53,11 @@ export default function Login() {
               Sign up →
             </Link>
           </p>
-  
-          {error && <p className="text-red-600 font-montserrat mt-4">{error}</p>}
-  
+
+          {error && (
+            <p className="text-red-600 font-montserrat mt-4">{error}</p>
+          )}
+
           <form onSubmit={handleSubmit}>
             <div>
               <input
@@ -67,7 +69,7 @@ export default function Login() {
                 onChange={handleChange}
               />
             </div>
-  
+
             <div>
               <input
                 name="password"
@@ -78,7 +80,7 @@ export default function Login() {
                 onChange={handleChange}
               />
             </div>
-  
+
             <div className="flex items-center gap-4 mt-8">
               <button
                 type="submit"
@@ -95,7 +97,7 @@ export default function Login() {
               </button>
             </div>
           </form>
-  
+
           <p className="mt-6">
             <Link
               to="/forgot-password"
@@ -104,15 +106,22 @@ export default function Login() {
               Forgot password?
             </Link>
           </p>
-  
+
           <div>
             <div className="w-5 h-5 mt-8">
               <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  console.log("Google credential response:", credentialResponse);
+                onSuccess={async (credentialResponse) => {
+                  const result = await loginWithGoogle(
+                    credentialResponse.credential
+                  );
+                  if (result.success) {
+                    navigate("/app/posts");
+                  } else {
+                    console.error("Google login failed:", result.message);
+                  }
                 }}
                 onError={() => {
-                  console.log("Google Login Failed");
+                  console.error("Google Login Failed");
                 }}
                 width="24"
                 ux_mode="popup"
@@ -122,9 +131,8 @@ export default function Login() {
           </div>
         </div>
       </div>
-  
+
       <Footer />
     </div>
   );
-  
 }
