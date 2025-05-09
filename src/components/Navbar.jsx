@@ -7,7 +7,9 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const location = useLocation();
   const isLanding = location.pathname === "/";
-  const isAuthPage = ["/login", "/register", "/forgot-password"].includes(location.pathname);
+  const isAuthPage = ["/login", "/register", "/forgot-password"].includes(
+    location.pathname
+  );
   const [logoSrc, setLogoSrc] = useState("/images/KindNet.png");
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -18,12 +20,18 @@ export default function Navbar() {
         {/* Logo + burger menu for landing page */}
         <div className="flex items-center gap-4">
           {!isAuthPage && isLanding && (
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden"
+            >
               <Menu className="w-6 h-6 text-dark" />
             </button>
           )}
 
-          <Link to={user ? "/app/posts" : "/"} className="flex items-center gap-2">
+          <Link
+            to={user ? "/app/posts" : "/"}
+            className="flex items-center gap-2"
+          >
             <img
               src={logoSrc}
               alt="KindNet logo"
@@ -34,11 +42,11 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Add post button is always visible when logged in */}
+        {/* Add post button with margin */}
         {user && !isAuthPage && (
           <Link
             to="/app/posts/new"
-            className={`rounded-[14px] px-[20px] py-[10px] font-montserrat text-base transition-colors md:ml-auto leading-none ${
+            className={`rounded-[14px] px-[20px] py-[10px] font-montserrat text-base transition-colors md:ml-auto mr-4 leading-none ${
               location.pathname === "/app/posts/new"
                 ? "bg-secondary text-dark"
                 : "bg-dark text-white hover:bg-secondary hover:text-dark"
@@ -48,32 +56,73 @@ export default function Navbar() {
           </Link>
         )}
 
-        {/* Profile or login/register buttons before login */}
+        {/* Profile or login/register buttons */}
         {!isAuthPage && (
           <div className="flex items-center gap-4">
             {!user && isLanding && (
               <div className="hidden md:flex gap-6 items-center">
-                <a href="#about" className="text-base text-dark hover:text-primary leading-none">About us</a>
-                <a href="#team" className="text-base text-dark hover:text-primary leading-none">Our team</a>
-                <a href="#contacts" className="text-base text-dark hover:text-primary leading-none">Contacts</a>
-                <Link to="/login" className="bg-dark text-white rounded-[14px] px-[20px] py-[10px] text-base hover:bg-secondary hover:text-dark leading-none">Login</Link>
-                <Link to="/register" className="bg-white border border-black text-dark rounded-[14px] px-[20px] py-[10px] text-base hover:border-primary hover:text-primary leading-none">Sign up</Link>
+                <a
+                  href="#about"
+                  className="text-base text-dark hover:text-primary leading-none"
+                >
+                  About us
+                </a>
+                <a
+                  href="#team"
+                  className="text-base text-dark hover:text-primary leading-none"
+                >
+                  Our team
+                </a>
+                <a
+                  href="#contacts"
+                  className="text-base text-dark hover:text-primary leading-none"
+                >
+                  Contacts
+                </a>
+                <Link
+                  to="/login"
+                  className="bg-dark text-white rounded-[14px] px-[20px] py-[10px] text-base hover:bg-secondary hover:text-dark leading-none"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-white border border-black text-dark rounded-[14px] px-[20px] py-[10px] text-base hover:border-primary hover:text-primary leading-none"
+                >
+                  Sign up
+                </Link>
               </div>
             )}
 
             {user && (
               <div className="relative">
-                <button onClick={() => setProfileOpen(!profileOpen)} className="flex items-center gap-2">
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center gap-2"
+                >
                   <img
                     src={user?.avatar || "/icons/avatar.svg"}
                     alt={user?.name || "User avatar"}
                     className="w-6 h-6 rounded-full object-cover"
                   />
+                  <span className="text-base text-dark">
+                    {user?.name || user?.first_name || "User"}
+                  </span>
                 </button>
                 {profileOpen && (
                   <div className="absolute right-0 mt-2 bg-white border border-gray-light rounded-xl p-2 w-40 z-50">
-                    <Link to="/app/profile?tab=info" className="block px-4 py-2 text-sm text-dark hover:text-primary">Profile</Link>
-                    <button onClick={logout} className="block w-full text-left px-4 py-2 text-sm text-dark hover:text-primary">Logout →</button>
+                    <Link
+                      to="/app/profile?tab=info"
+                      className="block px-4 py-2 text-sm text-dark hover:text-primary"
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="block w-full text-left px-4 py-2 text-sm text-dark hover:text-primary"
+                    >
+                      Logout →
+                    </button>
                   </div>
                 )}
               </div>
@@ -82,14 +131,39 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Mobile menu for landing page */}
+      {/* Mobile menu */}
       {!user && isLanding && menuOpen && (
         <div className="md:hidden px-6 pb-4 flex flex-col gap-4">
-          <a href="#about" className="text-base text-dark hover:text-primary leading-none">About us</a>
-          <a href="#team" className="text-base text-dark hover:text-primary leading-none">Our team</a>
-          <a href="#contacts" className="text-base text-dark hover:text-primary leading-none">Contacts</a>
-          <Link to="/login" className="bg-dark text-white rounded-[14px] px-[20px] py-[10px] text-base hover:bg-secondary hover:text-dark leading-none">Login</Link>
-          <Link to="/register" className="bg-white border border-black text-dark rounded-[14px] px-[20px] py-[10px] text-base hover:border-primary hover:text-primary leading-none">Sign up</Link>
+          <a
+            href="#about"
+            className="text-base text-dark hover:text-primary leading-none"
+          >
+            About us
+          </a>
+          <a
+            href="#team"
+            className="text-base text-dark hover:text-primary leading-none"
+          >
+            Our team
+          </a>
+          <a
+            href="#contacts"
+            className="text-base text-dark hover:text-primary leading-none"
+          >
+            Contacts
+          </a>
+          <Link
+            to="/login"
+            className="bg-dark text-white rounded-[14px] px-[20px] py-[10px] text-base hover:bg-secondary hover:text-dark leading-none"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="bg-white border border-black text-dark rounded-[14px] px-[20px] py-[10px] text-base hover:border-primary hover:text-primary leading-none"
+          >
+            Sign up
+          </Link>
         </div>
       )}
     </nav>
