@@ -58,12 +58,13 @@ export const fetchPosts = async () => {
   };
 
 // Create Post
-export const createPost = async (formData) => {
-    
+export const createPost = async (formData, token) => {
+  console.log("TOKEN: ", token);
   const res = await fetch(`${BASE_URL}/items/`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${ token }`,
+      
     },
     body: formData,
   });

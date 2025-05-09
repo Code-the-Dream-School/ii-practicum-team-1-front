@@ -17,6 +17,7 @@ import { fetchPosts as apiFetchPosts, fetchPostById } from "../util/api";
 const PostsContext = createContext();
 
 function PostsProvider({ children }) {
+  const { token } = useAuth();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPost, setCurrentPost] = useState({});
@@ -87,7 +88,7 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
-  const { token } = useAuth();
+  
   async function createPost(data) {
     return await apiCreatePost(data, token);
   }
