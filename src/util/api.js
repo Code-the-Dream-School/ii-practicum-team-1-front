@@ -29,7 +29,7 @@ export async function forgotPasswordRequest(email) {
     body: JSON.stringify({ email }),
   });
   if (!res.ok) throw new Error("Failed to send reset email");
-  return await res.json(); 
+  return await res.json();
 }
 
 export async function resetPasswordRequest(token, newPassword, email) {
@@ -40,4 +40,68 @@ export async function resetPasswordRequest(token, newPassword, email) {
   });
   if (!res.ok) throw new Error("Failed to reset password");
   return await res.json();
+}
+
+export async function getFilteredPosts(category, search) {
+  const params = new URLSearchParams();
+  if (category) params.append("category", category);
+  if (search) params.append("search", search);
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${BASE_URL}/items?${params.toString()}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to fetch posts");
+
+  return data.items.map((item) => ({
+    ...item,
+    photos: item.images?.map((img) => img.image_url) || [],
+    category: item.category_name || item.Category?.category_name || "Other",
+    user: {
+      name: `${item.User?.first_name || ""} ${
+        item.User?.last_name || ""
+      }`.trim(),
+      email: item.User?.email || "",
+      avatar: item.User?.avatar_url || "",
+    },
+  }));
+}
+
+export async function getPostById(id) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${BASE_URL}/items/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+
+  console.log(data.item);
+  if (!res.ok) throw new Error(data.error || "Failed to fetch post");
+
+  const item = data.item;
+
+  return {
+    ...item,
+    photos: item.images?.map((img) => img.image_url) || [],
+    category: item.category_name || item.Category?.category_name || "Other",
+    user: {
+      first_name: item.user?.first_name || "",
+      last_name: item.user?.last_name || "",
+      name: `${item.user?.first_name || ""} ${
+        item.user?.last_name || ""
+      }`.trim(),
+      email: item.user?.email || item.user_email || "No email provided",
+      avatar: item.user?.avatar_url || "",
+    },
+  };
 }
