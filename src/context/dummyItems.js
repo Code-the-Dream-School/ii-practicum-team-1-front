@@ -6,7 +6,7 @@ const dummyItems = [
     category: "Books",
     status: "available",
     location: "CA",
-    zip: "10001",
+    zip: "06477",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610",
     username: "user1",
     canDeliver: true
@@ -17,7 +17,7 @@ const dummyItems = [
     description: "A stack of collectible art magazines",
     category: "Toys",
     status: "available",
-    location: "NY",
+    zip: "06461",
     photos: ["https://images.pexels.com/photos/904616/pexels-photo-904616.jpeg"],
     username: "user2",
     canDeliver: true
@@ -29,7 +29,7 @@ const dummyItems = [
     category: "Furniture",
     status: "available",
     location: "TX",
-    zip: "10012",
+    zip: "06460",
     photo: "https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg",
     username: "user3"
   },
@@ -40,7 +40,7 @@ const dummyItems = [
     category: "Toys",
     status: "available",
     location: "CT",
-    zip: "06611",
+    zip: "33101",
     photos: ["https://images.unsplash.com/photo-1615996001375-c7ef13294436", "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg", "https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1490633874781-1c63cc424610", "https://images.unsplash.com/photo-1582515073490-39981397c445"],
     username: "user1"
   },
@@ -51,6 +51,7 @@ const dummyItems = [
     category: "Kids",
     status: "available",
     location: "GA",
+    zip: "60601",
     photos: ["https://images.pexels.com/photos/4473402/pexels-photo-4473402.jpeg", "https://images.unsplash.com/photo-1618220179428-22790b461013"],
     username: "user2"
   },
@@ -61,6 +62,7 @@ const dummyItems = [
     category: "Furniture",
     status: "available",
     location: "IL",
+    zip: "75201",
     photos: ["https://images.unsplash.com/photo-1618220179428-22790b461013"],
     username: "user3"
   },
@@ -70,6 +72,7 @@ const dummyItems = [
     description: "Handmade bohemian wall tapestry",
     category: "Home",
     status: "available",
+    zip:"30301",
     location: "PA",
     photos: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"],
 username: "user1"
@@ -231,6 +234,7 @@ username: "user1"
     category: "Kids",
     status: "available",
     location: "AL",
+    zip: "06461",
     photos: ["https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg"],
     username: "user3"
   }

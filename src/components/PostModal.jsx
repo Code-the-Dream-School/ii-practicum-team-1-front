@@ -1,4 +1,3 @@
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { usePosts } from "../context/PostsContext";
@@ -37,15 +36,12 @@ export default function PostModal() {
           onClick={() => navigate(-1)}
           className="absolute top-4 right-4 p-2 hover:bg-primary/20 rounded-full transition-colors"
         >
-          <img
-            src="/icons/close.svg"
-            alt="Close"
-            className="w-6 h-6"
-          />
+          <img src="/icons/close.svg" alt="Close" className="w-6 h-6" />
         </button>
 
         <div className="p-8">
           <Post
+            key={currentPost.item_id}
             post={currentPost}
             selectedPhoto={selectedPhoto}
             setSelectedPhotoIndex={setSelectedPhotoIndex}
