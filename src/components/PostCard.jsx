@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getCityStateByZip } from "../util/zipcodeLookup";
 
 export default function PostCard({ post, onClick }) {
   const image = Array.isArray(post.photos) ? post.photos[0] : post.photo;
+  const [cityState, setCityState] = useState("");
+
+  useEffect(() => {
+    if (post.location) {
+      getCityStateByZip(post.location)
+        .then((label) => setCityState(label || ""))
+        .catch((err) => {
+          console.error("City/State error:", err);
+          setCityState("");
+        });
+    }
+  }, [post.location]);
 
   return (
     <div onClick={onClick}>
@@ -20,7 +33,9 @@ export default function PostCard({ post, onClick }) {
       </div>
       <div className="mt-2 px-1">
         <h4 className="text-base font-semibold text-dark">{post.title}</h4>
-        <p className="text-sm text-gray">{post.location || "Unknown"}</p>
+        <p className="text-sm text-gray">
+          {cityState || post.location || "Unknown"}
+        </p>
       </div>
     </div>
   );
