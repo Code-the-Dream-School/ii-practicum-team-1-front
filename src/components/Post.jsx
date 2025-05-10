@@ -67,7 +67,7 @@ export default function Post({ post }) {
 
           <div className="flex items-center gap-3 mb-2">
             <img
-              src={post.user?.avatar || "/icons/avatar.svg"}
+              src={post.user?.avatar_url || "/icons/avatar.svg"}
               alt={fullName}
               className="w-5 h-5 rounded-full object-cover"
             />
