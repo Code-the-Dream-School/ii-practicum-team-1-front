@@ -50,7 +50,7 @@ export async function updateUser(data, token) {
         formData.append(key, data[key]);
       }
     }
-    const res = await fetch(`${BASE_URL}/users/update`, {
+    const res = await fetch(`${BASE_URL}/user/info`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
