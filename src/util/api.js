@@ -42,21 +42,43 @@ export async function resetPasswordRequest(token, newPassword, email) {
   return await res.json();
 }
 
+export async function updateUser(data, token) {
+  try {
+    const formData = new FormData();
+    for (const key in data) {
+      if (data[key] !== null && data[key] !== undefined) {
+        formData.append(key, data[key]);
+      }
+    }
+    const res = await fetch(`${BASE_URL}/user/info`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    if (!res.ok) throw new Error("Failed to update user");
+    const updatedUser = await res.json();
+    return updatedUser;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export const fetchPosts = async () => {
-    const res = await fetch(`${BASE_URL}/items/`);
-    if (!res.ok) throw new Error("Failed to fetch posts");
-    return await res.json();
-  };
-  
-  export const fetchPostById = async (id) => {
-    const res = await fetch(`${BASE_URL}/items/${id}`);
-    if (!res.ok) throw new Error("Failed to fetch post");
-    return await res.json();
-  };
+  const res = await fetch(`${BASE_URL}/items/`);
+  if (!res.ok) throw new Error("Failed to fetch posts");
+  return await res.json();
+};
+
+export const fetchPostById = async (id) => {
+  const res = await fetch(`${BASE_URL}/items/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch post");
+  return await res.json();
+};
 
 // Create Post
 export const createPost = async (formData) => {
-    
   const res = await fetch(`${BASE_URL}/items/`, {
     method: "POST",
     headers: {
@@ -95,4 +117,3 @@ export const deletePost = async (id) => {
   if (!res.ok) throw new Error("Failed to delete post");
   return await res.json();
 };
-
