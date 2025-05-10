@@ -3,9 +3,9 @@ import React, {
   useEffect,
   useState,
   useContext,
-  useMemo,
+  useCallback,
 } from "react";
-import dummyItems from "../context/dummyItems.js";
+import { getFilteredPosts, getPostById } from "../util/api";
 
 const PostsContext = createContext();
 
@@ -22,19 +22,9 @@ function PostsProvider({ children }) {
       setIsLoading(true);
       setError(null);
 
-      // TEMP: using dummy data for testing
-      setPosts(dummyItems);
-
-      // TODO: When API is ready, fetch filtered posts directly:
-      /*
-      const queryParams = new URLSearchParams();
-      if (searchQuery) queryParams.append("q", searchQuery);
-      activeCategories.forEach((cat) => queryParams.append("category", cat));
-
-      const res = await fetch(`/api/posts?${queryParams.toString()}`);
-      const data = await res.json();
+      const category = activeCategories[0] || "";
+      const data = await getFilteredPosts(category, searchQuery);
       setPosts(data);
-      */
     } catch (err) {
       setError(err.message || "Failed to fetch posts");
     } finally {
@@ -44,42 +34,20 @@ function PostsProvider({ children }) {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [activeCategories, searchQuery]);
 
-  const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      const matchesCategory =
-        activeCategories.length === 0 ||
-        activeCategories.some((category) =>
-          Array.isArray(post.category)
-            ? post.category.some((c) => c === category)
-            : category === post.category
-        );
-
-      const text = [post.title, post.description, post.location, post.zip]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      const matchesSearch = text.includes(searchQuery.toLowerCase());
-
-      return matchesCategory && matchesSearch;
-    });
-  }, [posts, activeCategories, searchQuery]);
-
-  async function getPost(id) {
+  const getPost = useCallback(async (id) => {
     try {
       setIsLoading(true);
       setError(null);
-      const post = dummyItems.find((p) => p.item_id === id);
-      if (!post) throw new Error("Post not found");
+      const post = await getPostById(id);
       setCurrentPost(post);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to fetch post");
     } finally {
       setIsLoading(false);
     }
-  }
+  }, []);
 
   async function updatePost(id, updatedData) {
     try {
@@ -129,10 +97,9 @@ function PostsProvider({ children }) {
   return (
     <PostsContext.Provider
       value={{
-        filteredPosts,
+        posts,
         activeCategories,
         setActiveCategories,
-        posts,
         isLoading,
         currentPost,
         error,
