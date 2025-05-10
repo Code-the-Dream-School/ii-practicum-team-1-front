@@ -87,7 +87,7 @@ export default function Post({ post }) {
             <img
               src={post.user?.avatar || "/icons/avatar.svg"}
               alt={post.user?.name || "User avatar"}
-              className="w-5 h-5 rounded-full object-cover"
+              className="w-6 h-6 rounded-full object-cover border"
             />
             <span>{post.user?.name || "Unknown user"}</span>
           </div>

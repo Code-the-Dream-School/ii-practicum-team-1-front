@@ -101,9 +101,9 @@ export default function Navbar() {
                   className="flex items-center gap-2"
                 >
                   <img
-                    src={user?.avatar || "/icons/avatar.svg"}
+                    src={user?.avatar_url || "/icons/avatar.svg"}
                     alt={user?.name || "User avatar"}
-                    className="w-6 h-6 rounded-full object-cover"
+                    className="w-8 h-8 rounded-full object-cover border border-dark"
                   />
                   <span className="text-base text-dark">
                     {user?.name || user?.first_name || "User"}
