@@ -101,7 +101,7 @@ export async function getPostById(id) {
         item.user?.last_name || ""
       }`.trim(),
       email: item.user?.email || item.user_email || "No email provided",
-      avatar: item.user?.avatar_url || "",
+      avatar_url: item.user?.avatar_url || "",
     },
   };
 }
