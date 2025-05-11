@@ -43,16 +43,9 @@ export async function resetPasswordRequest(token, newPassword, email) {
 }
 
 export async function verifyEmailRequest({ token, email }) {
-  const res = await fetch(`${BASE_URL}/auth/verify-email`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, email }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message || "Verification failed");
-  }
-  return data;
+  const res = await fetch(`${BASE_URL}/auth/verify-email?token=${token}&email=${email}`);
+  if (!res.ok) throw new Error("Failed to verify email");
+  return await res.json();
 }
+
 
