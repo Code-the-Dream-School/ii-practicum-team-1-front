@@ -4,6 +4,7 @@ import {
   registerUser,
   forgotPasswordRequest,
   resetPasswordRequest,
+  verifyEmailRequest,
 } from "../util/api";
 
 const AuthContext = createContext();
@@ -74,6 +75,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const verifyEmail = async ({ token, email }) => {
+    try {
+      await verifyEmailRequest({ token, email });
+      return true;
+    } catch (error) {
+      console.error("Email verification error:", error);
+      return false;
+    }
+  };
+  
+
   return (
     <AuthContext.Provider
       value={{
@@ -84,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         register,
         forgotPassword,
         resetPassword,
+        verifyEmail,
       }}
     >
       {children}
