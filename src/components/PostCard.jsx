@@ -6,15 +6,15 @@ export default function PostCard({ post, onClick }) {
   const [cityState, setCityState] = useState("");
 
   useEffect(() => {
-    if (post.location) {
-      getCityStateByZip(post.location)
+    if (post.zip) {
+      getCityStateByZip(post.zip)
         .then((label) => setCityState(label || ""))
         .catch((err) => {
           console.error("City/State error:", err);
           setCityState("");
         });
     }
-  }, [post.location]);
+  }, [post.zip]);
 
   return (
     <div onClick={onClick}>

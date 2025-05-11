@@ -23,9 +23,9 @@ export default function Post({ post }) {
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
   useEffect(() => {
-    if (post.location) {
-      getCityStateByZip(post.location)
-        .then((label) => setCityState(label || post.location))
+    if (post.zip) {
+      getCityStateByZip(post.zip)
+        .then((label) => setCityState(label || post.zip))
         .catch((err) => console.error("City/State error:", err));
     }
   }, [post.location]);
