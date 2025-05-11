@@ -22,6 +22,13 @@ export default function Post({ post }) {
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
+  useEffect(() => {
+    if (post.location) {
+      getCityStateByZip(post.location)
+        .then((label) => setCityState(label || post.location))
+        .catch((err) => console.error("City/State error:", err));
+    }
+  }, [post.location]);
 
   console.log("Post User Data:", post.user);
 
