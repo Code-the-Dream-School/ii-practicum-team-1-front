@@ -1,6 +1,7 @@
 import { useSearchParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { verifyEmailRequest } from "../util/api";
+import { useRef } from "react";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
@@ -11,27 +12,40 @@ export default function VerifyEmail() {
   const email = searchParams.get("email");
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState("");
+  const isVerifyingRef = useRef(false);
 
   useEffect(() => {
     const verify = async () => {
+      if (isVerifyingRef.current) return;
+      isVerifyingRef.current = true;
+
       try {
         const response = await verifyEmailRequest({ token, email });
         setStatus("success");
         setMessage(response.message);
       } catch (err) {
-        setStatus("error");
-        setMessage(err.message || "Invalid or expired verification token");
+        const errorMessage =
+          err.message || "Invalid or expired verification token";
+
+        if (errorMessage.toLowerCase().includes("already verified")) {
+          setStatus("success");
+          setMessage("Your email is already verified. You can now log in.");
+        } else {
+          setStatus("error");
+          setMessage(errorMessage);
+        }
       }
     };
 
-    if (token && email) verify();
-    else if (!fromRegister) {
+    if (token && email) {
+      verify();
+    } else if (!fromRegister) {
       setStatus("error");
       setMessage("Invalid verification link");
     } else {
       setStatus("waiting");
     }
-  }, [token, email]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-no-repeat bg-cover bg-[url('/images/bg.png')]">
@@ -61,9 +75,10 @@ export default function VerifyEmail() {
           <div className="text-primary font-montserrat mt-4">
             <p>Thank you for registering!</p>
             <div className="text-dark font-montserrat mt-4">
-            <p>
-              Please check your email to verify your account before logging in.
-            </p>
+              <p>
+                Please check your email to verify your account before logging
+                in.
+              </p>
             </div>
           </div>
         )}
