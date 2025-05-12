@@ -1,9 +1,12 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { verifyEmailRequest } from "../util/api";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const fromParam = searchParams.get("from");
+  const fromRegister = fromParam === "register";
   const token = searchParams.get("token");
   const email = searchParams.get("email");
   const [status, setStatus] = useState("loading");
@@ -22,9 +25,11 @@ export default function VerifyEmail() {
     };
 
     if (token && email) verify();
-    else {
+    else if (!fromRegister) {
       setStatus("error");
       setMessage("Invalid verification link");
+    } else {
+      setStatus("waiting");
     }
   }, [token, email]);
 
@@ -34,6 +39,7 @@ export default function VerifyEmail() {
         <h1 className="text-4xl md:text-5xl font-extrabold font-montserrat text-primary mb-4">
           Verify Email
         </h1>
+
         {status === "success" && (
           <div>
             <p className="text-primary font-montserrat mt-4">{message}</p>
@@ -41,7 +47,7 @@ export default function VerifyEmail() {
               onClick={() => (window.location.href = "/login")}
               className="text-dark underline hover:text-primary mt-4"
             >
-            Start exploring the app →
+              Start exploring the app →
             </button>
           </div>
         )}
@@ -50,6 +56,16 @@ export default function VerifyEmail() {
         )}
         {status === "loading" && (
           <p className="text-primary font-montserrat mt-4">Verifying...</p>
+        )}
+        {status === "waiting" && (
+          <div className="text-primary font-montserrat mt-4">
+            <p>Thank you for registering!</p>
+            <div className="text-dark font-montserrat mt-4">
+            <p>
+              Please check your email to verify your account before logging in.
+            </p>
+            </div>
+          </div>
         )}
       </div>
     </div>

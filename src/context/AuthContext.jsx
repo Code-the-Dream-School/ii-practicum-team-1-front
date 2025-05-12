@@ -38,10 +38,10 @@ export const AuthProvider = ({ children }) => {
   const register = async (formData) => {
     try {
       const data = await registerUser(formData);
-      setUser(data.user);
+      /* setUser(data.user);
       setToken(data.token);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user", JSON.stringify(data.user)); */
       return { success: true };
     } catch (error) {
       return { success: false, message: error.message };
