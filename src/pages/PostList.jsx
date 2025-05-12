@@ -63,17 +63,18 @@ const PostList = () => {
             Showing {posts.length} result{posts.length !== 1 && "s"}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
-            {posts.map((post) => (
-              <PostCard
-                key={post.item_id}
-                post={post}
-                onClick={() =>
-                  navigate(`/app/posts/${post.item_id}`, {
-                    state: { backgroundLocation: location },
-                  })
-                }
-              />
-            ))}
+            {Array.isArray(posts) &&
+              posts.map((post) => (
+                <PostCard
+                  key={post.item_id}
+                  post={post}
+                  onClick={() =>
+                    navigate(`/app/posts/${post.item_id}`, {
+                      state: { backgroundLocation: location },
+                    })
+                  }
+                />
+              ))}
           </div>
         </>
       )}

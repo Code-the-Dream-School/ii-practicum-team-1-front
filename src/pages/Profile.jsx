@@ -9,7 +9,9 @@ export default function Profile() {
 
   if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
-  const userPosts = posts.filter((post) => post.username === user.username);
+  const userPosts = Array.isArray(posts)
+    ? posts.filter((post) => post.username === user.username)
+    : [];
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
