@@ -99,8 +99,6 @@ export default function Post({ post }) {
           )}
         </div>
 
-        </div>
-
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Giver Information:</h3>
           <div className="flex items-center gap-3 mb-2">
@@ -119,7 +117,7 @@ export default function Post({ post }) {
             </span>
           </div>
 
-          {post.canDeliver && (
+          {post.can_deliver && (
             <div className="flex items-center gap-2 mt-2">
               <img
                 src="/icons/delivery.svg"
