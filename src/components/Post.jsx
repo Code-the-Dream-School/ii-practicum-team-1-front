@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getCoordinatesByZip } from "../util/geocode";
+import MapView from "./MapView";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+const greenIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 export default function Post({ post }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  const [coords, setCoords] = useState(null);
+
   const selectedPhoto =
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
 
   console.log("Post User Data:", post.user);
+
   const fullName = post.user?.name || "Unknown user";
+  useEffect(() => {
+    setCoords(null);
+    if (post.zip) {
+      getCoordinatesByZip(post.zip)
+        .then(setCoords)
+        .catch((err) => console.error("Geocoding error:", err));
+    }
+  }, [post.item_id, post.zip]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
@@ -52,20 +77,37 @@ export default function Post({ post }) {
 
         <div className="mb-6">
           <h3 className="text-lg font-semibold">Address to meet:</h3>
-          <p>{post.zip}</p>
-          <div className="w-full h-52 bg-gray-light rounded-xl flex items-center justify-center text-gray text-sm mt-4">
-            Map will be displayed here
-          </div>
+          {coords ? (
+            <p>
+              {coords.city}, {coords.state_code} {post.zip}
+            </p>
+          ) : (
+            <p>{post.zip}</p>
+          )}
+          {coords ? (
+            <div className="w-full h-52 bg-gray-light rounded-xl mt-4">
+              <MapView
+                lat={coords.lat}
+                lng={coords.lng}
+                itemId={post.item_id}
+              />
+            </div>
+          ) : (
+            <div className="w-full h-52 bg-gray-light rounded-xl mt-4 flex items-center justify-center text-gray text-sm">
+              Loading map...
+            </div>
+          )}
+        </div>
+
         </div>
 
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Giver Information:</h3>
-
           <div className="flex items-center gap-3 mb-2">
             <img
               src={post.user?.avatar_url || "/icons/avatar.svg"}
               alt={fullName}
-              className="w-5 h-5 rounded-full object-cover"
+              className="w-6 h-6 rounded-full object-cover border"
             />
             <span>{fullName}</span>
           </div>
