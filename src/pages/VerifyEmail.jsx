@@ -1,49 +1,55 @@
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { verifyEmailRequest } from "../util/api";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const token = searchParams.get("token");
   const email = searchParams.get("email");
-  const [message, setMessage] = useState("Verifying...");
-  const [error, setError] = useState("");
+  const [status, setStatus] = useState("loading");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const verify = async () => {
       try {
-        await verifyEmailRequest({ token, email });
-        setMessage("Your email has been verified! You can now login.");
+        const response = await verifyEmailRequest({ token, email });
+        setStatus("success");
+        setMessage(response.message);
       } catch (err) {
-        setError(err.message || "Verification failed");
+        setStatus("error");
+        setMessage(err.message || "Invalid or expired verification token");
       }
     };
-    if (token && email) {
-      verify();
-    } else {
-      setError("Invalid verification link");
+
+    if (token && email) verify();
+    else {
+      setStatus("error");
+      setMessage("Invalid verification link");
     }
   }, [token, email]);
 
   return (
-    <div className="min-h-screen bg-no-repeat bg-cover bg-[url('/images/bg.png')] flex justify-center items-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-extrabold font-montserrat text-primary mb-4">
+    <div className="min-h-screen bg-no-repeat bg-cover bg-[url('/images/bg.png')]">
+      <div className="max-w-[1440px] px-[100px] mx-auto pt-20">
+        <h1 className="text-4xl md:text-5xl font-extrabold font-montserrat text-primary mb-4">
           Verify Email
         </h1>
-        {error ? (
-          <p className="text-red-600">{error}</p>
-        ) : (
+        {status === "success" && (
           <div>
-            <p className="text-primary mb-4">{message}</p>
+            <p className="text-primary font-montserrat mt-4">{message}</p>
             <button
-              onClick={() => navigate("/login")}
-              className="text-dark underline hover:text-primary"
+              onClick={() => (window.location.href = "/login")}
+              className="text-dark underline hover:text-primary mt-4"
             >
-              Go to Login →
+            Start exploring the app →
             </button>
           </div>
+        )}
+        {status === "error" && (
+          <p className="text-red-600 font-montserrat mt-4">{message}</p>
+        )}
+        {status === "loading" && (
+          <p className="text-primary font-montserrat mt-4">Verifying...</p>
         )}
       </div>
     </div>
