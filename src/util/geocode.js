@@ -20,6 +20,10 @@ export async function getCoordinatesByZip(zip) {
     return {
       lat: parseFloat(locationData.latitude),
       lng: parseFloat(locationData.longitude),
+      city: locationData.city,
+      state_code: locationData.state_code,
+      province: locationData.province,
+      zip: locationData.postal_code,
     };
   }
   
