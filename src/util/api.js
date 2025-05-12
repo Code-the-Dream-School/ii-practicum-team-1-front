@@ -1,5 +1,20 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// Helper to normalize post item
+function normalizeItem(item) {
+  const user = item.User || item.user || {};
+  return {
+    ...item,
+    photos: item.images?.map((img) => img.image_url) || [],
+    category: item.category_name || item.Category?.category_name || "Other",
+    user: {
+      name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
+      email: user.email || "",
+      avatar_url: user.avatar_url || "",
+    },
+  };
+}
+
 export async function loginUser(credentials) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
@@ -29,7 +44,7 @@ export async function forgotPasswordRequest(email) {
     body: JSON.stringify({ email }),
   });
   if (!res.ok) throw new Error("Failed to send reset email");
-  return await res.json(); 
+  return await res.json();
 }
 
 export async function resetPasswordRequest(token, newPassword, email) {
@@ -40,4 +55,40 @@ export async function resetPasswordRequest(token, newPassword, email) {
   });
   if (!res.ok) throw new Error("Failed to reset password");
   return await res.json();
+}
+
+export async function getFilteredPosts(category, search) {
+  const params = new URLSearchParams();
+  if (category) params.append("category", category);
+  if (search) params.append("search", search);
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${BASE_URL}/items?${params.toString()}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to fetch posts");
+
+  return data.items.map(normalizeItem);
+}
+
+export async function getPostById(id) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${BASE_URL}/items/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to fetch post");
+
+  return normalizeItem(data.item);
 }

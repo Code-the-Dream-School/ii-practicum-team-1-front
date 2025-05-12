@@ -20,7 +20,7 @@ export default function PostCard({ post, onClick }) {
       </div>
       <div className="mt-2 px-1">
         <h4 className="text-base font-semibold text-dark">{post.title}</h4>
-        <p className="text-sm text-gray">{post.location || "Unknown"}</p>
+        <p className="text-sm text-gray">{post.zip || "Unknown"}</p>
       </div>
     </div>
   );

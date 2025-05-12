@@ -23,6 +23,9 @@ export default function Post({ post }) {
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
 
+  console.log("Post User Data:", post.user);
+
+  const fullName = post.user?.name || "Unknown user";
   useEffect(() => {
     setCoords(null);
     if (post.zip) {
@@ -36,7 +39,11 @@ export default function Post({ post }) {
     <div className="flex flex-col lg:flex-row gap-6 w-full">
       <div className="w-full lg:w-1/2">
         <div className="rounded-2xl overflow-hidden">
-          <img src={selectedPhoto} alt={post.title} className="w-full h-auto" />
+          <img
+            src={selectedPhoto}
+            alt={post.title}
+            className="w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105"
+          />
         </div>
         {post.photos?.length > 1 && (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-4">
@@ -64,6 +71,11 @@ export default function Post({ post }) {
         <p className="text-base text-gray mb-6">{post.category}</p>
 
         <div className="mb-6">
+          <h3 className="text-lg font-semibold">Details:</h3>
+          <p>{post.description}</p>
+        </div>
+
+        <div className="mb-6">
           <h3 className="text-lg font-semibold">Address to meet:</h3>
           {coords ? (
             <p>
@@ -87,20 +99,26 @@ export default function Post({ post }) {
           )}
         </div>
 
+        </div>
+
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Giver Information:</h3>
           <div className="flex items-center gap-3 mb-2">
             <img
-              src={post.user?.avatar || "/icons/avatar.svg"}
-              alt={post.user?.name || "User avatar"}
+              src={post.user?.avatar_url || "/icons/avatar.svg"}
+              alt={fullName}
               className="w-6 h-6 rounded-full object-cover border"
             />
-            <span>{post.user?.name || "Unknown user"}</span>
+            <span>{fullName}</span>
           </div>
+
           <div className="flex items-center gap-2">
             <img src="/icons/email.svg" alt="Email" className="w-5 h-5" />
-            <span>{post.user?.email || "No email provided"}</span>
+            <span>
+              {post.user?.email || post.user_email || "No email provided"}
+            </span>
           </div>
+
           {post.canDeliver && (
             <div className="flex items-center gap-2 mt-2">
               <img
