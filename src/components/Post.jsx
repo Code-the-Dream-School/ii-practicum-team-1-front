@@ -8,11 +8,7 @@ export default function Post({ post }) {
       : post?.photo) || null;
 
   console.log("Post User Data:", post.user);
-  const fullName =
-    post.user?.name ||
-    (post.user?.first_name || post.user?.last_name
-      ? `${post.user.first_name || ""} ${post.user.last_name || ""}`.trim()
-      : "Unknown user");
+  const fullName = post.user?.name || "Unknown user";
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
