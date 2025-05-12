@@ -1,5 +1,20 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// Helper to normalize post item
+function normalizeItem(item) {
+  const user = item.User || item.user || {};
+  return {
+    ...item,
+    photos: item.images?.map((img) => img.image_url) || [],
+    category: item.category_name || item.Category?.category_name || "Other",
+    user: {
+      name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
+      email: user.email || "",
+      avatar_url: user.avatar_url || "",
+    },
+  };
+}
+
 export async function loginUser(credentials) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
@@ -59,18 +74,7 @@ export async function getFilteredPosts(category, search) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Failed to fetch posts");
 
-  return data.items.map((item) => ({
-    ...item,
-    photos: item.images?.map((img) => img.image_url) || [],
-    category: item.category_name || item.Category?.category_name || "Other",
-    user: {
-      name: `${item.User?.first_name || ""} ${
-        item.User?.last_name || ""
-      }`.trim(),
-      email: item.User?.email || "",
-      avatar: item.User?.avatar_url || "",
-    },
-  }));
+  return data.items.map(normalizeItem);
 }
 
 export async function getPostById(id) {
@@ -84,24 +88,7 @@ export async function getPostById(id) {
   });
 
   const data = await res.json();
-
-  console.log(data.item);
   if (!res.ok) throw new Error(data.error || "Failed to fetch post");
 
-  const item = data.item;
-
-  return {
-    ...item,
-    photos: item.images?.map((img) => img.image_url) || [],
-    category: item.category_name || item.Category?.category_name || "Other",
-    user: {
-      first_name: item.user?.first_name || "",
-      last_name: item.user?.last_name || "",
-      name: `${item.user?.first_name || ""} ${
-        item.user?.last_name || ""
-      }`.trim(),
-      email: item.user?.email || item.user_email || "No email provided",
-      avatar_url: item.user?.avatar_url || "",
-    },
-  };
+  return normalizeItem(data.item);
 }
