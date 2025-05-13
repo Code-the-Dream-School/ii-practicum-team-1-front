@@ -21,7 +21,6 @@ export async function googleLogin(credential) {
   return data;
 }
 
-
 export async function registerUser(formData) {
   const res = await fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
@@ -106,8 +105,11 @@ export async function getFilteredPosts(category, search) {
   });
 
   if (!res.ok) throw new Error("Failed to fetch post");
-  return await res.json();
+  const data = await res.json();
+  return data.items.map(normalizeItem);
 }
+
+
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 
