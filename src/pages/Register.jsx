@@ -40,12 +40,15 @@ export default function Register() {
     }
 
     const result = await register(formData);
+    console.log("Registration result:", result);
+
     if (result.success) {
-      navigate("/app/posts");
+      navigate("/verify-email?from=register");
     } else {
       setError("Registration failed: " + result.message);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-no-repeat bg-cover bg-[url('/images/bg.png')]">
