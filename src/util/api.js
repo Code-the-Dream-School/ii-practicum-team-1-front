@@ -10,6 +10,16 @@ export async function loginUser(credentials) {
   if (!res.ok) throw new Error(data.message || "Login failed");
   return data;
 }
+export async function googleLogin(credential) {
+  const res = await fetch(`${BASE_URL}/auth/google`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ credential }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Google login failed");
+  return data;
+}
 
 export async function registerUser(formData) {
   const res = await fetch(`${BASE_URL}/auth/register`, {
@@ -110,8 +120,11 @@ export async function getFilteredPosts(category, search) {
   });
 
   if (!res.ok) throw new Error("Failed to fetch post");
-  return await res.json();
+  const data = await res.json();
+  return data.items.map(normalizeItem);
 }
+
+
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 

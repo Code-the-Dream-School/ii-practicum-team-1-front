@@ -159,20 +159,6 @@ export default function Register() {
               </button>
             </div>
           </form>
-
-          <div className="w-5 h-5 mt-8">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log("Google credential response:", credentialResponse);
-              }}
-              onError={() => {
-                console.log("Google Login Failed");
-              }}
-              width="24"
-              ux_mode="popup"
-              useOneTap={false}
-            />
-          </div>
         </div>
       </div>
 

@@ -5,6 +5,7 @@ import {
   forgotPasswordRequest,
   resetPasswordRequest,
   verifyEmailRequest,
+  googleLogin,
 } from "../util/api";
 
 const AuthContext = createContext();
@@ -31,6 +32,20 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(data.user));
       return { success: true };
     } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
+
+  const loginWithGoogle = async (credential) => {
+    try {
+      const data = await googleLogin(credential);
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return { success: true };
+    } catch (error) {
+      console.error("Google login error:", error);
       return { success: false, message: error.message };
     }
   };
@@ -98,6 +113,7 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         resetPassword,
         verifyEmail,
+        loginWithGoogle,
       }}
     >
       {children}
