@@ -52,6 +52,21 @@ export async function resetPasswordRequest(token, newPassword, email) {
   return await res.json();
 }
 
+export async function verifyEmailRequest({ token, email }) {
+  const res = await fetch(`${BASE_URL}/auth/verify-email?token=${token}&email=${email}`);
+
+  const contentType = res.headers.get("Content-Type");
+
+  if (contentType && contentType.includes("application/json")) {
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Verification failed");
+    return data;
+  } else {
+    const text = await res.text();
+    throw new Error(text || "Unexpected response format");
+  }
+}
+
 export async function updateUser(data, token) {
   try {
     const formData = new FormData();
