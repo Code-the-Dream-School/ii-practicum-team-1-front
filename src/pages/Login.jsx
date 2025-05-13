@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useSearchParams } from "react-router-dom"; 
-import { GoogleLogin } from "@react-oauth/google";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
 
 export default function Login() {
-  const { login, loginWithGoogle } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); 
+  const [searchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -15,6 +14,8 @@ export default function Login() {
   });
 
   const [error, setError] = useState("");
+
+  const errorParam = searchParams.get("error");
 
 
   useEffect(() => {
@@ -27,7 +28,6 @@ export default function Login() {
       navigate("/app/posts");
     }
   }, [searchParams, navigate]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +68,13 @@ export default function Login() {
             </Link>
           </p>
 
-          {error && <p className="text-red-600 font-montserrat mt-4">{error}</p>}
+          {(error || errorParam === "user_not_found") && (
+            <p className="text-red-600 font-montserrat mt-4">
+              {errorParam === "user_not_found"
+                ? "User with this Google account was not found. Please register first."
+                : error}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit}>
             <div>
@@ -120,25 +126,23 @@ export default function Login() {
           </p>
 
           <div>
-            <div className="w-5 h-5 mt-8">
-              <GoogleLogin
-                onSuccess={async (credentialResponse) => {
-                  const result = await loginWithGoogle(
-                    credentialResponse.credential
-                  );
-                  if (result.success) {
-                    navigate("/app/posts");
-                  } else {
-                    console.error("Google login failed:", result.message);
-                  }
+            <div className="mt-8">
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = `${
+                    import.meta.env.VITE_API_URL
+                  }/auth/google`;
                 }}
-                onError={() => {
-                  console.error("Google Login Failed");
-                }}
-                width="24"
-                ux_mode="popup"
-                useOneTap={false}
-              />
+                className="flex items-center gap-2 border bg-white text-dark rounded-[14px] px-[30px] py-[15px] text-base hover:border hover:border-primary hover:text-primary transition-all"
+              >
+                <img
+                  src="/icons/google-icon.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+                <span>Sign in with Google</span>
+              </button>
             </div>
           </div>
         </div>
