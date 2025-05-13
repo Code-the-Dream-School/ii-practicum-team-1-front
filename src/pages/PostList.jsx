@@ -109,8 +109,8 @@ const PostList = () => {
             onClick={() => setViewType("map")}
             className={`px-4 py-2 rounded-xl text-sm border flex items-center gap-1 ${
               viewType === "map"
-                ? "bg-primary text-black border-black"
-                : "bg-white text-gray-600 border-gray-300"
+                ? "bg-primary text-black"
+                : "bg-white text-gray border-gray-light"
             }`}
           >
             <MapPin size={18} />
