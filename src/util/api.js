@@ -106,8 +106,10 @@ export async function getFilteredPosts(category, search) {
   });
 
   if (!res.ok) throw new Error("Failed to fetch post");
-  return await res.json();
+  const data = await res.json();
+  return data.items;
 }
+
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 
@@ -122,6 +124,7 @@ export async function getPostById(id) {
   if (!res.ok) throw new Error(data.error || "Failed to fetch post");
 
   const item = data.item;
+  
 
   return {
     ...item,
