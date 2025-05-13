@@ -9,7 +9,9 @@ export default function Profile() {
 
   if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
-  const userPosts = posts.filter((post) => post.username === user.username);
+  const userPosts = Array.isArray(posts)
+    ? posts.filter((post) => post.username === user.username)
+    : [];
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -21,7 +23,7 @@ export default function Profile() {
         <div className="flex flex-col md:flex-row md:items-start gap-8 mb-10">
           {/* Avatar + Info */}
           <img
-            src={user.avatar || "https://i.pravatar.cc/150?img=3"}
+            src={user.avatar_url || "/icons/empty_avatar.png"}
             alt="User avatar"
             className="w-36 h-36 object-cover rounded-full border border-gray-300 shadow"
           />
