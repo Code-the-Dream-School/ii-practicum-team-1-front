@@ -5,7 +5,7 @@ import React, {
   useContext,
   useCallback,
 } from "react";
-import { getFilteredPosts, getPostById } from "../util/api";
+import { getFilteredPosts, getPostById, getPaginatedPosts } from "../util/api";
 
 const PostsContext = createContext();
 
@@ -16,6 +16,8 @@ function PostsProvider({ children }) {
   const [error, setError] = useState(null);
   const [activeCategories, setActiveCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   async function fetchPosts() {
     try {
@@ -23,8 +25,14 @@ function PostsProvider({ children }) {
       setError(null);
 
       const category = activeCategories[0] || "";
-      const data = await getFilteredPosts(category, searchQuery);
-      setPosts(data);
+      const { posts, totalPages: total } = await getPaginatedPosts({
+        page,
+        limit: 12,
+        search: searchQuery,
+        category,
+      });
+      setPosts(posts);
+      setTotalPages(total);
     } catch (err) {
       setError(err.message || "Failed to fetch posts");
     } finally {
@@ -34,7 +42,7 @@ function PostsProvider({ children }) {
 
   useEffect(() => {
     fetchPosts();
-  }, [activeCategories, searchQuery]);
+  }, [activeCategories, searchQuery, page]);
 
   const getPost = useCallback(async (id) => {
     try {
@@ -109,6 +117,9 @@ function PostsProvider({ children }) {
         createPost,
         searchQuery,
         setSearchQuery,
+        page,
+        setPage,
+        totalPages,
       }}
     >
       {children}

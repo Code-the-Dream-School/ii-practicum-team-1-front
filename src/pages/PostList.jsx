@@ -5,7 +5,8 @@ import { Search } from "lucide-react";
 import PostCard from "../components/PostCard";
 
 const PostList = () => {
-  const { posts, isLoading, error, setSearchQuery } = usePosts();
+  const { posts, isLoading, error, setSearchQuery, page, setPage, totalPages } =
+    usePosts();
 
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const PostList = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setPage(1);
     setSearchQuery(inputValue.trim());
   };
 
@@ -75,6 +77,25 @@ const PostList = () => {
                   }
                 />
               ))}
+            <div className="flex justify-center items-center gap-4 mt-8">
+              <button
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+                className="px-4 py-2 bg-dark text-white rounded disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span className="text-sm text-gray">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                disabled={page === totalPages}
+                onClick={() => setPage(page + 1)}
+                className="px-4 py-2 bg-dark text-white rounded disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
           </div>
         </>
       )}
