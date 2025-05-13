@@ -4,6 +4,7 @@ import {
   registerUser,
   forgotPasswordRequest,
   resetPasswordRequest,
+createApiWithLogout,
 } from "../util/api";
 
 const AuthContext = createContext();
@@ -20,6 +21,8 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(savedUser));
     }
   }, []);
+
+  
 
   const login = async (formData) => {
     try {
@@ -51,8 +54,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("user")
   };
+
+  const fetchWith401Check = createApiWithLogout(logout);
 
   const forgotPassword = async (email) => {
     try {
@@ -85,6 +90,7 @@ export const AuthProvider = ({ children }) => {
         register,
         forgotPassword,
         resetPassword,
+        fetchWith401Check,
       }}
     >
       {children}
