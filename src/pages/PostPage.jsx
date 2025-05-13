@@ -53,7 +53,7 @@ export default function PostPage() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
             {relatedPosts.map((post) => (
-              <Link key={post.item_id} to={`/app/posts/view/${post.item_id}`}>
+              <Link key={post.item_id} to={`/app/posts/${post.item_id}`}>
                 <PostCard post={post} />
               </Link>
             ))}

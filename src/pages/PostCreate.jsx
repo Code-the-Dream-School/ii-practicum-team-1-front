@@ -13,7 +13,7 @@ export default function PostCreate() {
     category: "",
     location: "",
     photos: [],
-    canDeliver: false,
+    can_deliver: false,
   });
 
   // Handle text input change
@@ -159,8 +159,8 @@ export default function PostCreate() {
           <label className="flex items-center space-x-2 text-dark font-montserrat text-sm">
             <input
               type="checkbox"
-              name="canDeliver"
-              checked={formData.canDeliver}
+              name="can_deliver"
+              checked={formData.can_deliver}
               onChange={handleChange}
               className="w-4 h-4 border-dark rounded"
             />
