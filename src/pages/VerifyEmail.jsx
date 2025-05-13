@@ -1,11 +1,9 @@
 import { useSearchParams, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { verifyEmailRequest } from "../util/api";
-import { useRef } from "react";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
-  const location = useLocation();
   const fromParam = searchParams.get("from");
   const fromRegister = fromParam === "register";
   const token = searchParams.get("token");
@@ -45,7 +43,7 @@ export default function VerifyEmail() {
     } else {
       setStatus("waiting");
     }
-  }, []);
+  }, [token, email, fromRegister]);
 
   return (
     <div className="min-h-screen bg-no-repeat bg-cover bg-[url('/images/bg.png')]">
