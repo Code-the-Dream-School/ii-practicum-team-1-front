@@ -108,6 +108,8 @@ export async function getFilteredPosts(category, search) {
   const data = await res.json();
   return data.items.map(normalizeItem);
 }
+
+
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 
