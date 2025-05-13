@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -30,6 +29,7 @@ import VerifyEmail from "../pages/VerifyEmail";
 function RedirectLogic({ children }) {
   const { user } = useAuth();
   const location = useLocation();
+
   const isLanding = location.pathname === "/";
   const isAuthPage = [
     "/login",
@@ -38,6 +38,10 @@ function RedirectLogic({ children }) {
     "/reset-password",
   ].includes(location.pathname);
   const isAppPage = location.pathname.startsWith("/app");
+
+  // 👇 Новая защита: ждём, пока проверяется токен
+  const isCheckingAuth = user === null && localStorage.getItem("token");
+  if (isCheckingAuth) return null;
 
   if (user && (isLanding || isAuthPage)) {
     return <Navigate to="/app/posts" replace />;
@@ -49,14 +53,15 @@ function RedirectLogic({ children }) {
 
   return children;
 }
+
 export default function AppRouter() {
   const location = useLocation();
-  const state = location.state;
-  const backgroundLocation = state && state.backgroundLocation;
+  const backgroundLocation = location.state?.backgroundLocation;
 
   return (
     <RedirectLogic>
       <Navbar />
+
       <Routes location={backgroundLocation || location}>
         <Route index element={<Landing />} />
         <Route path="/login" element={<Login />} />

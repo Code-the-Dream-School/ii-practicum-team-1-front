@@ -13,9 +13,11 @@
     "@react-oauth/google": "^0.12.1",
     "@tailwindcss/vite": "^4.1.4",
     "axios": "^1.6.7",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.487.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^7.4.0"
   },
   "devDependencies": {
