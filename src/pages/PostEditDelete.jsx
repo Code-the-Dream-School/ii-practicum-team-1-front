@@ -14,7 +14,7 @@ export default function PostEdit() {
     category: "",
     location: "",
     photos: [],
-    canDeliver: false,
+    can_deliver: false,
   });
 
   //Load existing post
@@ -30,7 +30,7 @@ export default function PostEdit() {
         category: currentPost.category || "",
         location: currentPost.location || "",
         photos: currentPost.photos || [],
-        canDeliver: currentPost.canDeliver || false,
+        can_deliver: currentPost.can_deliver || false,
       });
     }
   }, [currentPost]);
@@ -133,8 +133,8 @@ export default function PostEdit() {
           <label className="flex items-center space-x-2 font-montserrat text-sm">
             <input
               type="checkbox"
-              name="canDeliver"
-              checked={formData.canDeliver}
+              name="can_deliver"
+              checked={formData.can_deliver}
               onChange={handleChange}
               className="w-4 h-4 border-dark rounded"
             />

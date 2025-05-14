@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+export const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function loginUser(credentials) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -42,6 +42,21 @@ export async function resetPasswordRequest(token, newPassword, email) {
   return await res.json();
 }
 
+export async function verifyEmailRequest({ token, email }) {
+  const res = await fetch(`${BASE_URL}/auth/verify-email?token=${token}&email=${email}`);
+
+  const contentType = res.headers.get("Content-Type");
+
+  if (contentType && contentType.includes("application/json")) {
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Verification failed");
+    return data;
+  } else {
+    const text = await res.text();
+    throw new Error(text || "Unexpected response format");
+  }
+}
+
 export async function updateUser(data, token) {
   try {
     const formData = new FormData();
@@ -66,7 +81,7 @@ export async function updateUser(data, token) {
 }
 
 // Helper to normalize post item
-function normalizeItem(item) {
+export function normalizeItem(item) {
   const user = item.User || item.user || {};
   return {
     ...item,
@@ -95,8 +110,11 @@ export async function getFilteredPosts(category, search) {
   });
 
   if (!res.ok) throw new Error("Failed to fetch post");
-  return await res.json();
+  const data = await res.json();
+  return data.items.map(normalizeItem);
 }
+
+
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 
@@ -207,4 +225,14 @@ export async function verifyEmailRequest({ token, email }) {
     throw new Error(data.message || "Verification failed");
   }
   return data;
+  
+export function createApiWithLogout(logout) {
+  return async function fetchWith401Check(url, options = {}) {
+    const res = await fetch(url, options);
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+    return res;
+  };
 }
