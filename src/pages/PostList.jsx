@@ -77,7 +77,7 @@ const PostList = () => {
                   }
                 />
               ))}
-            </div> {/* конец карточек */}
+            </div> 
 <div className="flex justify-center items-center gap-6 mt-10 font-montserrat text-sm text-dark">
   <button
     disabled={page === 1}
