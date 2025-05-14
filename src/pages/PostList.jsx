@@ -4,11 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Search, List as ListIcon, MapPin } from "lucide-react";
 import PostCard from "../components/PostCard";
 import AllPostMap from "../components/AllPostMap";
-import { getCoordinatesByZip } from "../util/geocode";
-
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { getCoordinatesByZipCodes } from "../util/geocode";
 
 const PostList = () => {
   const { posts, isLoading, error, setSearchQuery } = usePosts();
@@ -25,34 +21,35 @@ const PostList = () => {
   };
 
   useEffect(() => {
-    setPostsWithCoords(posts);
-
     const enrichPosts = async () => {
-      const updatedPosts = [...posts];
-      for (let i = 0; i < updatedPosts.length; i++) {
-        const post = updatedPosts[i];
-        if (post.latitude && post.longitude) continue;
-        if (!post.zip) continue;
+      const zipcodes = posts.map(post => post.zip).join(",");
 
-        try {
-          const geo = await getCoordinatesByZip(post.zip);
-          if (geo) {
-            updatedPosts[i] = {
-              ...post,
-              latitude: geo.lat,
-              longitude: geo.lng,
-            };
-            setPostsWithCoords([...updatedPosts]);
+      if (!zipcodes) {
+        setPostsWithCoords(posts);
+        return;
+      }
+
+      try {
+        const locations = await getCoordinatesByZipCodes(zipcodes);
+
+        const updatedPosts = posts.map(post => {
+          const location = locations[post.zip];
+          if (location) {
+            return { ...post, latitude: location.lat, longitude: location.lng };
           }
-        } catch (error) {
-          console.error("Geocoding error:", error);
-        }
+          return post;
+        });
 
-        await wait(1000);
+        setPostsWithCoords(updatedPosts);
+      } catch (error) {
+        console.error("Geocoding error:", error);
+        setPostsWithCoords(posts);
       }
     };
 
-    if (posts.length > 0) enrichPosts();
+    if (posts.length > 0) {
+      enrichPosts();
+    }
   }, [posts]);
 
   const postsWithValidCoords = postsWithCoords.filter(
