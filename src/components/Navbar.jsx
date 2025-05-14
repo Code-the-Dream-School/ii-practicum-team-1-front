@@ -15,7 +15,7 @@ export default function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-white z-50 relative">
+    <nav className="w-full bg-white z-50 relative sticky top-0">
       <div className="max-w-[1440px] px-4 md:px-[100px] mx-auto py-4 min-h-[100px] flex items-center justify-between">
         {/* Logo + burger menu for landing page */}
         <div className="flex items-center gap-4">
