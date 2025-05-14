@@ -25,24 +25,48 @@ export default function PostCreate() {
     }));
   };
 
-  // Handle image upload for local preview
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        photo: URL.createObjectURL(file),
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      const newPhotoObjs = files.map((file) => ({
+        type: "new",
         file,
       }));
+      setFormData((prev) => ({
+        ...prev,
+        photos: [...prev.photos, ...newPhotoObjs],
+      }));
     }
+    e.target.value = "";
   };
 
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createPost(formData);
-    navigate("/app/posts");
-  };
+    
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      form.append("zip", formData.location);
+      form.append("category_name", formData.category);
+      form.append("item_status", "available");
+    
+      formData.photos.forEach((photo) => {
+        if (photo.type === "new") {
+          form.append("image", photo.file);
+        }
+      });
+    
+      form.append("can_deliver", formData.can_deliver);
+    
+      try {
+        await createPost(form);
+        navigate("/app/posts");
+      } catch (err) {
+        console.error("Error creating post:", err);
+        alert("Something went wrong while creating the post.");
+      }
+    };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -52,7 +76,7 @@ export default function PostCreate() {
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
- 
+
 {/* Photo upload block */}
 <div className="space-y-2">
   <label className="block font-montserrat text-sm">Photos</label>
@@ -113,7 +137,58 @@ export default function PostCreate() {
     </div>
   )}
 </div>
+            <label
+              htmlFor="photo-upload"
+              className="flex flex-col items-center justify-center w-[148px] h-[148px] rounded-[20px] border border-black cursor-pointer bg-[#F2F3F4] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition"
+            >
+              <img
+                src="/icons/photo_icon.png"
+                alt="Add photo"
+                className="w-16 h-16 rounded-full mb-2"
+              />
+              <span className="text-sm text-gray-500 font-montserrat">
+                Add photos
+              </span>
+              <input
+                id="photo-upload"
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </label>
 
+            {/* All uploaded photos preview */}
+            {formData.photos.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-2">
+                {formData.photos.map((photo, idx) => (
+                  <div
+                    key={idx}
+                    className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
+                  >
+                    <img
+                      src={photo.file ? URL.createObjectURL(photo.file) : ""}
+                      alt={`Photo ${idx}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          photos: prev.photos.filter((_, i) => i !== idx),
+                        }))
+                      }
+                      className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Title */}
 

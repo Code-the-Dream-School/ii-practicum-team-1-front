@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getCoordinatesByZip } from "../util/geocode";
 
 export default function PostCard({ post, onClick }) {
-  const image = Array.isArray(post.photos) ? post.photos[0] : post.photo;
+  const image =
+    Array.isArray(post.photos) && post.photos.length > 0
+      ? post.photos[0]
+      : post.photo || "/images/placeholder.png";
+
   const [coords, setCoords] = useState(null);
 
   useEffect(() => {
