@@ -3,6 +3,9 @@ import { getCoordinatesByZip } from "../util/geocode";
 import MapView from "./MapView";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 const greenIcon = new L.Icon({
   iconUrl:
@@ -17,12 +20,15 @@ const greenIcon = new L.Icon({
 export default function Post({ post }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [coords, setCoords] = useState(null);
+  const { user } = useAuth;
+  const navigate = useNavigate();
+
 
   const selectedPhoto =
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
-  
+
   console.log("Post User Data:", post.user);
 
   const fullName = post.user?.name || "Unknown user";
@@ -116,6 +122,15 @@ export default function Post({ post }) {
               {post.user?.email || post.user_email || "No email provided"}
             </span>
           </div>
+
+          {user?.username === post.username && (
+            <button
+              onClick={() => navigate(`/app/posts/${post.item_id}/edit`)}
+              className="mt-4 px-4 py-2 border border-dark rounded-xl text-primary font-semibold hover:border-secondary transition"
+            >
+              Edit Post
+            </button>
+          )}
 
           {post.canDeliver && (
             <div className="flex items-center gap-2 mt-2">

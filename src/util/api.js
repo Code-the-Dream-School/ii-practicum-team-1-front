@@ -92,6 +92,9 @@ export async function updateUser(data, token) {
 
 // Helper to normalize post item
 function normalizeItem(item) {
+
+  if (!item) return null;
+
   const user = item.User || item.user || {};
   return {
     ...item,
@@ -99,7 +102,7 @@ function normalizeItem(item) {
     category: item.category_name || item.Category?.category_name || "Other",
     user: {
       name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
-      email: user.email || "",
+      email: user.email || item.user_email || "",
       avatar_url: user.avatar_url || "",
     },
   };
