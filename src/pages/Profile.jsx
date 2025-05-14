@@ -1,11 +1,13 @@
 import { useAuth } from "../context/AuthContext";
 import { usePosts } from "../context/PostsContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import PostCard from "../components/PostCard";
 
 export default function Profile() {
   const { user } = useAuth();
   const { posts } = usePosts();
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
@@ -59,22 +61,15 @@ export default function Profile() {
         <div className="grid md:grid-cols-2 gap-6">
           {userPosts.length > 0 ? (
             userPosts.map((post) => (
-              <div
+              <PostCard
                 key={post.item_id}
-                className="bg-[#F2F3F4] p-4 rounded-xl border border-gray-200 shadow-sm"
-              >
-                <img
-                  src={post.photos?.[0] || "/images/fallback.jpg"}
-                  alt={post.title}
-                  className="w-full h-48 object-cover rounded-xl mb-3"
-                />
-                <h3 className="text-lg font-semibold text-dark font-montserrat">
-                  {post.title}
-                </h3>
-                <p className="text-sm text-gray-600 font-montserrat">
-                  {post.category}
-                </p>
-              </div>
+                post={post}
+                onClick={() =>
+                  navigate(`/app/posts/${post.item_id}`, {
+                    state: { backgroundLocation: location },
+                  })
+                }
+              />
             ))
           ) : (
             <p className="text-gray-500 font-montserrat">

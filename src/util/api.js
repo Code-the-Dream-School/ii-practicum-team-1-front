@@ -81,7 +81,10 @@ export async function updateUser(data, token) {
 }
 
 // Helper to normalize post item
+
 export function normalizeItem(item) {
+
+  if (!item) return null;
   const user = item.User || item.user || {};
   return {
     ...item,
@@ -89,12 +92,11 @@ export function normalizeItem(item) {
     category: item.category_name || item.Category?.category_name || "Other",
     user: {
       name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
-      email: user.email || "",
+      email: user.email || item.user_email || "",
       avatar_url: user.avatar_url || "",
     },
   };
 }
-
 export async function getFilteredPosts(category, search) {
   const params = new URLSearchParams();
   if (category) params.append("category", category);
@@ -113,8 +115,6 @@ export async function getFilteredPosts(category, search) {
   const data = await res.json();
   return data.items.map(normalizeItem);
 }
-
-
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 
@@ -126,6 +126,7 @@ export async function getPostById(id) {
   });
 
   const data = await res.json();
+  console.log(data.item);
   if (!res.ok) throw new Error(data.error || "Failed to fetch post");
 
   const item = data.item;
@@ -170,7 +171,6 @@ export const updatePost = async (id, formData, token) => {
   if (!res.ok) throw new Error("Failed to update post");
   return await res.json();
 };
-
 // Delete Post
 export const deletePost = async (id) => {
   const token = localStorage.getItem("token");

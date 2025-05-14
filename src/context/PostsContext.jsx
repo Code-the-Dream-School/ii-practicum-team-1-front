@@ -5,8 +5,17 @@ import React, {
   useContext,
   useCallback,
 } from "react";
-import { getFilteredPosts, getPostById, getPaginatedPosts, BASE_URL, normalizeItem } from "../util/api";
-import { useAuth } from "../context/AuthContext";
+
+import {
+  getFilteredPosts,
+  getPostById,
+  createPost as apiCreatePost,
+  updatePost as apiUpdatePost,
+  deletePost as apiDeletePost,
+} from "../util/api";
+
+import { useAuth } from "./AuthContext";
+import { BASE_URL, normalizeItem } from "../util/api";
 
 const PostsContext = createContext();
 
@@ -27,7 +36,6 @@ function PostsProvider({ children }) {
       setError(null);
 
       const category = activeCategories[0] || "";
-      
       const params = new URLSearchParams();
       if (category) params.append("category", category);
       if (searchQuery) params.append("search", searchQuery);
@@ -54,19 +62,19 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
-
   useEffect(() => {
     fetchPosts();
   }, [activeCategories, searchQuery, page]);
 
   const getPost = useCallback(
     async (id) => {
-      try {
+        try {
         setIsLoading(true);
         setError(null);
-
         const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
           headers: {
+
+
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
@@ -83,49 +91,17 @@ function PostsProvider({ children }) {
     },
     [fetchWith401Check, token]
   );
-  // TODO: Replace with real API call after PR is merged
-  async function updatePost(id, updatedData) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const updatedPost = {
-        ...posts.find((p) => p.item_id === id),
-        ...updatedData,
-      };
-      setPosts((posts) =>
-        posts.map((post) => (post.item_id === id ? updatedPost : post))
-      );
-      setCurrentPost(updatedPost);
-    } catch (err) {
-      setError("Failed to update post");
-    } finally {
-      setIsLoading(false);
-    }
-  }
-  async function deletePost(id) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      setPosts((posts) => posts.filter((post) => post.item_id !== id));
-      if (currentPost.item_id === id) setCurrentPost({});
-    } catch (err) {
-      setError("Failed to delete post");
-    } finally {
-      setIsLoading(false);
-    }
+
+  async function updatePost(id, formData) {
+    return await apiUpdatePost(id, formData, token);
   }
 
-  async function createPost(newPostData) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const newPost = { item_id: Date.now(), ...newPostData };
-      setPosts((posts) => [...posts, newPost]);
-    } catch (err) {
-      setError("Failed to create post");
-    } finally {
-      setIsLoading(false);
-    }
+  async function createPost(formData) {
+    return await apiCreatePost(formData, token);
+  }
+
+  async function deletePost(id) {
+    return await apiDeletePost(id, token);
   }
 
   return (
@@ -160,5 +136,4 @@ function usePosts() {
   }
   return context;
 }
-
 export { PostsProvider, usePosts };

@@ -38,7 +38,7 @@ export default function Landing() {
       </section>
 
       {/* About section */}
-      <section className="py-28 ">
+      <section id="about" className="py-28">
         <div className="max-w-[1140px] px-6 mx-auto">
           <h2 className="text-4xl md:text-4xl font-extrabold font-montserrat text-dark mb-16 text-center">
             About us
@@ -125,7 +125,7 @@ export default function Landing() {
       </section>
 
       {/* Our Team section */}
-      <section className="py-24 ">
+      <section id="team" className="py-24">
         <div className="max-w-[1440px] px-6 md:px-[100px] mx-auto ">
           <h2 className="text-4xl font-extrabold font-montserrat text-dark text-center mb-20">
             Our Team
@@ -137,25 +137,25 @@ export default function Landing() {
                 name: "Maria Zasypkina",
                 role: "Front-End Developer",
                 img: "/images/maria.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/maria-zasypkina/",
               },
               {
                 name: "Aida Burlutckaia",
                 role: "Front-End Developer",
                 img: "/images/aida.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/aida-burlutckaia-08832363/",
               },
               {
                 name: "Kseniia Zakharova",
                 role: "Back-End Developer",
                 img: "/images/kseniia.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/niya-z/",
               },
               {
                 name: "Romanna Bidnyk",
                 role: "Back-End Developer",
                 img: "/images/romanna.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/romanna-bidnyk/",
               },
             ].map(({ name, role, img, linkedin }, i) => (
               <div
@@ -170,9 +170,10 @@ export default function Landing() {
                     style={{ backgroundColor: "#B9FF66" }}
                   />
                   <div>
-                    <p className="text-lg font-bold text-dark font-montserrat">
-                      {name}
-                    </p>
+                  <p className="text-lg font-bold text-dark font-montserrat break-words">
+  {name}
+</p>
+
                     <p className="text-sm text-dark font-montserrat">{role}</p>
                     <a
                       href={linkedin}

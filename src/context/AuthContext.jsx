@@ -14,6 +14,16 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  };
+  
+  const fetchWith401Check = createApiWithLogout(logout);
+
+
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
@@ -22,8 +32,6 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(savedUser));
     }
   }, []);
-
-  
 
   const login = async (formData) => {
     try {
@@ -37,8 +45,6 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: error.message };
     }
   };
-
-
   const register = async (formData) => {
     try {
       const data = await registerUser(formData);
@@ -51,16 +57,6 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: error.message };
     }
   };
-
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user")
-  };
-
-  const fetchWith401Check = createApiWithLogout(logout);
-
   const forgotPassword = async (email) => {
     try {
       await forgotPasswordRequest(email);
