@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+export const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function loginUser(credentials) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -91,10 +91,10 @@ export async function updateUser(data, token) {
 }
 
 // Helper to normalize post item
+
 function normalizeItem(item) {
 
   if (!item) return null;
-
   const user = item.User || item.user || {};
   return {
     ...item,
@@ -196,4 +196,16 @@ export const deletePost = async (id) => {
   if (!res.ok) throw new Error(data.error || "Failed to fetch post");
 
   return normalizeItem(data.item);
+};
+
+export function createApiWithLogout(logout) {
+  return async function fetchWith401Check(url, options = {}) {
+    const res = await fetch(url, options);
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+    return res;
+  };
+}
 };
