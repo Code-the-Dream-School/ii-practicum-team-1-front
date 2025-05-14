@@ -15,7 +15,6 @@ import {
 } from "../util/api";
 
 import { useAuth } from "./AuthContext";
-import { useAuth } from "../context/AuthContext";
 import { BASE_URL, normalizeItem } from "../util/api";
 
 const PostsContext = createContext();
@@ -28,8 +27,6 @@ function PostsProvider({ children }) {
   const [activeCategories, setActiveCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { fetchWith401Check, token } = useAuth();
-
-  const { token } = useAuth();
 
   async function fetchPosts() {
     try {
@@ -54,7 +51,9 @@ function PostsProvider({ children }) {
       if (!res) return;
 
       const data = await res.json();
-      setPosts(data.items || []);
+      console.log("Fetched data", data);
+      
+      setPosts(data.items.map(normalizeItem) || []);
     } catch (err) {
       setError(err.message || "Failed to fetch posts");
     } finally {
@@ -71,7 +70,7 @@ function PostsProvider({ children }) {
         setIsLoading(true);
         setError(null);
 
- const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
+        const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -92,8 +91,9 @@ function PostsProvider({ children }) {
 
   async function updatePost(id, formData) {
     return await apiUpdatePost(id, formData, token);
-    
-   async function createPost(formData) {
+  }
+
+  async function createPost(formData) {
     return await apiCreatePost(formData, token);
   }
 

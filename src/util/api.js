@@ -92,7 +92,7 @@ export async function updateUser(data, token) {
 
 // Helper to normalize post item
 
-function normalizeItem(item) {
+export function normalizeItem(item) {
 
   if (!item) return null;
   const user = item.User || item.user || {};
@@ -207,5 +207,4 @@ export function createApiWithLogout(logout) {
     }
     return res;
   };
-}
 };
