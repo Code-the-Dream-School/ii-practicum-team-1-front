@@ -13,6 +13,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -44,8 +45,6 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: error.message };
     }
   };
-
-
   const register = async (formData) => {
     try {
       const data = await registerUser(formData);
