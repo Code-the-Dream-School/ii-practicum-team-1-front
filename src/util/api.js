@@ -213,19 +213,6 @@ export async function getPaginatedPosts({ page = 1, limit = 12, search = "", cat
     currentPage: data.pagination.current_page,
   };
 }
-export async function verifyEmailRequest({ token, email }) {
-  const res = await fetch(`${BASE_URL}/auth/verify-email`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, email }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message || "Verification failed");
-  }
-  return data;
-  
 export function createApiWithLogout(logout) {
   return async function fetchWith401Check(url, options = {}) {
     const res = await fetch(url, options);
