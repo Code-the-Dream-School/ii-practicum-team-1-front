@@ -137,25 +137,25 @@ export default function Landing() {
                 name: "Maria Zasypkina",
                 role: "Front-End Developer",
                 img: "/images/maria.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/maria-zasypkina/",
               },
               {
                 name: "Aida Burlutckaia",
                 role: "Front-End Developer",
                 img: "/images/aida.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/aida-burlutckaia-08832363/",
               },
               {
                 name: "Kseniia Zakharova",
                 role: "Back-End Developer",
                 img: "/images/kseniia.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/niya-z/",
               },
               {
                 name: "Romanna Bidnyk",
                 role: "Back-End Developer",
                 img: "/images/romanna.png",
-                linkedin: "#",
+                linkedin: "https://www.linkedin.com/in/romanna-bidnyk/",
               },
             ].map(({ name, role, img, linkedin }, i) => (
               <div
