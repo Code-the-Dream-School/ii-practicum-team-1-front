@@ -66,12 +66,13 @@ function PostsProvider({ children }) {
 
   const getPost = useCallback(
     async (id) => {
-      try {
+        try {
         setIsLoading(true);
         setError(null);
-
         const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
           headers: {
+
+
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },

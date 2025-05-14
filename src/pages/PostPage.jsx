@@ -27,12 +27,12 @@ export default function PostPage() {
   if (!currentPost?.item_id) return <p>Post not found</p>;
 
   const relatedPosts = Array.isArray(posts)
-  ? posts.filter(
-      (post) =>
-        post.category === postData.category &&
-        post.item_id !== postData.item_id
-    )
-  : [];
+    ? posts.filter(
+        (post) =>
+          post.category === currentPost.category &&
+          post.item_id !== currentPost.item_id
+      )
+    : [];
 
   return (
     <div className="max-w-[1440px] mx-auto px-4  py-5 flex flex-col">
