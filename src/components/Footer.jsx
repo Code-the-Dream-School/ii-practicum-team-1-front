@@ -6,7 +6,7 @@ export default function Footer() {
   const isInApp = location.pathname.startsWith("/app");
 
   return (
-    <footer className="mt-20">
+    <footer id="contacts" className="mt-20">
       <div className="max-w-[1440px] mx-auto px-6 md:px-[100px] bg-dark text-white rounded-t-[40px] pt-10 pb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-10 px-22 md:px-0 ">
           {/* Logo and Contact */}
@@ -39,7 +39,7 @@ export default function Footer() {
               <nav className="flex flex-col md:flex-row md:gap-6 text-sm underline">
                 <a href="#about">About us</a>
                 <a href="#team">Our Team</a>
-                <a href="#contact">Contacts</a>
+                <a href="#contacts">Contacts</a>
               </nav>
             )}
             <div className="flex gap-4">
