@@ -22,14 +22,7 @@ export default function Post({ post }) {
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
-  useEffect(() => {
-    if (post.zip) {
-      getCityStateByZip(post.zip)
-        .then((label) => setCityState(label || post.zip))
-        .catch((err) => console.error("City/State error:", err));
-    }
-  }, [post.location]);
-
+  
   console.log("Post User Data:", post.user);
 
   const fullName = post.user?.name || "Unknown user";
