@@ -1,11 +1,12 @@
 import { useAuth } from "../context/AuthContext";
 import { usePosts } from "../context/PostsContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useAuth();
   const { posts } = usePosts();
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
@@ -61,6 +62,11 @@ export default function Profile() {
             userPosts.map((post) => (
               <div
                 key={post.item_id}
+                onClick={() =>
+                  navigate(`/app/posts/${post.item_id}`, {
+                    state: { backgroundlocation: location },
+                  })
+                }
                 className="bg-[#F2F3F4] p-4 rounded-xl border border-gray-200 shadow-sm"
               >
                 <img

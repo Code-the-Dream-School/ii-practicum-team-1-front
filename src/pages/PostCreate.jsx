@@ -82,7 +82,7 @@ export default function PostCreate() {
           ...prev,
           photos: [...prev.photos, ...urls],
         }));
-        e.target.value = ""; // сбрасываем input
+        e.target.value = "";
       }}
     />
   </label>
