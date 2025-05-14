@@ -25,7 +25,6 @@ function PostsProvider({ children }) {
       setError(null);
 
       const category = activeCategories[0] || "";
-
       const params = new URLSearchParams();
       if (category) params.append("category", category);
       if (searchQuery) params.append("search", searchQuery);
@@ -57,12 +56,13 @@ function PostsProvider({ children }) {
 
   const getPost = useCallback(
     async (id) => {
-      try {
+        try {
         setIsLoading(true);
         setError(null);
-
         const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
           headers: {
+
+
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },

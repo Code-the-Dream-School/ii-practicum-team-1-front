@@ -43,7 +43,6 @@ export default function Post({ post }) {
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
-
   const fullName = post.user?.name || "Unknown user";
 
   return (

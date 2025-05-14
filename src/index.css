@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
     --font-montserrat: Montserrat, "sans-serif";
     --color-primary: #76D900;
