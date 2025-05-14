@@ -1,8 +1,11 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { updateUser } from "../util/api";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileEdit() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return <p>User not found</p>;
 
@@ -13,19 +16,19 @@ export default function ProfileEdit() {
     last_name: user?.last_name || "",
     phone_number: user?.phone_number || "",
     zip_code: user?.zip_code || "",
-    avatar: user.avatar || null,
+    image: user.avatar_url || null,
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "avatar") {
-      setFormData({ ...formData, avatar: files[0] });
+    if (name === "image") {
+      setFormData({ ...formData, image: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const zipRegex = /^\d{5}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,7 +53,33 @@ export default function ProfileEdit() {
       alert("Last name must be at least 2 letters and contain only letters.");
       return;
     }
-    console.log("Updated profile:", formData);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const formToSend = { ...formData };
+      if (!(formToSend.image instanceof File)) {
+        delete formToSend.image;
+      }
+      const updatedUser = await updateUser(formToSend, token);
+      setUser(updatedUser.user);
+      setFormData({
+        username: updatedUser.user.username || "",
+        email: updatedUser.user.email || "",
+        first_name: updatedUser.user.first_name || "",
+        last_name: updatedUser.user.last_name || "",
+        phone_number: updatedUser.user.phone_number || "",
+        zip_code: updatedUser.user.zip_code || "",
+        image: updatedUser.user.avatar_url || null,
+      });
+
+      localStorage.setItem("user", JSON.stringify(updatedUser.user));
+      alert("Profile updated successfully");
+      navigate("/app/profile");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update profile");
+    }
   };
 
   return (
@@ -61,12 +90,12 @@ export default function ProfileEdit() {
         </h1>
 
         <label htmlFor="avatar" className="cursor-pointer block mb-8">
-          {formData.avatar ? (
+          {formData.image ? (
             <img
               src={
-                typeof formData.avatar === "object"
-                  ? URL.createObjectURL(formData.avatar)
-                  : formData.avatar
+                typeof formData.image === "object"
+                  ? URL.createObjectURL(formData.image)
+                  : formData.image
               }
               alt="Avatar preview"
               className="w-24 h-24 object-cover rounded-full border"
@@ -83,7 +112,12 @@ export default function ProfileEdit() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
             { name: "username", placeholder: "Username", disabled: true },
-            { name: "email", placeholder: "Email", type: "email", disabled: true },
+            {
+              name: "email",
+              placeholder: "Email",
+              type: "email",
+              disabled: true,
+            },
             { name: "first_name", placeholder: "First Name" },
             { name: "last_name", placeholder: "Last Name" },
             { name: "phone_number", placeholder: "Phone Number" },
@@ -97,11 +131,9 @@ export default function ProfileEdit() {
               onChange={handleChange}
               placeholder={placeholder}
               disabled={disabled}
-
               className={`w-full px-4 py-2 border border-dark rounded-md font-montserrat focus:outline-none focus:ring-2 focus:ring-secondary ${
                 disabled ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
               }`}
-
             />
           ))}
 
@@ -109,7 +141,7 @@ export default function ProfileEdit() {
             <input
               type="file"
               id="avatar"
-              name="avatar"
+              name="image"
               accept="image/*"
               onChange={handleChange}
               className="hidden"
