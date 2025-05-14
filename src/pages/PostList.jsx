@@ -24,7 +24,7 @@ const PostList = () => {
 
   useEffect(() => {
     const enrichPosts = async () => {
-      const zipcodes = posts.map(post => post.zip).join(",");
+      const zipcodes = posts.map((post) => post.zip).join(",");
 
       if (!zipcodes) {
         setPostsWithCoords(posts);
@@ -34,7 +34,7 @@ const PostList = () => {
       try {
         const locations = await getCoordinatesByZipCodes(zipcodes);
 
-        const updatedPosts = posts.map(post => {
+        const updatedPosts = posts.map((post) => {
           const location = locations[post.zip];
           if (location) {
             return { ...post, latitude: location.lat, longitude: location.lng };
@@ -129,36 +129,49 @@ const PostList = () => {
       ) : (
         <>
           {viewType === "list" ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
-              {postsWithCoords.map((post) => (
-                <PostCard
-                  key={post.item_id}
-                  post={post}
-                  onClick={() =>
-                    navigate(`/app/posts/${post.item_id}`, {
-                      state: { backgroundLocation: location },
-                    })
-                  }
-                />
-              ))}
-            </div> 
-<div className="flex justify-center items-center gap-6 mt-10 font-montserrat text-sm text-dark">
-  <button
-    disabled={page === 1}
-    onClick={() => setPage(page - 1)}
-    className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40"
-  >
-    Previous
-  </button>
-  <span className="whitespace-nowrap">Page {page} of {totalPages}</span>
-  <button
-    disabled={page === totalPages}
-    onClick={() => setPage(page + 1)}
-    className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40"
-  >
-    Next
-  </button>
-</div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+                {postsWithCoords.map((post) => (
+                  <PostCard
+                    key={post.item_id}
+                    post={post}
+                    onClick={() =>
+                      navigate(`/app/posts/${post.item_id}`, {
+                        state: { backgroundLocation: location },
+                      })
+                    }
+                  />
+                ))}
+              </div>
+
+              <div className="flex justify-center items-center gap-6 mt-10 font-montserrat text-sm text-dark">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="whitespace-nowrap">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  disabled={page === totalPages}
+                  onClick={() => setPage(page + 1)}
+                  className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="h-[500px] md:h-[700px] w-full relative z-0">
+              <AllPostMap
+                posts={postsWithValidCoords}
+                setViewType={setViewType}
+              />
+            </div>
+          )}
         </>
       )}
     </div>
