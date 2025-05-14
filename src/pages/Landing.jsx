@@ -170,9 +170,10 @@ export default function Landing() {
                     style={{ backgroundColor: "#B9FF66" }}
                   />
                   <div>
-                    <p className="text-lg font-bold text-dark font-montserrat">
-                      {name}
-                    </p>
+                  <p className="text-lg font-bold text-dark font-montserrat break-words">
+  {name}
+</p>
+
                     <p className="text-sm text-dark font-montserrat">{role}</p>
                     <a
                       href={linkedin}
