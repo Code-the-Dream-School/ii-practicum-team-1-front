@@ -40,12 +40,15 @@ export default function Register() {
     }
 
     const result = await register(formData);
+    console.log("Registration result:", result);
+
     if (result.success) {
-      navigate("/app/posts");
+      navigate("/verify-email?from=register");
     } else {
       setError("Registration failed: " + result.message);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-no-repeat bg-cover bg-[url('/images/bg.png')]">
@@ -156,20 +159,6 @@ export default function Register() {
               </button>
             </div>
           </form>
-
-          <div className="w-5 h-5 mt-8">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log("Google credential response:", credentialResponse);
-              }}
-              onError={() => {
-                console.log("Google Login Failed");
-              }}
-              width="24"
-              ux_mode="popup"
-              useOneTap={false}
-            />
-          </div>
         </div>
       </div>
 

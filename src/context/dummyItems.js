@@ -9,7 +9,7 @@ const dummyItems = [
     zip: "06477",
     photo: "https://images.unsplash.com/photo-1490633874781-1c63cc424610",
     username: "user1",
-    canDeliver: true
+    can_deliver: true
   },
   {
     item_id: 2,

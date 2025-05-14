@@ -6,9 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { useAuth } from "../context/AuthContext";
-
-
- import { BASE_URL, normalizeItem } from "../util/api";
+import { BASE_URL, normalizeItem } from "../util/api";
 
 const PostsContext = createContext();
 
@@ -28,8 +26,6 @@ function PostsProvider({ children }) {
 
       const category = activeCategories[0] || "";
       const params = new URLSearchParams();
-
-
       if (category) params.append("category", category);
       if (searchQuery) params.append("search", searchQuery);
 
@@ -60,9 +56,7 @@ function PostsProvider({ children }) {
 
   const getPost = useCallback(
     async (id) => {
-
-
-      try {
+        try {
         setIsLoading(true);
         setError(null);
         const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
@@ -85,7 +79,25 @@ function PostsProvider({ children }) {
     },
     [fetchWith401Check, token]
   );
+        const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        if (!res) return;
+        const data = await res.json();
+        setCurrentPost(normalizeItem(data.item));
+      } catch (err) {
+        setError(err.message || "Failed to fetch post");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [fetchWith401Check, token]
+  );
+  // TODO: Replace with real API call after PR is merged
   async function updatePost(id, updatedData) {
     try {
       setIsLoading(true);
@@ -104,7 +116,6 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
-
   async function deletePost(id) {
     try {
       setIsLoading(true);

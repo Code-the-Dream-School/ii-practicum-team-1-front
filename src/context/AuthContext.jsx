@@ -5,6 +5,7 @@ import {
   forgotPasswordRequest,
   resetPasswordRequest,
   createApiWithLogout,
+  verifyEmailRequest,
 } from "../util/api";
 
 const AuthContext = createContext();
@@ -24,6 +25,8 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  
+
   const login = async (formData) => {
     try {
       const data = await loginUser(formData);
@@ -37,13 +40,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
   const register = async (formData) => {
     try {
       const data = await registerUser(formData);
-      setUser(data.user);
+      /* setUser(data.user);
       setToken(data.token);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user", JSON.stringify(data.user)); */
       return { success: true };
     } catch (error) {
       return { success: false, message: error.message };
@@ -54,8 +58,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("user")
   };
+
+  const fetchWith401Check = createApiWithLogout(logout);
 
   const forgotPassword = async (email) => {
     try {
@@ -77,6 +83,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const verifyEmail = async ({ token, email }) => {
+    try {
+      await verifyEmailRequest({ token, email });
+      return true;
+    } catch (error) {
+      console.error("Email verification error:", error);
+      return false;
+    }
+  };
+  
+
   return (
     <AuthContext.Provider
       value={{
@@ -89,6 +106,7 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         resetPassword,
         fetchWith401Check,
+        verifyEmail,
       }}
     >
       {children}

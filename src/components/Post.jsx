@@ -16,27 +16,42 @@ const greenIcon = new L.Icon({
 
 export default function Post({ post }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const [coords, setCoords] = useState(null);
+  const [coords, setCoords] = useState(
+    post.latitude && post.longitude
+      ? {
+          lat: post.latitude,
+          lng: post.longitude,
+          city: post.city,
+          state_code: post.state_code,
+        }
+      : null
+  );
+
+  useEffect(() => {
+    if (!coords && post.zip) {
+      getCoordinatesByZip(post.zip)
+        .then(setCoords)
+        .catch((err) => console.error("Geocoding error:", err));
+    }
+  }, [coords, post.zip]);
 
   const selectedPhoto =
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
-
-  console.log("Post User Data:", post.user);
+  useEffect(() => {
+    if (post.zip) {
+      getCityStateByZip(post.zip)
+        .then((label) => setCityState(label || post.zip))
+        .catch((err) => console.error("City/State error:", err));
+    }
+  }, [post.location]);
 
   const fullName = post.user?.name || "Unknown user";
-  useEffect(() => {
-    setCoords(null);
-    if (post.zip) {
-      getCoordinatesByZip(post.zip)
-        .then(setCoords)
-        .catch((err) => console.error("Geocoding error:", err));
-    }
-  }, [post.item_id, post.zip]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
+      {/* Image Block */}
       <div className="w-full lg:w-1/2">
         <div className="rounded-2xl overflow-hidden">
           <img
@@ -64,6 +79,7 @@ export default function Post({ post }) {
         )}
       </div>
 
+      {/* Details Block */}
       <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
         <h2 className="text-4xl font-extrabold font-montserrat text-primary mb-2">
           {post.title}
@@ -117,7 +133,7 @@ export default function Post({ post }) {
             </span>
           </div>
 
-          {post.canDeliver && (
+          {post.can_deliver && (
             <div className="flex items-center gap-2 mt-2">
               <img
                 src="/icons/delivery.svg"

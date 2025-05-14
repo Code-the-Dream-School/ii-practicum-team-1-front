@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -14,6 +14,20 @@ export default function Login() {
   });
 
   const [error, setError] = useState("");
+
+  const errorParam = searchParams.get("error");
+
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    const email = searchParams.get("email");
+
+    if (token && email) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify({ email }));
+      navigate("/app/posts");
+    }
+  }, [searchParams, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +57,7 @@ export default function Login() {
           <h1 className="text-4xl md:text-5xl font-extrabold font-montserrat text-primary mb-8">
             Login to KindNet
           </h1>
-  
+
           <p className="text-lg text-dark font-montserrat">
             Don’t have an account?{" "}
             <Link
@@ -53,9 +67,15 @@ export default function Login() {
               Sign up →
             </Link>
           </p>
-  
-          {error && <p className="text-red-600 font-montserrat mt-4">{error}</p>}
-  
+
+          {(error || errorParam === "user_not_found") && (
+            <p className="text-red-600 font-montserrat mt-4">
+              {errorParam === "user_not_found"
+                ? "User with this Google account was not found. Please register first."
+                : error}
+            </p>
+          )}
+
           <form onSubmit={handleSubmit}>
             <div>
               <input
@@ -67,7 +87,7 @@ export default function Login() {
                 onChange={handleChange}
               />
             </div>
-  
+
             <div>
               <input
                 name="password"
@@ -78,7 +98,7 @@ export default function Login() {
                 onChange={handleChange}
               />
             </div>
-  
+
             <div className="flex items-center gap-4 mt-8">
               <button
                 type="submit"
@@ -89,13 +109,13 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => navigate("/")}
-                className="bg-white border border-dark text-dark rounded-[14px] px-[30px] py-[15px] text-base  hover:border-primary  hover:text-primary"
+                className="bg-white border border-dark text-dark rounded-[14px] px-[30px] py-[15px] text-base hover:border-primary hover:text-primary"
               >
                 Cancel
               </button>
             </div>
           </form>
-  
+
           <p className="mt-6">
             <Link
               to="/forgot-password"
@@ -104,27 +124,30 @@ export default function Login() {
               Forgot password?
             </Link>
           </p>
-  
+
           <div>
-            <div className="w-5 h-5 mt-8">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  console.log("Google credential response:", credentialResponse);
+            <div className="mt-8">
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = `${
+                    import.meta.env.VITE_API_URL
+                  }/auth/google`;
                 }}
-                onError={() => {
-                  console.log("Google Login Failed");
-                }}
-                width="24"
-                ux_mode="popup"
-                useOneTap={false}
-              />
+                className="flex items-center gap-2 border bg-white text-dark rounded-[14px] px-[30px] py-[15px] text-base hover:border hover:border-primary hover:text-primary transition-all"
+              >
+                <img
+                  src="/icons/google-icon.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+                <span>Sign in with Google</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
-  
       <Footer />
     </div>
   );
-  
 }
