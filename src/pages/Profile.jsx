@@ -61,7 +61,7 @@ export default function Profile() {
         <div className="grid md:grid-cols-2 gap-6">
           {userPosts.length > 0 ? (
             userPosts.map((post) => (
-               <PostCard
+              <PostCard
                 key={post.item_id}
                 post={post}
                 onClick={() =>
