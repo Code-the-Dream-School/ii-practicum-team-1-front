@@ -5,7 +5,8 @@ import React, {
   useContext,
   useCallback,
 } from "react";
-import { getFilteredPosts, getPostById } from "../util/api";
+import { useAuth } from "../context/AuthContext";
+import { BASE_URL, normalizeItem } from "../util/api";
 
 const PostsContext = createContext();
 
@@ -16,6 +17,7 @@ function PostsProvider({ children }) {
   const [error, setError] = useState(null);
   const [activeCategories, setActiveCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const { fetchWith401Check, token } = useAuth();
 
   async function fetchPosts() {
     try {
@@ -23,8 +25,25 @@ function PostsProvider({ children }) {
       setError(null);
 
       const category = activeCategories[0] || "";
-      const data = await getFilteredPosts(category, searchQuery);
-      setPosts(data);
+
+      const params = new URLSearchParams();
+      if (category) params.append("category", category);
+      if (searchQuery) params.append("search", searchQuery);
+
+      const res = await fetchWith401Check(
+        `${BASE_URL}/items?${params.toString()}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res) return;
+
+      const data = await res.json();
+      setPosts(data.items || []);
     } catch (err) {
       setError(err.message || "Failed to fetch posts");
     } finally {
@@ -36,19 +55,31 @@ function PostsProvider({ children }) {
     fetchPosts();
   }, [activeCategories, searchQuery]);
 
-  const getPost = useCallback(async (id) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const post = await getPostById(id);
-      setCurrentPost(post);
-    } catch (err) {
-      setError(err.message || "Failed to fetch post");
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const getPost = useCallback(
+    async (id) => {
+      try {
+        setIsLoading(true);
+        setError(null);
 
+        const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res) return;
+        const data = await res.json();
+        setCurrentPost(normalizeItem(data.item));
+      } catch (err) {
+        setError(err.message || "Failed to fetch post");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [fetchWith401Check, token]
+  );
+  // TODO: Replace with real API call after PR is merged
   async function updatePost(id, updatedData) {
     try {
       setIsLoading(true);
@@ -67,7 +98,6 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
-
   async function deletePost(id) {
     try {
       setIsLoading(true);
