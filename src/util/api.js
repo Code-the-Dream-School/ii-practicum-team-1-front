@@ -104,7 +104,6 @@ function normalizeItem(item) {
     },
   };
 }
-
 export async function getFilteredPosts(category, search) {
   const params = new URLSearchParams();
   if (category) params.append("category", category);
@@ -123,8 +122,6 @@ export async function getFilteredPosts(category, search) {
   const data = await res.json();
   return data.items.map(normalizeItem);
 }
-
-
 export async function getPostById(id) {
   const token = localStorage.getItem("token");
 
@@ -136,6 +133,7 @@ export async function getPostById(id) {
   });
 
   const data = await res.json();
+  console.log(data.item);
   if (!res.ok) throw new Error(data.error || "Failed to fetch post");
 
   const item = data.item;
@@ -180,7 +178,6 @@ export const updatePost = async (id, formData, token) => {
   if (!res.ok) throw new Error("Failed to update post");
   return await res.json();
 };
-
 // Delete Post
 export const deletePost = async (id) => {
   const token = localStorage.getItem("token");
