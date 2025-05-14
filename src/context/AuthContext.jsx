@@ -4,7 +4,10 @@ import {
   registerUser,
   forgotPasswordRequest,
   resetPasswordRequest,
+  
 createApiWithLogout,
+  verifyEmailRequest,
+  googleLogin,
 } from "../util/api";
 
 const AuthContext = createContext();
@@ -37,13 +40,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (formData) => {
+  const loginWithGoogle = async (credential) => {
     try {
-      const data = await registerUser(formData);
+      const data = await googleLogin(credential);
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      return { success: true };
+    } catch (error) {
+      console.error("Google login error:", error);
+      return { success: false, message: error.message };
+    }
+  };
+
+  const register = async (formData) => {
+    try {
+      const data = await registerUser(formData);
+      /* setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user)); */
       return { success: true };
     } catch (error) {
       return { success: false, message: error.message };
@@ -79,6 +96,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const verifyEmail = async ({ token, email }) => {
+    try {
+      await verifyEmailRequest({ token, email });
+      return true;
+    } catch (error) {
+      console.error("Email verification error:", error);
+      return false;
+    }
+  };
+  
+
   return (
     <AuthContext.Provider
       value={{
@@ -91,6 +119,8 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         resetPassword,
         fetchWith401Check,
+        verifyEmail,
+        loginWithGoogle,
       }}
     >
       {children}
