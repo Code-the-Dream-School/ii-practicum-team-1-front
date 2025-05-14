@@ -79,24 +79,6 @@ function PostsProvider({ children }) {
     },
     [fetchWith401Check, token]
   );
-        const res = await fetchWith401Check(`${BASE_URL}/items/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res) return;
-        const data = await res.json();
-        setCurrentPost(normalizeItem(data.item));
-      } catch (err) {
-        setError(err.message || "Failed to fetch post");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [fetchWith401Check, token]
-  );
   // TODO: Replace with real API call after PR is merged
   async function updatePost(id, updatedData) {
     try {
