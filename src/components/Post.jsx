@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getCoordinatesByZip } from "../util/geocode";
 import MapView from "./MapView";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -26,6 +27,18 @@ export default function Post({ post }) {
       : null
   );
 
+  useEffect(() => {
+    if (!coords && post.zip) {
+      getCoordinatesByZip(post.zip)
+        .then((coordinates) => {
+          setCoords(coordinates); 
+        })
+        .catch((err) => {
+          console.error("Geocoding error:", err); 
+        });
+    }
+  }, [coords, post.zip]);
+
   const selectedPhoto =
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
@@ -35,7 +48,6 @@ export default function Post({ post }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
-      {/* Image Block */}
       <div className="w-full lg:w-1/2">
         <div className="rounded-2xl overflow-hidden">
           <img
@@ -63,7 +75,6 @@ export default function Post({ post }) {
         )}
       </div>
 
-      {/* Details Block */}
       <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
         <h2 className="text-4xl font-extrabold font-montserrat text-primary mb-2">
           {post.title}
@@ -77,9 +88,13 @@ export default function Post({ post }) {
 
         <div className="mb-6">
           <h3 className="text-lg font-semibold">Address to meet:</h3>
-          <p>
-            {post.city}, {post.state_code} {post.zip}
-          </p>
+          {coords ? (
+            <p>
+              {coords.city}, {coords.state_code} {post.zip}
+            </p>
+          ) : (
+            <p>{post.zip}</p>
+          )}
           {coords ? (
             <div className="w-full h-52 bg-gray-light rounded-xl mt-4">
               <MapView
