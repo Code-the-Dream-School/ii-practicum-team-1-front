@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MapView from "./MapView";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -30,13 +30,6 @@ export default function Post({ post }) {
     (Array.isArray(post?.photos)
       ? post.photos[selectedPhotoIndex]
       : post?.photo) || null;
-  useEffect(() => {
-    if (post.zip) {
-      getCityStateByZip(post.zip)
-        .then((label) => setCityState(label || post.zip))
-        .catch((err) => console.error("City/State error:", err));
-    }
-  }, [post.location]);
 
   const fullName = post.user?.name || "Unknown user";
 
