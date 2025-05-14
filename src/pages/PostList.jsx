@@ -77,26 +77,24 @@ const PostList = () => {
                   }
                 />
               ))}
-            <div className="flex justify-center items-center gap-4 mt-8">
-              <button
-                disabled={page === 1}
-                onClick={() => setPage(page - 1)}
-                className="px-4 py-2 bg-dark text-white rounded disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <span className="text-sm text-gray">
-                Page {page} of {totalPages}
-              </span>
-              <button
-                disabled={page === totalPages}
-                onClick={() => setPage(page + 1)}
-                className="px-4 py-2 bg-dark text-white rounded disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          </div>
+            </div> {/* конец карточек */}
+<div className="flex justify-center items-center gap-6 mt-10 font-montserrat text-sm text-dark">
+  <button
+    disabled={page === 1}
+    onClick={() => setPage(page - 1)}
+    className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40"
+  >
+    Previous
+  </button>
+  <span className="whitespace-nowrap">Page {page} of {totalPages}</span>
+  <button
+    disabled={page === totalPages}
+    onClick={() => setPage(page + 1)}
+    className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40"
+  >
+    Next
+  </button>
+</div>
         </>
       )}
     </div>

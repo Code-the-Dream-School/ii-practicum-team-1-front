@@ -24,6 +24,7 @@ import PostEditDelete from "../pages/PostEditDelete";
 import Navbar from "./Navbar";
 import { useAuth } from "../context/AuthContext";
 import ProfileEdit from "../pages/ProfileEdit";
+import VerifyEmail from "../pages/VerifyEmail";
 
 function RedirectLogic({ children }) {
   const { user } = useAuth();
@@ -67,7 +68,7 @@ export default function AppRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route
           path="app"
           element={
