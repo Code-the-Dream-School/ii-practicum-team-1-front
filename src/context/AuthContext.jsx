@@ -4,6 +4,7 @@ import {
   registerUser,
   forgotPasswordRequest,
   resetPasswordRequest,
+  createApiWithLogout,
 } from "../util/api";
 
 const AuthContext = createContext();
@@ -11,6 +12,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const fetchWith401Check = createApiWithLogout(logout);
+
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -85,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         register,
         forgotPassword,
         resetPassword,
+        fetchWith401Check,
       }}
     >
       {children}
