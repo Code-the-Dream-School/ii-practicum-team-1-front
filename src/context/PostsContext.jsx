@@ -12,6 +12,7 @@ import {
   createPost as apiCreatePost,
   updatePost as apiUpdatePost,
   deletePost as apiDeletePost,
+  getPaginatedPosts,
 } from "../util/api";
 
 import { useAuth } from "./AuthContext";
@@ -36,10 +37,12 @@ function PostsProvider({ children }) {
       setError(null);
 
       const category = activeCategories[0] || "";
+
       const params = new URLSearchParams();
       if (category) params.append("category", category);
       if (searchQuery) params.append("search", searchQuery);
-      params.append("page", page);
+
+      params.append("offset", (page-1) * 12);
       params.append("limit", 12);
       
       const res = await fetchWith401Check(
