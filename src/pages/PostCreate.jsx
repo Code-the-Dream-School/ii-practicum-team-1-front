@@ -57,7 +57,7 @@ export default function PostCreate() {
         }
       });
     
-      form.append("can_deliver", formData.canDeliver);
+      form.append("can_deliver", formData.can_deliver);
     
       try {
         await createPost(form);
