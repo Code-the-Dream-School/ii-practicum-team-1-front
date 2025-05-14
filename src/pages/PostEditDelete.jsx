@@ -33,7 +33,7 @@ export default function PostEdit() {
         photos: (currentPost.images || []).map((img) => ({
           type: "existing",
           url: img.image_url,
-          public_id: img.public_id,
+          public_id: img.id,
         })),
         canDeliver: currentPost.canDeliver || false,
       });
@@ -123,10 +123,39 @@ export default function PostEdit() {
                     }}
                     className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
                   >
-                    ✕
+                    <img
+                      src="/public/icons/close.svg"
+                      alt="Remove"
+                      className="w-4 h-4"
+                    />
                   </button>
                 </div>
               ))}
+              {/* Upload new images */}
+              <label className="block font-montserrat text-sm text-dark">
+                Add new photo(s)
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    const newPhotos = files.map((file) => ({
+                      type: "new",
+                      file,
+                    }));
+                    setFormData((prev) => ({
+                      ...prev,
+                      photos: [...prev.photos, ...newPhotos],
+                    }));
+                  }}
+                  className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-primary file:text-white
+      hover:file:bg-secondary hover:file:text-dark transition"
+                />
+              </label>
             </div>
           )}
 
