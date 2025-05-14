@@ -197,4 +197,4 @@ export function createApiWithLogout(logout) {
     }
     return res;
   };
-};
+}
