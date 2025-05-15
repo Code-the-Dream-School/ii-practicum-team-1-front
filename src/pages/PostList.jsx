@@ -124,7 +124,7 @@ const PostList = () => {
         <p className="text-center py-8">Loading posts...</p>
       ) : error ? (
         <p className="text-red-500 text-center py-8">Error: {error}</p>
-      ) : postsWithCoords.length === 0 ? (
+      ) : postsWithCoords.length === 0 && searchQuery !== "" ? (
         <p className="text-center text-gray py-8">
           No posts found. Try another search.
         </p>
@@ -156,6 +156,5 @@ const PostList = () => {
       )}
     </div>
   );
-};
-
-export default PostList;
+}
+  export default PostList;

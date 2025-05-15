@@ -32,6 +32,7 @@ function PostsProvider({ children }) {
     try {
       setIsLoading(true);
       setError(null);
+  
 
       const category = activeCategories[0] || "";
       const params = new URLSearchParams();
