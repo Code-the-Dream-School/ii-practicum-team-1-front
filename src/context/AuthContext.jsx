@@ -12,7 +12,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const [loading, setLoading] = useState(true);  
 
   const logout = () => {
     setUser(null);
@@ -20,9 +21,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   };
-  
-  const fetchWith401Check = createApiWithLogout(logout);
 
+  const fetchWith401Check = createApiWithLogout(logout);
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -31,7 +31,12 @@ export const AuthProvider = ({ children }) => {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
     }
+    setLoading(false);  
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const login = async (formData) => {
     try {
@@ -45,6 +50,7 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: error.message };
     }
   };
+
   const register = async (formData) => {
     try {
       const data = await registerUser(formData);
@@ -57,6 +63,7 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: error.message };
     }
   };
+
   const forgotPassword = async (email) => {
     try {
       await forgotPasswordRequest(email);
@@ -86,7 +93,6 @@ export const AuthProvider = ({ children }) => {
       return false;
     }
   };
-  
 
   return (
     <AuthContext.Provider

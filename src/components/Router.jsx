@@ -1,17 +1,10 @@
-import {
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
-
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import PostCreate from "../pages/PostCreate";
-import Post from "./Post";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import AppLayout from "./AppLayout";
@@ -25,6 +18,7 @@ import Navbar from "./Navbar";
 import { useAuth } from "../context/AuthContext";
 import ProfileEdit from "../pages/ProfileEdit";
 import VerifyEmail from "../pages/VerifyEmail";
+import { PostsProvider } from "../context/PostsContext";
 
 function RedirectLogic({ children }) {
   const { user } = useAuth();
@@ -39,7 +33,6 @@ function RedirectLogic({ children }) {
   ].includes(location.pathname);
   const isAppPage = location.pathname.startsWith("/app");
 
-  // 👇 Новая защита: ждём, пока проверяется токен
   const isCheckingAuth = user === null && localStorage.getItem("token");
   if (isCheckingAuth) return null;
 
@@ -78,7 +71,14 @@ export default function AppRouter() {
           }
         >
           <Route index element={<Navigate replace to="posts" />} />
-          <Route path="posts" element={<PostsLayout />}>
+          <Route
+            path="posts"
+            element={
+              <PostsProvider>
+                <PostsLayout />
+              </PostsProvider>
+            }
+          >
             <Route index element={<PostList />} />
             <Route path="new" element={<PostCreate />} />
             <Route path=":id" element={<PostPage />} />
@@ -91,11 +91,14 @@ export default function AppRouter() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-        {backgroundLocation && backgroundLocation !== location && (
+
+      {backgroundLocation && backgroundLocation !== location && (
+        <PostsProvider>
           <Routes>
             <Route path="/app/posts/:id" element={<PostModal />} />
           </Routes>
-        )}
-      </RedirectLogic>
+        </PostsProvider>
+      )}
+    </RedirectLogic>
   );
 }

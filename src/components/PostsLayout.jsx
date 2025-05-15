@@ -17,4 +17,4 @@ export default function PostsLayout() {
       </div>
     </div>
   );
-}
+};

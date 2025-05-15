@@ -35,6 +35,7 @@ function PostsProvider({ children }) {
     try {
       setIsLoading(true);
       setError(null);
+  
 
       const category = activeCategories[0] || "";
 
@@ -65,10 +66,7 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
-  useEffect(() => {
-    fetchPosts();
-  }, [activeCategories, searchQuery, page]);
-
+  
   const getPost = useCallback(
     async (id) => {
         try {
@@ -122,6 +120,7 @@ function PostsProvider({ children }) {
         createPost,
         searchQuery,
         setSearchQuery,
+        fetchPosts,
         page,
         setPage,
         totalPages,

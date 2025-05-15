@@ -7,8 +7,7 @@ import AllPostMap from "../components/AllPostMap";
 import { getCoordinatesByZipCodes } from "../util/geocode";
 
 const PostList = () => {
-  const { posts, isLoading, error, setSearchQuery, page, setPage, totalPages } =
-    usePosts();
+  const { posts, isLoading, error, setSearchQuery, fetchPosts, activeCategories, searchQuery, page, setPage, totalPages } = usePosts();
   const [inputValue, setInputValue] = useState("");
   const [viewType, setViewType] = useState("list");
   const [postsWithCoords, setPostsWithCoords] = useState(posts);
@@ -16,6 +15,10 @@ const PostList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    fetchPosts();
+  }, [activeCategories, searchQuery, page]);
+  
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
@@ -54,6 +57,11 @@ const PostList = () => {
       enrichPosts();
     }
   }, [posts]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchQuery(inputValue.trim());
+  };
 
   const postsWithValidCoords = postsWithCoords.filter(
     (post) => post.latitude && post.longitude
@@ -123,7 +131,7 @@ const PostList = () => {
         <p className="text-center py-8">Loading posts...</p>
       ) : error ? (
         <p className="text-red-500 text-center py-8">Error: {error}</p>
-      ) : postsWithCoords.length === 0 ? (
+      ) : postsWithCoords.length === 0 && searchQuery !== "" ? (
         <p className="text-center text-gray py-8">
           No posts found. Try another search.
         </p>
@@ -177,6 +185,5 @@ const PostList = () => {
       )}
     </div>
   );
-};
-
-export default PostList;
+}
+  export default PostList;
