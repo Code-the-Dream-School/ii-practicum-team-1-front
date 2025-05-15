@@ -133,7 +133,7 @@ export default function Post({ post }) {
           {user?.username === post.username && (
             <button
               onClick={() => navigate(`/app/posts/${post.item_id}/edit`)}
-              className="mt-4 px-4 py-2 border border-dark rounded-xl text-primary font-semibold hover:border-secondary transition"
+               className="mt-4 px-6 py-3 bg-dark text-white rounded-2xl font-montserrat text-sm hover:bg-primary hover:text-dark transition-all"
             >
               Edit Post
             </button>
