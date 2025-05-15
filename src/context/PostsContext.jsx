@@ -12,6 +12,7 @@ import {
   createPost as apiCreatePost,
   updatePost as apiUpdatePost,
   deletePost as apiDeletePost,
+  getPaginatedPosts,
 } from "../util/api";
 
 import { useAuth } from "./AuthContext";
@@ -26,6 +27,8 @@ function PostsProvider({ children }) {
   const [error, setError] = useState(null);
   const [activeCategories, setActiveCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { fetchWith401Check, token } = useAuth();
 
   async function fetchPosts() {
@@ -34,10 +37,14 @@ function PostsProvider({ children }) {
       setError(null);
 
       const category = activeCategories[0] || "";
+
       const params = new URLSearchParams();
       if (category) params.append("category", category);
       if (searchQuery) params.append("search", searchQuery);
 
+      params.append("offset", (page-1) * 12);
+      params.append("limit", 12);
+      
       const res = await fetchWith401Check(
         `${BASE_URL}/items?${params.toString()}`,
         {
@@ -47,13 +54,11 @@ function PostsProvider({ children }) {
           },
         }
       );
-
       if (!res) return;
-
-      const data = await res.json();
-      console.log("Fetched data", data);
       
-      setPosts(data.items.map(normalizeItem) || []);
+      const data = await res.json();
+      setPosts(data.items.map(normalizeItem));
+      setTotalPages(data.pagination?.total_pages || 1);
     } catch (err) {
       setError(err.message || "Failed to fetch posts");
     } finally {
@@ -62,7 +67,7 @@ function PostsProvider({ children }) {
   }
   useEffect(() => {
     fetchPosts();
-  }, [activeCategories, searchQuery]);
+  }, [activeCategories, searchQuery, page]);
 
   const getPost = useCallback(
     async (id) => {
@@ -117,6 +122,9 @@ function PostsProvider({ children }) {
         createPost,
         searchQuery,
         setSearchQuery,
+        page,
+        setPage,
+        totalPages,
       }}
     >
       {children}

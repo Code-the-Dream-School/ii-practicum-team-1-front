@@ -48,7 +48,7 @@ export default function VerifyEmail() {
   return (
     <div className="min-h-screen bg-no-repeat bg-cover bg-[url('/images/bg.png')]">
       <div className="max-w-[1440px] px-[100px] mx-auto pt-20">
-        <h1 className="text-4xl md:text-5xl font-extrabold font-montserrat text-primary mb-4">
+    <h1 className="text-4xl md:text-5xl font-extrabold font-montserrat text-primary mb-4">
           Verify Email
         </h1>
 
