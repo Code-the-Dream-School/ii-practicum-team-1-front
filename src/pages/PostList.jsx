@@ -35,7 +35,8 @@ const PostList = () => {
         const updatedPosts = posts.map(post => {
           const location = locations[post.zip];
           if (location) {
-            return { ...post, latitude: location.lat, longitude: location.lng };
+            return { ...post, ...location };
+
           }
           return post;
         });
