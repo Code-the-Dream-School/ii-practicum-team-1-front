@@ -1,7 +1,10 @@
 import React from "react";
 
 export default function PostCard({ post, onClick }) {
-  const image = Array.isArray(post.photos) ? post.photos[0] : post.photo;
+  const image =
+    Array.isArray(post.photos) && post.photos.length > 0
+      ? post.photos[0]
+      : post.photo || "/images/placeholder.png";
 
   return (
     <div onClick={onClick}>
@@ -13,7 +16,7 @@ export default function PostCard({ post, onClick }) {
         `}
       >
         <img
-          src={image || "/images/placeholder.png"}
+          src={image}
           alt={post.title}
           className="w-full aspect-square object-cover"
         />
