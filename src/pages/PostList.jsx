@@ -14,6 +14,7 @@ const PostList = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
