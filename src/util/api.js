@@ -188,6 +188,31 @@ export const deletePost = async (id) => {
   return normalizeItem(data.item);
 };
 
+export async function getPaginatedPosts({ page = 1, limit = 12, search = "", category = "" }) {
+  const params = new URLSearchParams();
+  params.append("offset", (page - 1) * limit);
+  params.append("limit", limit);
+  if (search) params.append("search", search);
+  if (category) params.append("category", category);
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${BASE_URL}/items?${params.toString()}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch posts");
+
+  const data = await res.json();
+  return {
+    posts: data.items.map(normalizeItem),
+    totalPages: data.pagination.total_pages,
+    currentPage: data.pagination.current_page,
+  };
+}
 export function createApiWithLogout(logout) {
   return async function fetchWith401Check(url, options = {}) {
     const res = await fetch(url, options);

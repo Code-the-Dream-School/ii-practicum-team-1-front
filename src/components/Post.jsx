@@ -35,8 +35,12 @@ export default function Post({ post }) {
   useEffect(() => {
     if (!coords && post.zip) {
       getCoordinatesByZip(post.zip)
-        .then(setCoords)
-        .catch((err) => console.error("Geocoding error:", err));
+        .then((coordinates) => {
+          setCoords(coordinates); 
+        })
+        .catch((err) => {
+          console.error("Geocoding error:", err); 
+        });
     }
   }, [coords, post.zip]);
 
@@ -48,7 +52,6 @@ export default function Post({ post }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full">
-      {/* Image Block */}
       <div className="w-full lg:w-1/2">
         <div className="rounded-2xl overflow-hidden">
           <img
@@ -76,7 +79,6 @@ export default function Post({ post }) {
         )}
       </div>
 
-      {/* Details Block */}
       <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
         <h2 className="text-4xl font-extrabold font-montserrat text-primary mb-2">
           {post.title}
@@ -133,7 +135,7 @@ export default function Post({ post }) {
           {user?.username === post.username && (
             <button
               onClick={() => navigate(`/app/posts/${post.item_id}/edit`)}
-              className="mt-4 px-4 py-2 border border-dark rounded-xl text-primary font-semibold hover:border-secondary transition"
+               className="mt-4 px-6 py-3 bg-dark text-white rounded-2xl font-montserrat text-sm hover:bg-primary hover:text-dark transition-all"
             >
               Edit Post
             </button>

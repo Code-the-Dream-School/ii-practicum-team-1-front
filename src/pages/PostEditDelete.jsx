@@ -132,9 +132,20 @@ export default function PostEdit() {
                 </div>
               ))}
               {/* Upload new images */}
-              <label className="block font-montserrat text-sm text-dark">
-                Add new photo(s)
+              <label
+                htmlFor="upload"
+                className="flex flex-col items-center justify-center w-[148px] h-[148px] rounded-[20px] border border-black cursor-pointer bg-[#F2F3F4] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition"
+              >
+                <img
+                  src="/icons/photo_icon.png"
+                  alt="Add photo"
+                  className="w-16 h-16 rounded-full mb-2"
+                />
+                <span className="text-sm text-gray-500 font-montserrat">
+                  Add photos
+                </span>
                 <input
+                  id="upload"
                   type="file"
                   multiple
                   accept="image/*"
@@ -149,11 +160,7 @@ export default function PostEdit() {
                       photos: [...prev.photos, ...newPhotos],
                     }));
                   }}
-                  className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-      file:rounded-full file:border-0
-      file:text-sm file:font-semibold
-      file:bg-primary file:text-white
-      hover:file:bg-secondary hover:file:text-dark transition"
+                  className="hidden"
                 />
               </label>
             </div>
