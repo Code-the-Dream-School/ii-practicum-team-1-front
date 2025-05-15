@@ -114,6 +114,7 @@ function PostsProvider({ children }) {
         createPost,
         searchQuery,
         setSearchQuery,
+        fetchPosts,
       }}
     >
       {children}
