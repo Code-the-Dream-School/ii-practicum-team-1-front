@@ -2,9 +2,9 @@ import React from "react";
 
 export default function PostCard({ post, onClick }) {
   const image =
-    Array.isArray(post.photos) && post.photos.length > 0
-      ? post.photos[0]
-      : post.photo || "/images/placeholder.png";
+  Array.isArray(post.images) && post.images.length > 0
+    ? post.images[0].image_url
+    : "/images/placeholder.png";
 
   return (
     <div onClick={onClick}>
