@@ -6,8 +6,22 @@ import PostCard from "../components/PostCard";
 import AllPostMap from "../components/AllPostMap";
 import { getCoordinatesByZipCodes } from "../util/geocode";
 
+const zipCache = {};
+
 const PostList = () => {
-  const { posts, isLoading, error, setSearchQuery, fetchPosts, activeCategories, searchQuery, page, setPage, totalPages } = usePosts();
+  const {
+    posts,
+    isLoading,
+    error,
+    setSearchQuery,
+    fetchPosts,
+    activeCategories,
+    searchQuery,
+    page,
+    setPage,
+    totalPages,
+  } = usePosts();
+
   const [inputValue, setInputValue] = useState("");
   const [viewType, setViewType] = useState("list");
   const [postsWithCoords, setPostsWithCoords] = useState(posts);
@@ -18,7 +32,7 @@ const PostList = () => {
   useEffect(() => {
     fetchPosts();
   }, [activeCategories, searchQuery, page]);
-  
+
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
@@ -27,7 +41,7 @@ const PostList = () => {
 
   useEffect(() => {
     const enrichPosts = async () => {
-      const zipcodes = posts.map((post) => post.zip).join(",");
+      const zipcodes = posts.map((post) => post.zip).filter(Boolean).join(",");
 
       if (!zipcodes) {
         setPostsWithCoords(posts);
@@ -36,12 +50,14 @@ const PostList = () => {
 
       try {
         const locations = await getCoordinatesByZipCodes(zipcodes);
+        console.log("Locations returned by getCoordinatesByZipCodes:", locations);
 
         const updatedPosts = posts.map((post) => {
+          console.log(`Checking post zip: ${post.zip}`, locations[post.zip]);
+
           const location = locations[post.zip];
           if (location) {
             return { ...post, ...location };
-
           }
           return post;
         });
@@ -59,8 +75,9 @@ const PostList = () => {
   }, [posts]);
 
   const postsWithValidCoords = postsWithCoords.filter(
-    (post) => post.latitude && post.longitude
+    (post) => post.lat && post.lng
   );
+  
 
   return (
     <div className="max-w-[1440px] mx-auto px-2 py-5 flex flex-col">
@@ -180,5 +197,6 @@ const PostList = () => {
       )}
     </div>
   );
-}
-  export default PostList;
+};
+
+export default PostList;

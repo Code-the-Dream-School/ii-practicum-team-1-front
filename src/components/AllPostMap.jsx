@@ -1,8 +1,8 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useNavigate, useLocation } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const greenIcon = new L.Icon({
   iconUrl:
@@ -17,8 +17,8 @@ const greenIcon = new L.Icon({
 function groupPostsByLocation(posts) {
   const groups = {};
   posts.forEach((post) => {
-    if (!post.latitude || !post.longitude) return;
-    const key = `${post.latitude},${post.longitude}`;
+    if (!post.lat || !post.lng) return;
+    const key = `${post.lat},${post.lng}`;
     if (!groups[key]) {
       groups[key] = [];
     }
@@ -27,7 +27,7 @@ function groupPostsByLocation(posts) {
   return groups;
 }
 
-function AllPostMap({ posts, setViewType }) {
+export default function AllPostMap({ posts, setViewType }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,27 +36,19 @@ function AllPostMap({ posts, setViewType }) {
 
   if (groupKeys.length === 0) {
     return (
-      <p className="text-center text-gray py-8">
-        No posts with location to show on the map
-      </p>
+      <MapContainer center={[37.7749, -122.4194]} zoom={5} style={{ height: "100%", width: "100%" }}>
+        <TileLayer
+          url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png"
+          attribution="&copy; Stadia Maps"
+        />
+      </MapContainer>
     );
   }
 
-  const firstGroupKey = groupKeys[0];
-  const [lat, lng] = firstGroupKey.split(",").map(Number);
-
-  const handleClick = (postId) => {
-    navigate(`/app/posts/${postId}`, {
-      state: { backgroundLocation: location },
-    });
-  };
+  const [lat, lng] = groupKeys[0].split(",").map(Number);
 
   return (
-    <MapContainer
-      center={[lat, lng]}
-      zoom={5}
-      style={{ height: "100%", width: "100%" }}
-    >
+    <MapContainer center={[lat, lng]} zoom={5} style={{ height: "100%", width: "100%" }}>
       <TileLayer
         url="https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png"
         attribution="&copy; Stadia Maps"
@@ -70,7 +62,9 @@ function AllPostMap({ posts, setViewType }) {
             <Popup>
               {postsAtLocation.length === 1 ? (
                 <button
-                  onClick={() => handleClick(postsAtLocation[0].item_id)}
+                  onClick={() => navigate(`/app/posts/${postsAtLocation[0].item_id}`, {
+                    state: { backgroundLocation: location },
+                  })}
                   className="text-primary underline"
                 >
                   {postsAtLocation[0].title}
@@ -82,7 +76,9 @@ function AllPostMap({ posts, setViewType }) {
                     {postsAtLocation.map((p) => (
                       <li key={p.item_id}>
                         <button
-                          onClick={() => handleClick(p.item_id)}
+                          onClick={() => navigate(`/app/posts/${p.item_id}`, {
+                            state: { backgroundLocation: location },
+                          })}
                           className="text-primary underline"
                         >
                           {p.title}
@@ -99,5 +95,3 @@ function AllPostMap({ posts, setViewType }) {
     </MapContainer>
   );
 }
-
-export default AllPostMap;
