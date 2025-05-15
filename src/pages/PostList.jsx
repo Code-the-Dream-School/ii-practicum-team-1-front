@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -24,13 +23,15 @@ const PostList = () => {
   const [inputValue, setInputValue] = useState("");
   const [viewType, setViewType] = useState("list");
   const [postsWithCoords, setPostsWithCoords] = useState(posts);
+  const [isCategoryLoading, setIsCategoryLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     console.log("Fetching posts with params:", { activeCategories, searchQuery, page });
-    setPostsWithCoords([]); 
+    setIsCategoryLoading(true);
+    setPostsWithCoords([]);
     fetchPosts();
   }, [activeCategories, searchQuery, page]);
 
@@ -47,6 +48,7 @@ const PostList = () => {
       const zipcodes = posts.map((post) => post.zip).filter(Boolean).join(",");
       if (!zipcodes) {
         setPostsWithCoords(posts);
+        setIsCategoryLoading(false);
         return;
       }
 
@@ -60,11 +62,15 @@ const PostList = () => {
       } catch (error) {
         console.error("Geocoding error:", error);
         setPostsWithCoords(posts);
+      } finally {
+        setIsCategoryLoading(false);
       }
     };
 
     if (posts.length > 0) {
       enrichPosts();
+    } else {
+      setIsCategoryLoading(false);
     }
   }, [posts]);
 
@@ -118,8 +124,8 @@ const PostList = () => {
         </div>
       </form>
 
-      {isLoading ? (
-        <p className="text-center py-8">Loading posts...</p>
+      {isLoading || isCategoryLoading ? (
+        <p className="text-center py-8">Loading posts for category...</p>
       ) : error ? (
         <p className="text-red-500 text-center py-8">Error: {error}</p>
       ) : postsWithCoords.length === 0 && searchQuery !== "" ? (
