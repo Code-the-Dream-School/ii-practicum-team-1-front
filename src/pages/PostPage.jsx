@@ -7,7 +7,7 @@ import PostCard from "../components/PostCard";
 
 export default function PostPage() {
   const { id } = useParams();
-  const { getPost, currentPost, posts, isLoading, error } = usePosts();
+  const { getPost, currentPost, posts, isLoading, error, fetchPosts } = usePosts();
 
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const selectedPhoto =
@@ -18,6 +18,7 @@ export default function PostPage() {
   useEffect(() => {
     console.log("PostPage - ID param:", id);
     getPost(Number(id));
+    fetchPosts();
   }, [id, getPost]);
 
   console.log("PostPage - currentPost:", currentPost);
