@@ -7,19 +7,17 @@ import AllPostMap from "../components/AllPostMap";
 import { getCoordinatesByZipCodes } from "../util/geocode";
 
 const PostList = () => {
-  const { posts, isLoading, error, setSearchQuery } = usePosts();
+  const { posts, isLoading, error, setSearchQuery, fetchPosts, activeCategories, searchQuery } = usePosts();
   const [inputValue, setInputValue] = useState("");
   const [viewType, setViewType] = useState("list");
   const [postsWithCoords, setPostsWithCoords] = useState(posts);
 
   const navigate = useNavigate();
   const location = useLocation();
-  
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchQuery(inputValue.trim());
-  };
+  useEffect(() => {
+    fetchPosts();
+  }, [activeCategories, searchQuery]);
 
   useEffect(() => {
     const enrichPosts = async () => {
@@ -52,6 +50,11 @@ const PostList = () => {
       enrichPosts();
     }
   }, [posts]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchQuery(inputValue.trim());
+  };
 
   const postsWithValidCoords = postsWithCoords.filter(
     (post) => post.latitude && post.longitude

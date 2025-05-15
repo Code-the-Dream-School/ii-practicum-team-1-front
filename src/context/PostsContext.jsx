@@ -60,9 +60,6 @@ function PostsProvider({ children }) {
       setIsLoading(false);
     }
   }
-  useEffect(() => {
-    fetchPosts();
-  }, [activeCategories, searchQuery]);
 
   const getPost = useCallback(
     async (id) => {
