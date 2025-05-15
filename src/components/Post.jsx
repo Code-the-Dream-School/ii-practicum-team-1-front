@@ -19,7 +19,7 @@ const greenIcon = new L.Icon({
 
 export default function Post({ post }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const { user } = useAuth;
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [coords, setCoords] = useState(
     post.latitude && post.longitude
@@ -132,7 +132,7 @@ export default function Post({ post }) {
             </span>
           </div>
 
-          {user?.username === post.username && (
+          {user?.email === post.user?.email && (
             <button
               onClick={() => navigate(`/app/posts/${post.item_id}/edit`)}
                className="mt-4 px-6 py-3 bg-dark text-white rounded-2xl font-montserrat text-sm hover:bg-primary hover:text-dark transition-all"
