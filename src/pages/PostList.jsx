@@ -58,11 +58,6 @@ const PostList = () => {
     }
   }, [posts]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchQuery(inputValue.trim());
-  };
-
   const postsWithValidCoords = postsWithCoords.filter(
     (post) => post.latitude && post.longitude
   );
