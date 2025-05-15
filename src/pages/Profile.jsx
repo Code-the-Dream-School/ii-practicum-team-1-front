@@ -1,19 +1,31 @@
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { usePosts } from "../context/PostsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import PostCard from "../components/PostCard";
+import { getUserPosts } from "../util/api";
 
 export default function Profile() {
-  const { user } = useAuth();
-  const { posts } = usePosts();
+  const { user, token } = useAuth();
+  const [userPosts, setUserPosts] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
+  useEffect(() => {
+    const loadUserPosts = async () => {
+      try {
+        const posts = await getUserPosts(token);
+        setUserPosts(posts);
+      } catch (error) {
+        console.error("Failed to load user posts:", error);
+      }
+    };
 
-  const userPosts = Array.isArray(posts)
-    ? posts.filter((post) => post.username === user.username)
-    : [];
+    if (token) {
+      loadUserPosts();
+    }
+  }, [token]);
+
+  if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -23,7 +35,6 @@ export default function Profile() {
         </h1>
 
         <div className="flex flex-col md:flex-row md:items-start gap-8 mb-10">
-          {/* Avatar + Info */}
           <img
             src={user.avatar_url || "/icons/empty_avatar.png"}
             alt="User avatar"
@@ -54,7 +65,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Posts section */}
         <h2 className="text-2xl font-bold font-montserrat text-dark mb-4">
           My Items
         </h2>

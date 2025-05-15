@@ -198,3 +198,18 @@ export function createApiWithLogout(logout) {
     return res;
   };
 }
+
+export async function getUserPosts(token) {
+  const response = await fetch(`${BASE_URL}/items?self=true`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch user posts");
+  }
+
+  const data = await response.json();
+  return data.items.map(normalizeItem);
+}
