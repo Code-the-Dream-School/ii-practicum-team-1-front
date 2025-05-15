@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import PostCard from "../components/PostCard";
 import { getUserPosts } from "../util/api";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const { user, token } = useAuth();
@@ -28,12 +29,22 @@ export default function Profile() {
   if (!user) return <p className="p-6 font-montserrat">Loading...</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-5xl mx-auto bg-white p-10 rounded-xl shadow-md">
+    <div className="max-w-[1440px] mx-auto px-2 py-5 flex flex-col">
+      <div className="max-w-[1440px] px-[100px] mx-auto pt-20">
+        
+        {/* Back Link */}
+        <div className="mb-6">
+          <Link to="/app/posts" className="text-sm text-dark hover:text-primary">
+            ← Back to all posts
+          </Link>
+        </div>
+  
+        {/* Profile Heading */}
         <h1 className="text-3xl font-extrabold font-montserrat text-dark mb-8">
           My Profile
         </h1>
-
+  
+        {/* Profile Info */}
         <div className="flex flex-col md:flex-row md:items-start gap-8 mb-10">
           <img
             src={user.avatar_url || "/icons/empty_avatar.png"}
@@ -64,11 +75,12 @@ export default function Profile() {
             </button>
           </div>
         </div>
-
+  
+        {/* User Posts */}
         <h2 className="text-2xl font-bold font-montserrat text-dark mb-4">
           My Items
         </h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
           {userPosts.length > 0 ? (
             userPosts.map((post) => (
               <PostCard
