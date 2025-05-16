@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePosts } from "../context/PostsContext";
 import categories from "../util/categories";
+import { Link } from "react-router-dom";
 
 export default function PostCreate() {
   const navigate = useNavigate();
@@ -71,6 +72,16 @@ export default function PostCreate() {
   return (
     <div className="max-w-[1440px] mx-auto pt-20">
       <div className="max-w-[720px] w-full">
+        {/* Back Link */}
+        <div className="mb-6">
+          <Link
+            to="/app/posts"
+            className="text-sm text-dark hover:text-primary"
+          >
+            ← Back to all posts
+          </Link>
+        </div>
+
         <h1 className="text-3xl font-extrabold font-montserrat text-primary mb-8">
           Create Post
         </h1>
