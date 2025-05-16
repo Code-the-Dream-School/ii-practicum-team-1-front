@@ -21,10 +21,29 @@ export default function Login() {
   useEffect(() => {
     const token = searchParams.get("token");
     const email = searchParams.get("email");
+    const id = searchParams.get("id");
+    const username = searchParams.get("username");
+    const first_name = searchParams.get("first_name");
+    const last_name = searchParams.get("last_name");
+    const phone_number = searchParams.get("phone_number");
+    const zip_code = searchParams.get("zip_code");
+    const avatar_url = searchParams.get("avatar_url");
 
     if (token && email) {
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify({ email }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id,
+          email,
+          username,
+          first_name,
+          last_name,
+          phone_number,
+          zip_code,
+          avatar_url,
+        })
+      );
       navigate("/app/posts");
     }
   }, [searchParams, navigate]);
