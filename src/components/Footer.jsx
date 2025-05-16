@@ -11,25 +11,21 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-10 px-22 md:px-0 ">
           {/* Logo and Contact */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
+            <a href="/" className="flex items-center gap-3 mb-6">
               <img
                 src="/images/KindNet-white.png"
                 alt="KindNet Logo"
                 className="h-4"
               />
-            </div>
-
-            <p
-              className="inline-block text-sm bg-white
-             text-dark px-3 py-1 rounded-xl mb-2"
-            >
+            </a>
+            <p className="inline-block text-sm bg-white text-dark px-3 py-1 rounded-xl mb-2">
               Contact us:
             </p>
             <a
-              href="mailto:kidnet@gmail.com"
+              href="mailto:sharkspracticum@gmail.com"
               className="text-sm font-montserrat mt-2 flex items-center gap-2 hover:underline"
             >
-              <Mail size={16} /> kidnet@gmail.com
+              <Mail size={16} /> sharkspracticum@gmail.com
             </a>
           </div>
 
@@ -37,9 +33,9 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             {!isInApp && (
               <nav className="flex flex-col md:flex-row md:gap-6 text-sm underline">
-                <a href="#about">About us</a>
-                <a href="#team">Our Team</a>
-                <a href="#contacts">Contacts</a>
+                <a href="/#about">About us</a>
+                <a href="/#team">Our Team</a>
+                <a href="/#contacts">Contacts</a>
               </nav>
             )}
             <div className="flex gap-4">
