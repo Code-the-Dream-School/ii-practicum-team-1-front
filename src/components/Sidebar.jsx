@@ -26,12 +26,14 @@ export default function Sidebar() {
     activeCategories = [],
     setActiveCategories = () =>
       console.warn("setActiveCategories not implemented"),
+    setPage = () => {}, 
   } = usePosts();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const handleCategorySelect = (category) => {
     const newCategories = category === "All Categories" ? [] : [category];
     setActiveCategories(newCategories);
+    setPage(1);
     setIsSidebarOpen(false);
   };
 
