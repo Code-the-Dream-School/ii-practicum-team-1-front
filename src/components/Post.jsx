@@ -6,7 +6,6 @@ import L from "leaflet";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-
 const greenIcon = new L.Icon({
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
@@ -36,10 +35,10 @@ export default function Post({ post }) {
     if (!coords && post.zip) {
       getCoordinatesByZip(post.zip)
         .then((coordinates) => {
-          setCoords(coordinates); 
+          setCoords(coordinates);
         })
         .catch((err) => {
-          console.error("Geocoding error:", err); 
+          console.error("Geocoding error:", err);
         });
     }
   }, [coords, post.zip]);
@@ -132,14 +131,6 @@ export default function Post({ post }) {
             </span>
           </div>
 
-          {user?.email === post.user?.email && (
-            <button
-              onClick={() => navigate(`/app/posts/${post.item_id}/edit`)}
-               className="mt-4 px-6 py-3 bg-dark text-white rounded-2xl font-montserrat text-sm hover:bg-primary hover:text-dark transition-all"
-            >
-              Edit Post
-            </button>
-          )}
           {post.can_deliver && (
             <div className="flex items-center gap-2 mt-2">
               <img
@@ -149,6 +140,14 @@ export default function Post({ post }) {
               />
               <span>Can deliver</span>
             </div>
+          )}
+          {user?.email === post.user?.email && (
+            <button
+              onClick={() => navigate(`/app/posts/${post.item_id}/edit`)}
+              className="mt-4 px-6 py-3 bg-dark text-white rounded-2xl font-montserrat text-sm hover:bg-primary hover:text-dark transition-all"
+            >
+              Edit Post
+            </button>
           )}
         </div>
       </div>
