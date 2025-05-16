@@ -88,13 +88,14 @@ const PostList = () => {
   console.log("Rendering postsWithCoords:", postsWithCoords);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-grow max-w-[1440px] mx-auto px-2 py-5 flex flex-col">
+  <div className="flex flex-col min-h-screen">
+    <div className="flex-grow flex flex-col items-center px-2 py-5">
+      <div className="w-full max-w-[1440px] flex flex-col">
         <form
           onSubmit={handleSearch}
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
         >
-          <div className="flex-1 relative">
+          <div className="flex-1 relative w-full">
             <input
               type="text"
               value={inputValue}
@@ -119,7 +120,7 @@ const PostList = () => {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 cursor-pointer"
             />
           </div>
-  
+
           <div className="flex gap-2 mt-2 sm:mt-0">
             <button
               type="button"
@@ -147,80 +148,84 @@ const PostList = () => {
             </button>
           </div>
         </form>
-  
-        {isLoading || isCategoryLoading ? (
-          <p className="text-center py-8">Loading posts for category...</p>
-        ) : error ? (
-          <p className="text-red-500 text-center py-8">Error: {error}</p>
-        ) : postsWithCoords.length === 0 && searchQuery !== "" ? (
-          <p className="text-center text-gray py-8">
-            No posts found. Try another search.
-          </p>
-        ) : (
-          <>
-            {viewType === "list" ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
-                {postsWithCoords.map((post) => (
-                  <PostCard
-                    key={post.item_id}
-                    post={post}
-                    onClick={() =>
-                      navigate(`/app/posts/${post.item_id}`, {
-                        state: { backgroundLocation: location },
-                      })
-                    }
+
+        <div className="min-h-[300px] w-full">
+          {isLoading || isCategoryLoading ? (
+            <p className="text-center py-8">Loading posts for category...</p>
+          ) : error ? (
+            <p className="text-red-500 text-center py-8">Error: {error}</p>
+          ) : postsWithCoords.length === 0 && searchQuery !== "" ? (
+            <p className="text-center text-gray py-8">
+              No posts found. Try another search.
+            </p>
+          ) : (
+            <>
+              {viewType === "list" ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {postsWithCoords.map((post) => (
+                    <PostCard
+                      key={post.item_id}
+                      post={post}
+                      onClick={() =>
+                        navigate(`/app/posts/${post.item_id}`, {
+                          state: { backgroundLocation: location },
+                        })
+                      }
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="h-[500px] md:h-[700px] w-full relative z-0">
+                  <AllPostMap
+                    posts={postsWithValidCoords}
+                    setViewType={setViewType}
                   />
-                ))}
-              </div>
-            ) : (
-              <div className="h-[500px] md:h-[700px] w-full relative z-0">
-                <AllPostMap
-                  posts={postsWithValidCoords}
-                  setViewType={setViewType}
-                />
-              </div>
-            )}
-          </>
-        )}
-      </div>
-  
-      <div className="mt-10 pb-10 flex justify-center items-center gap-4 font-montserrat text-sm">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className={`w-10 h-10 rounded-full flex items-center justify-center border transition
-            ${
-              page === 1
-                ? "bg-gray-light text-gray border-gray"
-                : "bg-dark text-white hover:bg-black"
-            }
-          `}
-          aria-label="Previous page"
-        >
-          ←
-        </button>
-  
-        <span className="min-w-[80px] text-center text-dark">
-          {page} from {totalPages}
-        </span>
-  
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages}
-          className={`w-10 h-10 rounded-full flex items-center justify-center border transition
-            ${
-              page === totalPages
-                ? "bg-gray-light text-gray border-gray"
-                : "bg-dark text-white hover:bg-black"
-            }
-          `}
-          aria-label="Next page"
-        >
-          →
-        </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
-  );
+
+    <div className="mt-10 pb-10 flex justify-center items-center gap-4 font-montserrat text-sm">
+      <button
+        onClick={() => setPage(page - 1)}
+        disabled={page === 1}
+        className={`w-10 h-10 rounded-full flex items-center justify-center border transition
+          ${
+            page === 1
+              ? "bg-gray-light text-gray border-gray"
+              : "bg-dark text-white hover:bg-black"
+          }
+        `}
+        aria-label="Previous page"
+      >
+        ←
+      </button>
+
+      <span className="min-w-[80px] text-center text-dark">
+        {page} from {totalPages}
+      </span>
+
+      <button
+        onClick={() => setPage(page + 1)}
+        disabled={page === totalPages}
+        className={`w-10 h-10 rounded-full flex items-center justify-center border transition
+          ${
+            page === totalPages
+              ? "bg-gray-light text-gray border-gray"
+              : "bg-dark text-white hover:bg-black"
+          }
+        `}
+        aria-label="Next page"
+      >
+        →
+      </button>
+    </div>
+  </div>
+);
+
   
 };
 
