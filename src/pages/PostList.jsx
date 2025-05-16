@@ -29,7 +29,11 @@ const PostList = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("Fetching posts with params:", { activeCategories, searchQuery, page });
+    console.log("Fetching posts with params:", {
+      activeCategories,
+      searchQuery,
+      page,
+    });
     setIsCategoryLoading(true);
     setPostsWithCoords([]);
     fetchPosts();
@@ -45,7 +49,10 @@ const PostList = () => {
     console.log("Posts updated:", posts);
 
     const enrichPosts = async () => {
-      const zipcodes = posts.map((post) => post.zip).filter(Boolean).join(",");
+      const zipcodes = posts
+        .map((post) => post.zip)
+        .filter(Boolean)
+        .join(",");
       if (!zipcodes) {
         setPostsWithCoords(posts);
         setIsCategoryLoading(false);
@@ -74,13 +81,18 @@ const PostList = () => {
     }
   }, [posts]);
 
-  const postsWithValidCoords = postsWithCoords.filter(post => post.lat && post.lng);
+  const postsWithValidCoords = postsWithCoords.filter(
+    (post) => post.lat && post.lng
+  );
 
   console.log("Rendering postsWithCoords:", postsWithCoords);
 
   return (
     <div className="max-w-[1440px] mx-auto px-2 py-5 flex flex-col">
-      <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
+      >
         <div className="flex-1 relative">
           <input
             type="text"
@@ -101,14 +113,21 @@ const PostList = () => {
               ✕
             </button>
           )}
-          <Search onClick={handleSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 cursor-pointer" />
+          <Search
+            onClick={handleSearch}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 cursor-pointer"
+          />
         </div>
 
         <div className="flex gap-2 mt-2 sm:mt-0">
           <button
             type="button"
             onClick={() => setViewType("list")}
-            className={`px-4 py-2 rounded-xl text-sm flex items-center gap-1 ${viewType === "list" ? "bg-primary text-black" : "bg-gray-light text-gray"}`}
+            className={`px-4 py-2 rounded-xl text-sm flex items-center gap-1 ${
+              viewType === "list"
+                ? "bg-primary text-black"
+                : "bg-gray-light text-gray"
+            }`}
           >
             <ListIcon size={18} />
             List
@@ -116,7 +135,11 @@ const PostList = () => {
           <button
             type="button"
             onClick={() => setViewType("map")}
-            className={`px-4 py-2 rounded-xl text-sm border flex items-center gap-1 ${viewType === "map" ? "bg-primary text-black" : "bg-white text-gray border-gray-light"}`}
+            className={`px-4 py-2 rounded-xl text-sm border flex items-center gap-1 ${
+              viewType === "map"
+                ? "bg-primary text-black"
+                : "bg-white text-gray border-gray-light"
+            }`}
           >
             <MapPin size={18} />
             Map
@@ -129,7 +152,9 @@ const PostList = () => {
       ) : error ? (
         <p className="text-red-500 text-center py-8">Error: {error}</p>
       ) : postsWithCoords.length === 0 && searchQuery !== "" ? (
-        <p className="text-center text-gray py-8">No posts found. Try another search.</p>
+        <p className="text-center text-gray py-8">
+          No posts found. Try another search.
+        </p>
       ) : (
         <>
           {viewType === "list" ? (
@@ -148,19 +173,51 @@ const PostList = () => {
                 ))}
               </div>
 
-              <div className="flex justify-center items-center gap-6 mt-10 font-montserrat text-sm text-dark">
-                <button disabled={page === 1} onClick={() => setPage(page - 1)} className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40">
-                  Previous
+              <div className="mt-10 pb-10 flex justify-center items-center gap-4 font-montserrat text-sm">
+                {/* Prev */}
+                <button
+                  onClick={() => setPage(page - 1)}
+                  disabled={page === 1}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center border transition
+      ${
+        page === 1
+          ? "bg-gray-light text-gray border-gray"
+          : "bg-dark text-white hover:bg-black"
+      }
+    `}
+                  aria-label="Previous page"
+                >
+                  ←
                 </button>
-                <span className="whitespace-nowrap">Page {page} of {totalPages}</span>
-                <button disabled={page === totalPages} onClick={() => setPage(page + 1)} className="min-w-[120px] px-4 py-2 border border-dark rounded-xl hover:border-secondary transition disabled:opacity-40">
-                  Next
+
+                {/* Page indicator */}
+                <span className="min-w-[80px] text-center text-dark">
+                  {page} from {totalPages}
+                </span>
+
+                {/* Next */}
+                <button
+                  onClick={() => setPage(page + 1)}
+                  disabled={page === totalPages}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center border transition
+      ${
+        page === totalPages
+          ? "bg-gray-light text-gray border-gray"
+          : "bg-dark text-white hover:bg-black"
+      }
+    `}
+                  aria-label="Next page"
+                >
+                  →
                 </button>
               </div>
             </>
           ) : (
             <div className="h-[500px] md:h-[700px] w-full relative z-0">
-              <AllPostMap posts={postsWithValidCoords} setViewType={setViewType} />
+              <AllPostMap
+                posts={postsWithValidCoords}
+                setViewType={setViewType}
+              />
             </div>
           )}
         </>
