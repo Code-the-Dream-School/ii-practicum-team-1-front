@@ -45,7 +45,7 @@ export default function Profile() {
         </h1>
   
         {/* Profile Info */}
-        <div className="flex flex-col md:flex-row md:items-start gap-8 mb-10">
+        <div className="flex flex-col md:flex- md:items-start gap-8 mb-10">
           <img
             src={user.avatar_url || "/icons/empty_avatar.png"}
             alt="User avatar"

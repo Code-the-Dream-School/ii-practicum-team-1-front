@@ -19,6 +19,23 @@ export default function ProfileEdit() {
     image: user.avatar_url || null,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [navigateAfterClose, setNavigateAfterClose] = useState(false);
+
+  const showModal = (message, shouldNavigate = false) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+    setNavigateAfterClose(shouldNavigate);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (navigateAfterClose) {
+      navigate("/app/profile");
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image") {
@@ -35,32 +52,32 @@ export default function ProfileEdit() {
     const nameRegex = /^[A-Za-zА-Яа-яЁё]{2,}$/;
 
     if (!zipRegex.test(formData.zip_code)) {
-      alert("ZIP Code must be exactly 5 digits.");
+      showModal("ZIP Code must be exactly 5 digits.");
       return;
     }
 
     if (!emailRegex.test(formData.email)) {
-      alert("Please enter a valid email address.");
+      showModal("Please enter a valid email address.");
       return;
     }
 
     if (!nameRegex.test(formData.first_name)) {
-      alert("First name must be at least 2 letters and contain only letters.");
+      showModal("First name must be at least 2 letters and contain only letters.");
       return;
     }
 
     if (!nameRegex.test(formData.last_name)) {
-      alert("Last name must be at least 2 letters and contain only letters.");
+      showModal("Last name must be at least 2 letters and contain only letters.");
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
-
       const formToSend = { ...formData };
       if (!(formToSend.image instanceof File)) {
         delete formToSend.image;
       }
+
       const updatedUser = await updateUser(formToSend, token);
       setUser(updatedUser.user);
       setFormData({
@@ -74,16 +91,15 @@ export default function ProfileEdit() {
       });
 
       localStorage.setItem("user", JSON.stringify(updatedUser.user));
-      alert("Profile updated successfully");
-      navigate("/app/profile");
+      showModal("Profile updated successfully", true);
     } catch (error) {
       console.error(error);
-      alert("Failed to update profile");
+      showModal("Failed to update profile");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-white">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-white relative">
       <div className="w-full max-w-md space-y-6">
         <h1 className="text-2xl font-bold font-montserrat text-dark mb-6">
           Edit Profile
@@ -112,12 +128,7 @@ export default function ProfileEdit() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
             { name: "username", placeholder: "Username", disabled: true },
-            {
-              name: "email",
-              placeholder: "Email",
-              type: "email",
-              disabled: true,
-            },
+            { name: "email", placeholder: "Email", type: "email", disabled: true },
             { name: "first_name", placeholder: "First Name" },
             { name: "last_name", placeholder: "Last Name" },
             { name: "phone_number", placeholder: "Phone Number" },
@@ -156,6 +167,21 @@ export default function ProfileEdit() {
           </button>
         </form>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-[#243311]/85 backdrop-blur-sm z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full">
+            <p className="text-dark mb-4">{modalMessage}</p>
+            <button
+              onClick={handleCloseModal}
+               className="bg-dark text-white rounded-[14px] px-[30px] py-[10px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
