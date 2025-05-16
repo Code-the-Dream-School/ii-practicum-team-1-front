@@ -8,6 +8,9 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const { getPost, updatePost, deletePost, currentPost } = usePosts();
   const [deleteList, setDeleteList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -18,7 +21,21 @@ export default function PostEdit() {
     can_deliver: false,
   });
 
-  //Load existing post
+  const showModal = (message) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    navigate("/app/posts");
+  };
+
+  const confirmDelete = async () => {
+    await deletePost(Number(id));
+    navigate("/app/posts");
+  };
+
   useEffect(() => {
     getPost(Number(id));
   }, [id]);
@@ -35,7 +52,7 @@ export default function PostEdit() {
           url: img.image_url,
           public_id: img.id,
         })),
-        canDeliver: currentPost.can_deliver || false,
+        can_deliver: currentPost.can_deliver || false,
       });
     }
   }, [currentPost]);
@@ -47,6 +64,7 @@ export default function PostEdit() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -69,44 +87,30 @@ export default function PostEdit() {
 
     try {
       await updatePost(Number(id), form);
-      navigate("/app/posts");
+      showModal("Post updated successfully");
     } catch (err) {
       console.error("Error updating item:", err);
-      alert("Something went wrong while updating.");
+      showModal("Something went wrong while updating.");
     }
   };
 
-  const handleDelete = async () => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this post?"
-    );
-    if (!confirm) return;
-    await deletePost(Number(id));
-    navigate("/app/posts");
+  const handleDelete = () => {
+    setIsDeleteConfirmOpen(true);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-xl mx-auto bg-white p-10 rounded-xl shadow-md">
-        <h1 className="text-3xl font-extrabold font-montserrat text-primary mb-8">
-          Edit item
-        </h1>
-
+    <div className="max-w-[1440px] mx-auto pt-20">
+      <div className="max-w-[720px] w-full">
+        <h1 className="text-3xl font-extrabold font-montserrat text-primary mb-8">Edit item</h1>
         <form onSubmit={handleSubmit} className="space-y-5">
+
           {/* Image preview block */}
           {formData.photos.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
               {formData.photos.map((photo, idx) => (
-                <div
-                  key={idx}
-                  className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden"
-                >
+                <div key={idx} className="relative w-full h-[148px] border border-gray-300 rounded-xl overflow-hidden">
                   <img
-                    src={
-                      photo.type === "existing"
-                        ? photo.url
-                        : URL.createObjectURL(photo.file)
-                    }
+                    src={photo.type === "existing" ? photo.url : URL.createObjectURL(photo.file)}
                     alt={`Photo ${idx}`}
                     className="w-full h-full object-cover"
                   />
@@ -123,27 +127,14 @@ export default function PostEdit() {
                     }}
                     className="absolute top-1 right-1 bg-white text-black text-sm px-2 py-1 rounded-full shadow hover:bg-red-100"
                   >
-                    <img
-                      src="/public/icons/close.svg"
-                      alt="Remove"
-                      className="w-4 h-4"
-                    />
+                    <img src="/public/icons/close.svg" alt="Remove" className="w-4 h-4" />
                   </button>
                 </div>
               ))}
               {/* Upload new images */}
-              <label
-                htmlFor="upload"
-                className="flex flex-col items-center justify-center w-[148px] h-[148px] rounded-[20px] border border-black cursor-pointer bg-[#F2F3F4] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition"
-              >
-                <img
-                  src="/icons/photo_icon.png"
-                  alt="Add photo"
-                  className="w-16 h-16 rounded-full mb-2"
-                />
-                <span className="text-sm text-gray-500 font-montserrat">
-                  Add photos
-                </span>
+              <label htmlFor="upload" className="flex flex-col items-center justify-center w-[148px] h-[148px] rounded-[20px] border border-black cursor-pointer bg-[#F2F3F4] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition">
+                <img src="/icons/photo_icon.png" alt="Add photo" className="w-16 h-16 rounded-full mb-2" />
+                <span className="text-sm text-gray-500 font-montserrat">Add photos</span>
                 <input
                   id="upload"
                   type="file"
@@ -186,9 +177,7 @@ export default function PostEdit() {
           >
             <option value="">Category</option>
             {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
 
@@ -226,36 +215,63 @@ export default function PostEdit() {
 
           {/* Buttons */}
           <div className="flex items-center gap-4 pt-4">
-            <button
-              type="submit"
-              className="bg-dark text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
-            >
+            <button type="submit" className="bg-dark text-white rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors">
               Save changes
             </button>
-
-            <button
-              type="button"
-              onClick={() => navigate("/app/posts")}
-              className="bg-white border border-dark text-dark rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:border-primary hover:text-primary"
-            >
+            <button type="button" onClick={() => navigate("/app/posts")} className="bg-white border border-dark text-dark rounded-[14px] px-[30px] py-[15px] font-montserrat text-base hover:border-primary hover:text-primary">
               Cancel
             </button>
           </div>
-          {/* Soft delete button */}
+
+          {/* Soft delete */}
           <div className="border-t border-gray-200 pt-6 mt-6">
             <p className="text-sm text-gray-600 font-montserrat mb-2">
               This item is no longer available?
             </p>
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="flex items-center gap-2 text-sm text-dark font-montserrat hover:text-primary transition-colors"
-            >
+            <button type="button" onClick={handleDelete} className="flex items-center gap-2 text-sm text-dark font-montserrat hover:text-primary transition-colors">
               🗑 Delete item
             </button>
           </div>
         </form>
       </div>
+
+      {/* Success/Error Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-[#243311]/85 backdrop-blur-sm z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full">
+            <p className="text-dark mb-4">{modalMessage}</p>
+            <button
+              onClick={handleCloseModal}
+              className="bg-dark text-white rounded-[14px] px-[30px] py-[10px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteConfirmOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-[#243311]/85 backdrop-blur-sm z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full">
+            <p className="text-dark mb-4">Are you sure you want to delete this post?</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={confirmDelete}
+                className="bg-dark text-white rounded-[14px] px-[20px] py-[10px] hover:bg-primary  hover:text-dark"
+              >
+                Yes, delete
+              </button>
+              <button
+                onClick={() => setIsDeleteConfirmOpen(false)}
+                className="bg-gray-300 text-black rounded-[14px] px-[20px] py-[10px] hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

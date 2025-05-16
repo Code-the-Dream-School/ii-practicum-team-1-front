@@ -17,7 +17,19 @@ export default function PostCreate() {
     can_deliver: false,
   });
 
-  // Handle text input change
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const showModal = (message) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    navigate("/app/posts");
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -41,7 +53,6 @@ export default function PostCreate() {
     e.target.value = "";
   };
 
-  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,7 +73,7 @@ export default function PostCreate() {
 
     try {
       await createPost(form);
-      navigate("/app/posts");
+      showModal("Post created successfully");
     } catch (err) {
       console.error("Error creating post:", err);
       alert("Something went wrong while creating the post.");
@@ -74,10 +85,7 @@ export default function PostCreate() {
       <div className="max-w-[720px] w-full">
         {/* Back Link */}
         <div className="mb-6">
-          <Link
-            to="/app/posts"
-            className="text-sm text-dark hover:text-primary"
-          >
+          <Link to="/app/posts" className="text-sm text-dark hover:text-primary">
             ← Back to all posts
           </Link>
         </div>
@@ -90,7 +98,6 @@ export default function PostCreate() {
           {/* Photo upload block */}
           <div className="space-y-2">
             <label className="block font-montserrat text-sm">Photos</label>
-
             <label
               htmlFor="photo-upload"
               className="flex flex-col items-center justify-center w-[148px] h-[148px] rounded-[20px] border border-black cursor-pointer bg-[#F2F3F4] shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition"
@@ -100,9 +107,7 @@ export default function PostCreate() {
                 alt="Add photo"
                 className="w-16 h-16 rounded-full mb-2"
               />
-              <span className="text-sm text-gray-500 font-montserrat">
-                Add photos
-              </span>
+              <span className="text-sm text-gray-500 font-montserrat">Add photos</span>
               <input
                 id="photo-upload"
                 type="file"
@@ -213,7 +218,6 @@ export default function PostCreate() {
             >
               Publish
             </button>
-
             <button
               type="button"
               onClick={() => navigate("/app/posts")}
@@ -224,6 +228,21 @@ export default function PostCreate() {
           </div>
         </form>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-[#243311]/85 backdrop-blur-sm z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm w-full">
+            <p className="text-dark mb-4">{modalMessage}</p>
+            <button
+              onClick={handleCloseModal}
+              className="bg-dark text-white rounded-[14px] px-[30px] py-[10px] font-montserrat text-base hover:bg-secondary hover:text-dark transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
