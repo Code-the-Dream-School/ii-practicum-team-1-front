@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getCoordinatesByZip } from "../util/geocode";
 
 export default function PostCard({ post, onClick }) {
+  const [coords, setCoords] = useState(null);
+
+  useEffect(() => {
+    if ((!post.city || !post.state_code) && post.zip) {
+      getCoordinatesByZip(post.zip)
+        .then((data) => setCoords(data))
+        .catch((err) => console.error("Geocode error", err));
+    }
+  }, [post.zip, post.city, post.state_code]);
+
   const image =
-  Array.isArray(post.images) && post.images.length > 0
-    ? post.images[0].image_url
-    : "/images/placeholder.png";
+    Array.isArray(post.images) && post.images.length > 0
+      ? post.images[0].image_url
+      : "/images/placeholder.png";
 
   return (
     <div onClick={onClick}>
@@ -24,9 +35,11 @@ export default function PostCard({ post, onClick }) {
       <div className="mt-2 px-1">
         <h4 className="text-base font-semibold text-dark">{post.title}</h4>
         <p className="text-sm text-gray">
-          {post.city && post.state_code
+          {(post.city && post.state_code)
             ? `${post.city}, ${post.state_code} ${post.zip}`
-            : post.zip || "Unknown"}
+            : coords
+              ? `${coords.city}, ${coords.state_code} ${post.zip}`
+              : post.zip || "Unknown"}
         </p>
       </div>
     </div>
